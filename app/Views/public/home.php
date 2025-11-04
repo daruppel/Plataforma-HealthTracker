@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>HealthTracker v2</title>
+    <title>HealthTracker</title>
 
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css'); ?>">
@@ -49,7 +49,7 @@
         
         <!-- Texto -->
         <div class="col-md-6 hero-content">
-            <h1 class="hero-title">HealthTracker v2</h1>
+            <h1 class="hero-title">HealthTracker</h1>
             <p class="hero-description mt-3">
                 Plataforma para la gestión eficiente de planes de cuidado, 
                 seguimiento clínico y monitoreo del bienestar de los pacientes.
@@ -62,7 +62,7 @@
 
         <!-- Imagen -->
         <div class="col-md-6 text-center">
-            <img src="..\public\assets\img\doctor.JPG" 
+            <img src="..\public\assets\img\home.png" 
                  alt="Salud"
                  class="img-fluid hero-image">
         </div>
