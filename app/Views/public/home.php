@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>HealthTracker</title>
+    <link rel="icon" href="<?= base_url('/assets/img/icono.png'); ?>" type="image/x-icon">
 
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css'); ?>">
