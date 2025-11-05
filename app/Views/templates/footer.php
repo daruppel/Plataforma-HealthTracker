@@ -3,7 +3,7 @@
     </div> <!-- /.content-wrapper -->
 
     <footer class="main-footer text-center">
-      <strong>HealthTracker v2 © 2025</strong> — Proyecto de Software UNRN.
+      <strong>HealthTracker © 2025</strong> — Proyecto de Software UNRN.
     </footer>
 </div> <!-- ./wrapper -->
 
