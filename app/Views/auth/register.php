@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthTracker</title>
+    <link rel="icon" href="<?= base_url('/assets/img/icono.png'); ?>" type="image/x-icon">
+    <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css'); ?>">
+</head>
+<body class="hold-transition login-page">
+
+<div class="register-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <h3><b>Crear cuenta</b></h3>
+        </div>
+
+        <div class="card-body">
+
+            <?php if(isset($validation)): ?>
+                <div class="alert alert-danger">
+                    <?= $validation->listErrors(); ?>
+                </div>
+            <?php endif; ?>
+
+            <form  method="post">
+
+                <div class="input-group mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Nombre completo" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="password" name="passconf" class="form-control" placeholder="Repetir contraseña" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Registrarme</button>
+
+            </form>
+
+            <p class="mt-3 text-center">
+                ¿Ya tenés cuenta? <a href="<?= base_url('login'); ?>">Iniciar sesión</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
