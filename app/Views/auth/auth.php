@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login - HealthTracker</title>
+    <title>HealthTracker</title>
+    <link rel="icon" href="<?= base_url('/assets/img/icono.png'); ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css'); ?>">
 </head>
 <body class="hold-transition login-page">
