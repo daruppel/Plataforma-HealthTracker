@@ -20,7 +20,9 @@ class Auth extends Controller
         // 🧪 Hardcode para pruebas — luego reemplazás por DB
         if ($email === 'admin@demo.com' && $password === '123456') {
             session()->set([
+                'user_name'  => 'Admin Demo',
                 'user_email' => $email,
+                'user_role'  => 'Administrador', 
                 'isLoggedIn' => true
             ]);
 
