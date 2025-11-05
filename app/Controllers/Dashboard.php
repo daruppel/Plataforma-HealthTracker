@@ -6,9 +6,13 @@ class Dashboard extends BaseController
 {
     public function index()
     {
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/login');
+        }
+
         return view('templates/header')
-             . view('templates/sidebar')
-             . view('dashboard')
-             . view('templates/footer');
+            . view('templates/sidebar')
+            . view('dashboard')
+            . view('templates/footer');
     }
 }
