@@ -43,7 +43,10 @@
 <body class="hold-transition">
 
 <!-- Botón Login arriba -->
-<a href="<?= base_url('login'); ?>" class="btn btn-primary login-btn">Iniciar sesión</a>
+<div style="position: absolute; top: 20px; right: 20px;">
+    <a href="<?= base_url('login'); ?>" class="btn btn-primary mr-2">Iniciar sesión</a>
+    <a href="<?= base_url('register'); ?>" class="btn btn-outline-primary">Registrarse</a>
+</div>
 
 <div class="hero-section container">
     <div class="row align-items-center">
