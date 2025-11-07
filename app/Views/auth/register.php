@@ -40,6 +40,12 @@
                     <input type="password" name="passconf" class="form-control" placeholder="Repetir contraseña" required>
                 </div>
 
+                <div>
+                    <p class="mt-3 text-center">
+                        <input type="checkbox" name="profesional" required></label> Soy un profesional de la salud.
+                    </p>
+                </div>
+
                 <button type="submit" class="btn btn-primary btn-block">Registrarme</button>
 
             </form>
