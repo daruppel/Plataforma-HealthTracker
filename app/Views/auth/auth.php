@@ -31,6 +31,9 @@
                 </div>
 
                 <button class="btn btn-primary btn-block">Ingresar</button>
+                <p class="mt-3 text-center">
+                    ¿No tenés cuenta? <a href="<?= base_url('register'); ?>">Registrate</a>
+                </p>
             </form>
         </div>
     </div>
