@@ -51,7 +51,7 @@
 
                 <div>
                     <p class="mt-3 text-center">
-                        <input type="checkbox" name="profesional" required></label> Soy un profesional de la salud.
+                        <input type="checkbox" name="profesional" ></label> Soy un profesional de la salud.
                     </p>
                 </div>
 
