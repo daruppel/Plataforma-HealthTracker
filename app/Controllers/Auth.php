@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
+use App\Models\UserModel;
 
-class Auth extends Controller
+class Auth extends BaseController
 {
     public function login()
     {
@@ -14,10 +14,50 @@ class Auth extends Controller
 
     public function doLogin()
     {
+        $session = session();
+        $userModel = new UserModel();
+
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
-        // 🧪 Hardcode para pruebas — luego reemplazás por DB
+        log_message('debug', "Intentando login con email: {$email}");
+
+        $user = $userModel->where('email', $email)->first();
+
+        log_message('debug', 'usercreado');
+        //Buscar por email
+        if(!$user){
+            log_message('debug', "No se encontró usuario con email: {$email}");
+            return redirect()->back()->with('error', 'Correo incorrecto');
+        }
+
+        //Verificación de contraseña
+        if(!password_verify($password, $user['password'])){
+            log_message('debug', "Contraseña incorrecta para usuario ID {$user['usuario_id']}");
+            return redirect()->back()->with('error', 'Contraseña incorrecta');
+        }
+
+        //Verificar si el user está activo
+        if(isset($user['activo']) && !$user['activo']){
+            log_message('debug', "Usuario ID {$user['usuario_id']} está inactivo");
+            return redirect()->back()->with('error', 'Usuario eliminado');
+        }
+
+         // Si pasa todas las validaciones
+        log_message('debug', "Login exitoso para usuario ID {$user['usuario_id']}");
+
+        $sessionData = [
+            'user_id' => $user['usuario_id'],
+            'name' => $user['nombre'],
+            'lastname' => $user['apellido'],
+            'email' => $user['email'],
+            'isLoggedIn' => true,
+        ];
+
+        $session->set($sessionData);
+        return redirect()->to('/dashboard');
+   
+        /*    // 🧪 Hardcode para pruebas — luego reemplazás por DB
         if ($email === 'admin@demo.com' && $password === '123456') {
             session()->set([
                 'user_name'  => 'Admin Demo',
@@ -25,16 +65,16 @@ class Auth extends Controller
                 'user_role'  => 'Administrador', 
                 'isLoggedIn' => true
             ]);
-
+    
             return redirect()->to('/dashboard');
         }
-
+    */
         return redirect()->back()->with('error', 'Credenciales incorrectas');
     }
 
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/');
+        return redirect()->to('/login');
     }
 }
