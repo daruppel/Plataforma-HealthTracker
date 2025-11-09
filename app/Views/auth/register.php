@@ -15,17 +15,26 @@
         </div>
 
         <div class="card-body">
-
-            <?php if(isset($validation)): ?>
+            
+            <!-- Mostrar errores de validación -->
+            <?php if (session()->getFlashdata('errors')): ?>
                 <div class="alert alert-danger">
-                    <?= $validation->listErrors(); ?>
+                    <ul class="mb-0">
+                        <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
             <?php endif; ?>
 
-            <form  method="post">
+            <form  action="<?= base_url('/register/registrar') ?>" method="post">
 
                 <div class="input-group mb-3">
-                    <input type="text" name="name" class="form-control" placeholder="Nombre completo" required>
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
                 </div>
 
                 <div class="input-group mb-3">

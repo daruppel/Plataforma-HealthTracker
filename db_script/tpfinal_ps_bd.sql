@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2025 a las 00:16:41
+-- Tiempo de generación: 09-11-2025 a las 04:43:34
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -217,9 +217,10 @@ CREATE TABLE `usuario` (
   `apellido` text NOT NULL,
   `email` text NOT NULL,
   `password` text NOT NULL,
-  `created_at` date NOT NULL,
-  `updated_at` date NOT NULL,
-  `deleted_at` date NOT NULL
+  `activo` int(1) NOT NULL DEFAULT 1,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -287,7 +288,8 @@ ALTER TABLE `metas_plan_cuidado`
 -- Indices de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  ADD PRIMARY KEY (`permiso_id`);
+  ADD PRIMARY KEY (`permiso_id`),
+  ADD KEY `permiso_rol` (`rol_id`);
 
 --
 -- Indices de la tabla `plan_cuidado`
@@ -414,7 +416,7 @@ ALTER TABLE `tipo_meta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_rol`
@@ -448,6 +450,12 @@ ALTER TABLE `medico`
 ALTER TABLE `metas_plan_cuidado`
   ADD CONSTRAINT `metas_plan` FOREIGN KEY (`plan_cuidado_id`) REFERENCES `plan_cuidado` (`plan_cuidado_id`),
   ADD CONSTRAINT `metas_tipo_meta` FOREIGN KEY (`tipo_meta_id`) REFERENCES `tipo_meta` (`tipo_meta_id`);
+
+--
+-- Filtros para la tabla `permiso`
+--
+ALTER TABLE `permiso`
+  ADD CONSTRAINT `permiso_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`rol_id`);
 
 --
 -- Filtros para la tabla `servicio_medico`
