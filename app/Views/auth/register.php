@@ -30,11 +30,11 @@
             <form  action="<?= base_url('/register/registrar') ?>" method="post">
 
                 <div class="input-group mb-3">
-                    <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                    <input type="text" name="name" class="form-control" placeholder="Nombre" required>
                 </div>
 
                 <div class="input-group mb-3">
-                    <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
+                    <input type="text" name="lastname" class="form-control" placeholder="Apellido" required>
                 </div>
 
                 <div class="input-group mb-3">

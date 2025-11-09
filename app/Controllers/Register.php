@@ -16,14 +16,14 @@ class Register extends BaseController
 
         // Validación en el controlador (incluye password_confirm)
         $reglas = [
-            'nombre' => [
+            'name' => [
                 'rules' => 'required|min_length[3]|max_length[50]',
                 'errors' => [
                     'required' => 'El nombre es obligatorio',
                     'min_length' => 'El nombre debe tener al menos 3 caracteres'
                 ]
             ],
-            'apellido' => [
+            'lastname' => [
                 'rules' => 'required|min_length[3]|max_length[50]',
                 'errors' => [
                     'required' => 'El apellido es obligatorio',
@@ -66,9 +66,10 @@ class Register extends BaseController
         // Si pasa la validación, guardar
         $modelo = new UsuarioModel();
         
+        // Mapeo de nombres del formulario -> nombres de la base
         $datos = [
-            'nombre' => $this->request->getPost('nombre'),
-            'apellido' => $this->request->getPost('apellido'),
+            'nombre' => $this->request->getPost('name'),
+            'apellido' => $this->request->getPost('lastname'),
             'email' => $this->request->getPost('email'),
             'password' => $this->request->getPost('password')
         ];
