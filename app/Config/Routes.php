@@ -13,6 +13,7 @@ $routes->get('/logout', 'Auth::logout');
 $routes->get('/register', 'Register::index');
 $routes->post('/register/registrar', 'Register::registrar');
 $routes->get('/dashboard', 'Dashboard::index');
+$routes->post('/dashboard', 'Dashboard::index');
 $routes->get('/users', 'Admin\Users::index');
 
 
