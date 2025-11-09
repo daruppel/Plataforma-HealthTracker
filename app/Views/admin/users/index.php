@@ -9,7 +9,7 @@
         <table class="table table-bordered table-striped datatable">
           <thead>
             <tr>
-              <th>ID</th><th>Nombre</th><th>Email</th><th>Activo</th><th>Acciones</th>
+              <th>Nombre</th><th>Apellido</th><th>Email</th><th>Activo</th><th>Rol</th><th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -19,9 +19,11 @@
               <td><?= $u['apellido']; ?></td>
               <td><?= $u['email']; ?></td>
               <td><?= $u['activo']; ?></td>
+              <td>---</td>
               <td>
                 <a href="#" class="btn btn-sm btn-warning">Editar</a>
                 <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-key"></i></a>
               </td>
             </tr>
             <?php endforeach; ?>
