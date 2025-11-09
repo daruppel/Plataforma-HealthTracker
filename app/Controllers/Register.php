@@ -75,6 +75,18 @@ class Register extends BaseController
         ];
 
         if ($modelo->insert($datos)) {
+            $userID = $modelo->getInsertID();
+            $esMedico = $this->request->getPost('profesional');
+            //Voy a setear los ids, pero debería recuperarlos de la BD? medico=2 , paciente=3
+            $rolID = $esMedico ? 2 : 3;
+
+            //Insertar a la BD relación usuario/rol
+            $db = \Config\Database::connect();
+            $db->table('usuario_rol')->insert([
+                'usuario_id' => $userID,
+                'rol_id' => $rolID
+            ]);
+
             return redirect()->to('/login')->with('success', 'Usuario registrado exitosamente');
         }
 
