@@ -11,7 +11,8 @@
 
       <form id="formNuevoUsuario" action="<?= base_url('admin/usuarios/update'); ?>" method="post">
         <div class="modal-body">
-
+        <input type="hidden" id="usuario_id" name="usuario_id">
+        
           <!-- 🧍‍♂️ Nombre y Apellido -->
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -29,6 +30,8 @@
             <input type="email" name="email" class="form-control" value="<?= old('email') ?>" required>
           </div>
 
+          <input type="hidden" name="user_id" id="user_id">
+
           <div class="form-group">
             <label>Rol</label>
             <select name="role_id" class="form-control">
@@ -36,7 +39,7 @@
               <option value="2">Profesional</option>
               <option value="3" selected>Paciente</option>
             </select>
-          </div
+</div>
 
         </div>
 

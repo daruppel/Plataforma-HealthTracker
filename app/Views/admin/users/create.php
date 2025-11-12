@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <form id="formNuevoUsuario" action="<?= base_url('admin/usuarios/store'); ?>" method="post">
+      <form id="formNuevoUsuario" action="<?= base_url('/admin/users/create'); ?>" method="post">
         <div class="modal-body">
 
           <!-- 🧍‍♂️ Nombre y Apellido -->
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group col-md-6">
               <label>Apellido</label>
-              <input type="text" name="surname" class="form-control" value="<?= old('surname') ?>" required>
+              <input type="text" name="lastname" class="form-control" value="<?= old('lastname') ?>" required>
             </div>
           </div>
 
