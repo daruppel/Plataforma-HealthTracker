@@ -3,7 +3,9 @@
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Gestión de Usuarios</h3>
-        <a href="<?= base_url('admin/usuarios/create'); ?>" class="btn btn-light float-right">Nuevo</a>
+        <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalNuevoUsuario">
+          <i class="fas fa-plus"></i> Nuevo
+        </button>
       </div>
       <div class="card-body">
         <table class="table table-bordered table-striped datatable">
@@ -21,8 +23,8 @@
               <td><?= $u['activo']; ?></td>
               <td>---</td>
               <td>
-                <a href="#" class="btn btn-sm btn-warning">Editar</a>
-                <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+                <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalActualizacionUsuario"><i class="fas fa-pen"></i></a>
+                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                 <a href="#" class="btn btn-sm btn-info"><i class="fas fa-key"></i></a>
               </td>
             </tr>
@@ -32,5 +34,9 @@
       </div>
     </div>
   </div>
+  <?= view('admin/users/create'); ?>
+  <?= view('admin/users/update'); ?>
 </section>
+
+
 
