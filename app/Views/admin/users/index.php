@@ -23,9 +23,15 @@
               <td><?= $u['activo']; ?></td>
               <td><?= $u['rol_desc']; ?></td>
               <td>
-                <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalActualizacionUsuario"><i class="fas fa-pen"></i></a>
-                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-key"></i></a>
+                <a href="#" class="btn btn-sm btn-warning btn-edit" data-toggle="modal" data-target="#modalActualizacionUsuario"
+                  data-id="<?= $u['usuario_id']; ?>"
+                  data-nombre="<?= $u['nombre']; ?>"
+                  data-apellido="<?= $u['apellido']; ?>"
+                  data-email="<?= $u['email']; ?>"
+                  data-rol="<?= $u['rol_id']; ?>">
+                <i class="fas fa-pen"></i></a>
+                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDeleteUser"><i class="fas fa-trash"></i></a>
+                <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a>
               </td>
             </tr>
             <?php endforeach; ?>
