@@ -21,7 +21,7 @@
               <td><?= $u['apellido']; ?></td>
               <td><?= $u['email']; ?></td>
               <td><?= $u['activo']; ?></td>
-              <td>---</td>
+              <td><?= $u['rol_desc']; ?></td>
               <td>
                 <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalActualizacionUsuario"><i class="fas fa-pen"></i></a>
                 <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>

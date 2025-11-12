@@ -14,7 +14,7 @@ class Users extends \App\Controllers\BaseController
 
     public function index()
     {
-        $data['users'] = $this->userModel->findAll();
+        $data['users'] = $this->userModel->obtenerUsuariosConRol();
         return view('templates/header')
             . view('templates/sidebar')
             . view('admin/users/index', $data)
@@ -74,8 +74,8 @@ class Users extends \App\Controllers\BaseController
         }
     }
     
-    public function update(){
+   /* public function update(){
         helper(['user'])
     }
-
+    */
 }

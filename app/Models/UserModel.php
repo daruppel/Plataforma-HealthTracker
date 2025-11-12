@@ -106,4 +106,11 @@ class UserModel extends Model
     {
         return $this->update($id, ['activo' => $activo]);
     }
+
+    public function obtenerUsuariosConRol(){
+        return $this->select('usuario.*, rol.descripcion as rol_desc, rol.nombre as rol_nombre')
+                    ->join('usuario_rol', 'usuario_rol.usuario_id=usuario.usuario_id', 'left')
+                    ->join('rol','usuario_rol.rol_id=rol.rol_id','left')
+                    ->findAll();
+    }
 }
