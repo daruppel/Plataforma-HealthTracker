@@ -24,8 +24,8 @@
               <td>---</td>
               <td>
                 <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalActualizacionUsuario"><i class="fas fa-pen"></i></a>
-                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-key"></i></a>
+                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDeleteUser"><i class="fas fa-trash"></i></a>
+                <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a>
               </td>
             </tr>
             <?php endforeach; ?>
@@ -36,6 +36,9 @@
   </div>
   <?= view('admin/users/create'); ?>
   <?= view('admin/users/update'); ?>
+  <?= view('admin/users/delete'); ?>
+  <?= view('admin/users/change-pass'); ?>
+  
 </section>
 
 

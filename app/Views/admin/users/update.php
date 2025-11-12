@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <form id="formNuevoUsuario" action="<?= base_url('admin/usuarios/update'); ?>" method="post">
+      <form id="formUpdateUser" action="<?= base_url('admin/usuarios/update'); ?>" method="post">
         <div class="modal-body">
 
           <!-- 🧍‍♂️ Nombre y Apellido -->
@@ -36,7 +36,7 @@
               <option value="2">Profesional</option>
               <option value="3" selected>Paciente</option>
             </select>
-          </div
+</div>
 
         </div>
 
