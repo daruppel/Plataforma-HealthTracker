@@ -23,63 +23,55 @@ class Users extends \App\Controllers\BaseController
 
     public function create()
     {
-        if (session()->get('rol') !== 'Administrador') {
-            return redirect()->to('/dashboard');
+        helper('usuario');
+
+        // Si la solicitud es GET, mostrar el formulario
+        if ($this->request->getMethod() === 'get') {
+            return view('admin/users/create');
         }
 
-        $roles = $this->db->table('rol')->get()->getResultArray();
+        // Si la solicitud es POST, procesar el formulario
+        if ($this->request->getMethod() === 'post') {
+            // Validar usando las reglas definidas en el helper
+            if (!$this->validate(reglasUsuario('create'))) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('errors', $this->validator->getErrors());
+            }
 
-        return view('admin/users/create', [
-            'roles' => $roles,
-            'validation' => \Config\Services::validation()
-        ]);
-    }
+            $model = new UserModel();
 
-    // Nueva función para procesar el POST
-    public function store()
-    {
-        if (session()->get('rol') !== 'Administrador') {
-            return redirect()->to('/acceso-denegado');
-        }
+            // Mapeo de campos
+            $datos = [
+                'nombre'   => $this->request->getPost('name'),
+                'apellido' => $this->request->getPost('lastname'),
+                'email'    => $this->request->getPost('email'),
+                'password' => $this->request->getPost('password')
+            ];
 
-        $data = $this->request->getPost([
-            'nombre', 'apellido', 'email', 'password', 'rol_id'
-        ]);
+            // Insertar el usuario
+            if ($model->insert($datos)) {
+                $userID = $model->getInsertID();
 
-        // Validación
-        $rules = [
-            'nombre'   => 'required|min_length[3]',
-            'apellido' => 'required|min_length[3]',
-            'email'    => 'required|valid_email|is_unique[usuario.email]',
-            'password' => 'required|min_length[8]',
-            'rol_id'   => 'required|integer'
-        ];
+                // Asignar rol (seleccionado desde un <select>) TODO (ver la implementacion en el register.php)
+                $rolID = $this->request->getPost('rol_id');
+                if ($rolID) {
+                    $db = \Config\Database::connect();
+                    $db->table('usuario_rol')->insert([
+                        'usuario_id' => $userID,
+                        'rol_id'     => $rolID
+                    ]);
+                }
 
-        if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+                //TODO ver donde redirigir previo al registro exitoso
+                return redirect()->to('/users')
+                    ->with('success', 'Usuario creado exitosamente');
+            }
 
-        // Insertar usuario
-        try {
-            $userId = $this->userModel->insert([
-                'nombre'   => $data['nombre'],
-                'apellido' => $data['apellido'],
-                'email'    => $data['email'],
-                'password' => password_hash($data['password'], PASSWORD_DEFAULT),
-                'activo'   => 1
-            ]);
-
-            // Asignar rol
-            $this->db->table('usuario_rol')->insert([
-                'usuario_id' => $userId,
-                'rol_id'     => $data['rol_id']
-            ]);
-
-            return redirect()->to(base_url('users'))->with('success', 'Usuario creado correctamente.');
-
-        } catch (DataException $e) {
-            log_message('error', 'Error al crear usuario: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Ocurrió un error al crear el usuario.');
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'No se pudo crear el usuario');
         }
     }
+    
 }
