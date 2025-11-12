@@ -14,6 +14,8 @@ $routes->get('/register', 'Register::index');
 $routes->post('/register/registrar', 'Register::registrar');
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->post('/dashboard', 'Dashboard::index');
-$routes->get('/users', 'Admin\Users::index');
+$routes->get('/admin/users', 'Admin\Users::index');
+$routes->post('/admin/users/create', 'Admin\Users::create');
+$routes->get('/admin/users/create', 'Admin\Users::create');
 
 

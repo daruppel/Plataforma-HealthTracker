@@ -11,7 +11,8 @@
 
       <form id="formUpdateUser" action="<?= base_url('admin/usuarios/update'); ?>" method="post">
         <div class="modal-body">
-
+        <input type="hidden" id="usuario_id" name="usuario_id">
+        
           <!-- 🧍‍♂️ Nombre y Apellido -->
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -28,6 +29,8 @@
             <label>Correo electrónico</label>
             <input type="email" name="email" class="form-control" value="<?= old('email') ?>" required>
           </div>
+
+          <input type="hidden" name="user_id" id="user_id">
 
           <div class="form-group">
             <label>Rol</label>

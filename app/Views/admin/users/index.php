@@ -21,9 +21,15 @@
               <td><?= $u['apellido']; ?></td>
               <td><?= $u['email']; ?></td>
               <td><?= $u['activo']; ?></td>
-              <td>---</td>
+              <td><?= $u['rol_desc']; ?></td>
               <td>
-                <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalActualizacionUsuario"><i class="fas fa-pen"></i></a>
+                <a href="#" class="btn btn-sm btn-warning btn-edit" data-toggle="modal" data-target="#modalActualizacionUsuario"
+                  data-id="<?= $u['usuario_id']; ?>"
+                  data-nombre="<?= $u['nombre']; ?>"
+                  data-apellido="<?= $u['apellido']; ?>"
+                  data-email="<?= $u['email']; ?>"
+                  data-rol="<?= $u['rol_id']; ?>">
+                <i class="fas fa-pen"></i></a>
                 <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDeleteUser"><i class="fas fa-trash"></i></a>
                 <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a>
               </td>
@@ -40,6 +46,25 @@
   <?= view('admin/users/change-pass'); ?>
   
 </section>
+<script>
+  $(document).ready(function() {
+    $('.btn-edit').on('click', function() {
+      const id = $(this).data('id');
+      const nombre = $(this).data('nombre');
+      const apellido = $(this).data('apellido');
+      const email = $(this).data('email');
+      const rol = $(this).data('rol');
+
+      $('#usuario_id').val(id);
+      $('[name="name"]').val(nombre);
+      $('[name="lastname"]').val(apellido);
+      $('[name="email"]').val(email);
+      $('[name="role_id"]').val(rol);
+
+      $('#modalActualizacionUsuario').modal('show');
+    });
+  });
+</script>
 
 
 
