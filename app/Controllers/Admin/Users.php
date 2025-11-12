@@ -21,7 +21,6 @@ class Users extends \App\Controllers\BaseController
             . view('templates/footer');
     }
 
-    // Nueva función para mostrar el formulario de creación
     public function create()
     {
         if (session()->get('rol') !== 'Administrador') {
