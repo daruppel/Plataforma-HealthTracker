@@ -23,7 +23,7 @@ class Users extends \App\Controllers\BaseController
 
     public function create()
     {
-        helper('usuario');
+        helper('user');
 
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'get') {
@@ -74,4 +74,8 @@ class Users extends \App\Controllers\BaseController
         }
     }
     
+    public function update(){
+        helper(['user'])
+    }
+
 }
