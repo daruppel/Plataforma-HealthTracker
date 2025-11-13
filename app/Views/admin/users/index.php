@@ -40,7 +40,7 @@
       </div>
     </div>
   </div>
-  <?= view('admin/users/create'); ?>
+  <?= view('admin/users/create', ['roles'=>$roles]); ?>
   <?= view('admin/users/update'); ?>
   <?= view('admin/users/delete'); ?>
   <?= view('admin/users/change-pass'); ?>

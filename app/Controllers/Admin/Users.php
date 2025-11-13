@@ -2,6 +2,7 @@
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\RoleModel;
 
 class Users extends \App\Controllers\BaseController
 {
@@ -10,11 +11,14 @@ class Users extends \App\Controllers\BaseController
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->roleModel = new RoleModel();
     }
 
     public function index()
     {
         $data['users'] = $this->userModel->obtenerUsuariosConRol();
+        $data['roles'] = $this->roleModel->findAll();
+
         return view('templates/header')
             . view('templates/sidebar')
             . view('admin/users/index', $data)
