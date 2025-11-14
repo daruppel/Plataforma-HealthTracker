@@ -27,9 +27,7 @@ class Users extends \App\Controllers\BaseController
 
     public function create()
     {
-        log_message('debug','antes del helper');
         helper('user');
-        log_message('debug','despues del helper' . json_encode($this->request->getMethod()));
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
             return view('admin/users/create');
@@ -37,7 +35,6 @@ class Users extends \App\Controllers\BaseController
 
         // Si la solicitud es POST, procesar el formulario
         if ($this->request->getMethod() === 'POST') {
-            log_message('debug','metodo post');
             // Validar usando las reglas definidas en el helper
             if (!$this->validate(reglasUsuario('create'))) {
                 //log_message('debug', 'validacion: '. json_encode($this->validator->getErrors()));
@@ -55,18 +52,12 @@ class Users extends \App\Controllers\BaseController
                 'email'    => $this->request->getPost('email'),
                 'password' => $this->request->getPost('password')
             ];
-            log_message('debug','datos guardados');
             // Insertar el usuario
             if ($model->insert($datos)) {
                 $userID = $model->getInsertID();
-                            log_message('debug','entra a insertar datos');
-
                 // Asignar rol (seleccionado desde un <select>) TODO (ver la implementacion en el register.php)
                 $rolID = $this->request->getPost('role_id');
-                
-                            log_message('debug','rol con id' . $rolID);
                 if ($rolID) {
-                            log_message('debug','entra a insertar rol');
                     $db = \Config\Database::connect();
                     $db->table('usuario_rol')->insert([
                         'usuario_id' => $userID,

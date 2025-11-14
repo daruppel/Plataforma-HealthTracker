@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <form id="formUpdateUser" action="<?= base_url('admin/usuarios/update'); ?>" method="post">
+      <form id="formUpdateUser" action="<?= base_url('admin/users/update'); ?>" method="post">
         <div class="modal-body">
         <!--<input type="hidden" id="usuario_id" name="usuario_id">-->
           <!-- 🧍‍♂️ Nombre y Apellido -->
@@ -34,9 +34,13 @@
           <div class="form-group">
             <label>Rol</label>
             <select name="role_id" class="form-control">
-              <option value="1">Administrador</option>
-              <option value="2">Profesional</option>
-              <option value="3" selected>Paciente</option>
+
+              <option value="">Seleccione un rol...</option>
+              <?php foreach ($roles as $r): ?>
+                <option value="<?= $r['rol_id']; ?>">
+                    <?= $r['descripcion']; ?>
+                </option>
+              <?php endforeach; ?>
             </select>
 </div>
 

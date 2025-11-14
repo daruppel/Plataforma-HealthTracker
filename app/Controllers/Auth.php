@@ -56,19 +56,7 @@ class Auth extends BaseController
 
         $session->set($sessionData);
         return redirect()->to('/dashboard');
-   
-        /*    // 🧪 Hardcode para pruebas — luego reemplazás por DB
-        if ($email === 'admin@demo.com' && $password === '123456') {
-            session()->set([
-                'user_name'  => 'Admin Demo',
-                'user_email' => $email,
-                'user_role'  => 'Administrador', 
-                'isLoggedIn' => true
-            ]);
-    
-            return redirect()->to('/dashboard');
-        }
-    */
+
         return redirect()->back()->with('error', 'Credenciales incorrectas');
     }
 

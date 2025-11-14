@@ -49,11 +49,11 @@
   $(document).ready(function() {
     $('.btn-edit').on('click', function(e) {
       e.preventDefault();
-      const id = $(this).data('usuario_id');
+      const id = $(this).data('id');
       const nombre = $(this).data('nombre');
       const apellido = $(this).data('apellido');
       const email = $(this).data('email');
-      const rol = $(this).data('rol_id');
+      const rol = $(this).data('rol');
       console.log({ id, nombre, apellido, email, rol }); // para testear
 
       $('#usuario_id').val(id);
@@ -62,7 +62,7 @@
       $('[name="email"]').val(email);
       $('[name="role_id"]').val(rol);
 
-      $('#modalActualizacionUsuarioLabel').modal('show');
+      $('#modalActualizacionUsuario').modal('show');
     });
   });
 </script>
