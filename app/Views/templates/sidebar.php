@@ -1,3 +1,4 @@
+<?php $rol = session()->get('role_id'); ?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <a href="<?= base_url('/'); ?>" class="brand-link">
@@ -25,36 +26,48 @@
             <p>Dashboard</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-user-md"></i>
-            <p>Planes de Cuidado</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-users"></i>
-            <p>Pacientes</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-chart-line"></i>
-            <p>Estadísticas</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="<?= base_url('/admin/users'); ?>" class="nav-link">
-            <i class="nav-icon fas fa-user"></i>
-            <p>Usuarios</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="<?= base_url('/admin/medical-entities'); ?>" class="nav-link">
-            <i class="nav-icon fas fa-hospital"></i>
-            <p>Entidades médicas</p>
-          </a>
-        </li>
+        <?php if ($rol === '1'): ?>
+          <li class="nav-item">
+            <a href="<?= base_url('/admin/users'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>Usuarios</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= base_url('/admin/medical-entities'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-hospital"></i>
+              <p>Entidades médicas</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-line"></i>
+              <p>Estadísticas</p>
+            </a>
+          </li>
+        <?php endif; ?>
+        <?php if ($rol === '2'): ?>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user-md"></i>
+              <p>Planes de Cuidado</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Pacientes</p>
+            </a>
+          </li>
+        <?php endif; ?>
+        <?php if ($rol === '3'): ?>
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user-md"></i>
+              <p>Planes de Cuidado</p>
+            </a>
+          </li>
+        <?php endif; ?>
          <li class="nav-item">
             <a href="#" class="nav-link text-danger" data-toggle="modal" data-target="#logoutModal">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
