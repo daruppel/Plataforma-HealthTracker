@@ -20,6 +20,6 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->get('users', 'Admin\Users::index');
     $routes->get('users/create', 'Admin\Users::create');
     $routes->post('users/create', 'Admin\Users::create');
-
+    $routes->post('users/update', 'Admin\Users::update');
     $routes->get('medical-entities', 'Admin\MedicalEntities::index');
 });
