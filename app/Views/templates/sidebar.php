@@ -13,7 +13,7 @@
         <div class="info">
             <a href="#" class="d-block">
                 <?= session()->get('name'), ' ' ,session()->get('lastname'); ?><br>
-                <small class="text-muted"><?= session()->get('user_role'); ?></small>
+                <small class="text-muted"><?= session()->get('role_desc'); ?></small>
             </a>
         </div>
     </div>

@@ -17,7 +17,7 @@ class AuthFilter implements FilterInterface
 
         // Si el filtro tiene argumentos, son los roles permitidos
         if ($arguments) {
-            $rolUsuario = $session->get('user_role'); // Ej: 'Administrador', 'Profesional', 'Paciente'
+            $rolUsuario = $session->get('role_desc'); // Ej: 'Administrador', 'Profesional', 'Paciente'
             $rolesPermitidos = $arguments;
 
             if (!in_array($rolUsuario, $rolesPermitidos)) {
