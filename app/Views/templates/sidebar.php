@@ -43,10 +43,16 @@
             <p>Estadísticas</p>
           </a>
         </li>
-         <li class="nav-item">
+        <li class="nav-item">
           <a href="<?= base_url('/admin/users'); ?>" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>Usuarios</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= base_url('/admin/medical-entities'); ?>" class="nav-link">
+            <i class="nav-icon fas fa-hospital"></i>
+            <p>Entidades médicas</p>
           </a>
         </li>
          <li class="nav-item">
