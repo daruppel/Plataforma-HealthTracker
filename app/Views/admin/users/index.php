@@ -67,6 +67,13 @@
   });
 </script>
 
+<?php if (session()->get('errors')): ?>
+<script>
+    $(document).ready(function () {
+        $('#modalNuevoUsuario').modal('show');
+    });
+</script>
+<?php endif; ?>
 </section>
 
 
