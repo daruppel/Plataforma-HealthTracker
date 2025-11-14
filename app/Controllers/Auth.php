@@ -22,7 +22,11 @@ class Auth extends BaseController
 
         log_message('debug', "Intentando login con email: {$email}");
 
-        $user = $userModel->where('email', $email)->first();
+        $user = $userModel->select('usuario.*, usuario_rol.rol_id, rol.descripcion as rol_descripcion')
+                          ->join('usuario_rol', 'usuario_rol.usuario_id = usuario.usuario_id', 'left')
+                          ->join('rol','usuario_rol.rol_id = rol.rol_id', 'left')
+                          ->where('usuario.email', $email)
+                          ->first();
 
         log_message('debug', 'usercreado');
         //Buscar por email
@@ -52,6 +56,8 @@ class Auth extends BaseController
             'lastname' => $user['apellido'],
             'email' => $user['email'],
             'isLoggedIn' => true,
+            'role_id' => $user['rol_id'],
+            'role_desc' => $user['rol_descripcion']
         ];
 
         $session->set($sessionData);
