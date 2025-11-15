@@ -118,4 +118,21 @@ class Users extends \App\Controllers\BaseController
                          ->with('success', 'Usuario actualizado correctamente');
     }
 
+    public function delete()
+    {
+        $id = $this->request->getPost('user_id');
+
+        if (!$id) {
+            return redirect()->back()->with('error', 'ID de usuario no especificado');
+        }
+
+        // Soft delete
+        if (!$this->userModel->delete($id)) {
+            return redirect()->back()->with('error', 'No se pudo eliminar el usuario');
+        }
+
+        return redirect()->to(base_url('admin/users'))
+                 ->with('success', 'Usuario eliminado correctamente');
+    }
+
 }

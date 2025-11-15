@@ -9,14 +9,17 @@
           </button>
         </div>
 
+        <form action="<?= base_url('admin/users/delete'); ?>" method="post">
         <div class="modal-body">
-            ¿Estás seguro de que deseas eliminar este usuario?
+          <p>¿Está seguro de que desea eliminar al usuario <b id="deleteUserName"></b>?</p>
+          <input type="hidden" name="user_id" id="delete_user_id">
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <a href="<?= base_url(''); ?>" class="btn btn-danger"> Eliminar usuario</a>
+          <button type="submit" class="btn btn-danger">Eliminar</button>
         </div>
+      </form>
 
       </div>
     </div>

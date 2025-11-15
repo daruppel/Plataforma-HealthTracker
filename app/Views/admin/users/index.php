@@ -30,8 +30,16 @@
                   data-email="<?= $u['email']; ?>"
                   data-rol="<?= $u['rol_id']; ?>">
                 <i class="fas fa-pen"></i></a>
+                
+                <a href="#" class="btn btn-sm btn-danger btn-delete"
+                  data-id="<?= $u['usuario_id']; ?>"
+                  data-nombre="<?= $u['nombre']; ?>"
+                  data-apellido="<?= $u['apellido']; ?>">
+                <i class="fas fa-trash"></i></a>
+
+                <!--
                 <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDeleteUser"><i class="fas fa-trash"></i></a>
-                <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a>
+            --><a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a>
               </td>
             </tr>
             <?php endforeach; ?>
@@ -45,6 +53,7 @@
   <?= view('admin/users/delete'); ?>
   <?= view('admin/users/change-pass'); ?>
 
+          <!--Script que carga los datos para la actualización -->
   <script>
   $(document).ready(function() {
     $('.btn-edit').on('click', function(e) {
@@ -64,6 +73,27 @@
       $('#modalActualizacionUsuario').modal('show');
     });
   });
+</script>
+      <!--Script que carga los datos para la eliminación -->
+<script>
+$(document).ready(function() {
+
+    $('.btn-delete').on('click', function(e) {
+        e.preventDefault();
+
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        const apellido = $(this).data('apellido');
+
+        const nombreCompleto = nombre + ' ' + apellido;
+      console.log(nombreCompleto);
+        $('#delete_user_id').val(id);
+        $('#deleteUserName').text(nombreCompleto);
+
+        $('#modalDeleteUser').modal('show');
+    });
+
+});
 </script>
 
 <?php if (session()->get('errors')): ?>
