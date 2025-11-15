@@ -11,8 +11,7 @@
 
       <form id="formUpdateUser" action="<?= base_url('admin/users/update'); ?>" method="post">
         <div class="modal-body">
-        <!--<input type="hidden" id="usuario_id" name="usuario_id">-->
-          <!-- 🧍‍♂️ Nombre y Apellido -->
+          <!-- Nombre y Apellido -->
           <div class="form-row">
             <div class="form-group col-md-6">
               <label>Nombre</label>
@@ -20,7 +19,7 @@
             </div>
             <div class="form-group col-md-6">
               <label>Apellido</label>
-              <input type="text" name="surname" class="form-control" value="<?= old('surname') ?>" required>
+              <input type="text" name="lastname" class="form-control" value="<?= old('lastname') ?>" required>
             </div>
           </div>
 

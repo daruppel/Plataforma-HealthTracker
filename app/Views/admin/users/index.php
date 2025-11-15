@@ -54,11 +54,10 @@
       const apellido = $(this).data('apellido');
       const email = $(this).data('email');
       const rol = $(this).data('rol');
-      console.log({ id, nombre, apellido, email, rol }); // para testear
 
-      $('#usuario_id').val(id);
+      $('#user_id').val(id);
       $('[name="name"]').val(nombre);
-      $('[name="surname"]').val(apellido);
+      $('[name="lastname"]').val(apellido);
       $('[name="email"]').val(email);
       $('[name="role_id"]').val(rol);
 

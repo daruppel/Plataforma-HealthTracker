@@ -7,6 +7,7 @@ use App\Models\RoleModel;
 class Users extends \App\Controllers\BaseController
 {
     protected $userModel;
+    protected $roleModel;
 
     public function __construct()
     {
@@ -65,7 +66,6 @@ class Users extends \App\Controllers\BaseController
                     ]);
                 }
 
-                //TODO ver donde redirigir previo al registro exitoso
                 return redirect()->to('/admin/users')
                     ->with('success', 'Usuario creado exitosamente');
             }
@@ -86,7 +86,7 @@ class Users extends \App\Controllers\BaseController
         }
 
         // Validación usando helper
-        if (!$this->validate(reglasUsuario('edit'))) {
+        if (!$this->validate(reglasUsuario('edit', $id))) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
@@ -95,7 +95,7 @@ class Users extends \App\Controllers\BaseController
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'nombre'   => $this->request->getPost('name'),
-            'apellido' => $this->request->getPost('surname'),
+            'apellido' => $this->request->getPost('lastname'),
             'email'    => $this->request->getPost('email'),
         ];
 
@@ -114,7 +114,7 @@ class Users extends \App\Controllers\BaseController
            ->set(['rol_id' => $rolId])
            ->update();
 
-        return redirect()->to(base_url('admin/usuarios'))
+        return redirect()->to(base_url('admin/users'))
                          ->with('success', 'Usuario actualizado correctamente');
     }
 
