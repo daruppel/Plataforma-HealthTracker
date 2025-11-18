@@ -1,6 +1,7 @@
-<?php namespace App\Controllers\Admin;
+<?php
 
-use App\Controllers\BaseController;
+namespace App\Controllers\Admin;
+
 use App\Models\UserModel;
 use App\Models\RoleModel;
 
@@ -75,8 +76,8 @@ class Users extends \App\Controllers\BaseController
                 ->with('error', 'No se pudo crear el usuario');
         }
     }
-    
-   public function update()
+
+    public function update()
     {
         helper(['user']);
         $id = $this->request->getPost('user_id');
@@ -110,12 +111,12 @@ class Users extends \App\Controllers\BaseController
         $db = \Config\Database::connect();
 
         $db->table('usuario_rol')
-           ->where('usuario_id', $id)
-           ->set(['rol_id' => $rolId])
-           ->update();
+            ->where('usuario_id', $id)
+            ->set(['rol_id' => $rolId])
+            ->update();
 
         return redirect()->to(base_url('admin/users'))
-                         ->with('success', 'Usuario actualizado correctamente');
+            ->with('success', 'Usuario actualizado correctamente');
     }
 
     public function delete()
@@ -132,7 +133,30 @@ class Users extends \App\Controllers\BaseController
         }
 
         return redirect()->to(base_url('admin/users'))
-                 ->with('success', 'Usuario eliminado correctamente');
+            ->with('success', 'Usuario eliminado correctamente');
     }
 
+    public function changePassword()
+    {
+        helper(['form', 'user']);
+
+        $id = $this->request->getPost('user_id');
+        if (!$id) {
+            return redirect()->back()->with('error', 'ID no recibido');
+        }
+        if (!$this->validate(reglasCambioPass())) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+        $password = $this->request->getPost('password');
+
+        // Actualizar en DB
+        if (!$this->userModel->update($id, ['password' => $password])) {
+            return redirect()->back()->with('error', 'No se pudo actualizar la contraseña');
+        }
+
+        return redirect()->to(base_url('admin/users'))
+            ->with('success', 'Contraseña actualizada correctamente');
+    }
 }
