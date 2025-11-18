@@ -12,7 +12,7 @@
       <form id="formNuevoUsuario" action="<?= base_url('/admin/users/create'); ?>" method="post">
         <div class="modal-body">
 
-          <!-- 🧍‍♂️ Nombre y Apellido -->
+          <!-- Nombre y Apellido -->
           <div class="form-row">
             <div class="form-group col-md-6">
               <label>Nombre</label>
@@ -29,7 +29,7 @@
             <input type="email" name="email" class="form-control" value="<?= old('email') ?>" required>
           </div>
 
-          <!-- 🔐 Contraseña y Confirmación -->
+          <!-- Contraseña y Confirmación -->
           <div class="form-row">
             <div class="form-group col-md-6">
               <label>Contraseña</label>
@@ -44,13 +44,17 @@
           <div class="form-group">
             <label>Rol</label>
             <select name="role_id" class="form-control">
-              <option value="1">Administrador</option>
-              <option value="2">Profesional</option>
-              <option value="3" selected>Paciente</option>
+
+              <option value="">Seleccione un rol...</option>
+              <?php foreach ($roles as $r): ?>
+                <option value="<?= $r['rol_id']; ?>">
+                    <?= $r['descripcion']; ?>
+                </option>
+              <?php endforeach; ?>
             </select>
           </div>
 
-          <!-- ⚠️ Alerta de error oculta -->
+          <!-- Alerta de error oculta -->
           <div id="alertaPassword" class="alert alert-danger d-none" role="alert">
             Las contraseñas no coinciden. Por favor, verifícalas.
           </div>

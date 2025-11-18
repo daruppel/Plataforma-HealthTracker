@@ -6,8 +6,8 @@
  * @param string $modo  'create' o 'edit'
  * @param bool   $requerirPassConfirm  Si se requiere confirmar la contraseña
  */
-function reglasUsuario($modo = 'create', $requerirPassConfirm = true)
-{
+function reglasUsuario($modo = 'create', $id = null, $requerirPassConfirm = true){
+    log_message('debug','dato id(en helper): '.$id);
     $reglas = [
         'name' => [
             'rules' => 'required|min_length[3]|max_length[50]',
@@ -27,7 +27,7 @@ function reglasUsuario($modo = 'create', $requerirPassConfirm = true)
         ],
         'email' => [
             'rules' => $modo === 'edit'
-                ? 'required|valid_email'
+                ? 'required|valid_email|is_unique[usuario.email,usuario_id,' . $id . ']'
                 : 'required|valid_email|is_unique[usuario.email]',
             'errors' => [
                 'required' => 'El email es obligatorio',
@@ -67,6 +67,25 @@ function reglasUsuario($modo = 'create', $requerirPassConfirm = true)
             ],
         ];
     }
-
+    log_message('debug', 'REGLAS: ' . json_encode($reglas));
     return $reglas;
+}
+
+function reglasCambioPass(){
+    return [
+        'password' => [
+            'rules'  => 'required|min_length[8]',
+            'errors' => [
+                'required'   => 'La nueva contraseña es obligatoria',
+                'min_length' => 'La contraseña debe tener al menos 8 caracteres',
+            ],
+        ],
+        'passconf' => [
+            'rules'  => 'required|matches[password]',
+            'errors' => [
+                'required' => 'Debe confirmar la nueva contraseña',
+                'matches'  => 'Las contraseñas no coinciden',
+            ],
+        ],
+    ];
 }

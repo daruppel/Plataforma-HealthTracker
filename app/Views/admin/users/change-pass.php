@@ -1,4 +1,4 @@
-<!-- Modal Nuevo Usuario -->
+<!-- Modal Cambio de contraseña -->
 <div class="modal fade" id="modalChangePass" tabindex="-1" role="dialog" aria-labelledby="modalChangePassLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -9,9 +9,9 @@
         </button>
       </div>
 
-   <form id="formChangePass" action="<?= base_url('admin/usuarios/store'); ?>" method="post">
+   <form id="formChangePass" action="<?= base_url('admin/users/changePassword'); ?>" method="post">
         <div class="modal-body">
-
+        <input type="hidden" name="user_id" id="user_id_pass">
             <div class="form-group">
                 <label>Contraseña</label>
                 <input type="password" id="passwordNew" name="password" class="form-control" required>

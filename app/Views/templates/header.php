@@ -8,7 +8,12 @@
   <link rel="stylesheet" href="<?= base_url('adminlte/plugins/fontawesome-free/css/all.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css'); ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/css/custom.css') ?>">
 
+<!-- jQuery -->
+  <script src="<?= base_url('adminlte/plugins/jquery/jquery.min.js'); ?>"></script>
+
+  
   <!-- DataTables -->
 <link rel="stylesheet" href="<?= base_url('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); ?>">
 <link rel="stylesheet" href="<?= base_url('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'); ?>">
