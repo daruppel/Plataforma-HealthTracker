@@ -26,5 +26,6 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->get('medical-entities', 'Admin\MedicalEntities::index');
     $routes->get('medical-entities/create', 'Admin\MedicalEntities::create');
     $routes->post('medical-entities/create', 'Admin\MedicalEntities::create');
+    $routes->post('medical-entities/delete', 'Admin\MedicalEntities::delete');
 
 });

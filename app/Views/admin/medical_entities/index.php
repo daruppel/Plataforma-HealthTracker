@@ -23,12 +23,13 @@
                 <a href="#" class="btn btn-sm btn-warning btn-edit">
                 <i class="fas fa-pen"></i></a>
                 
-                <a href="#" class="btn btn-sm btn-danger btn-delete">
+                <a href="#" class="btn btn-sm btn-danger btn-delete"
+                  data-id="<?= $e['entidad_medica_id']; ?>"
+                  data-nombre="<?= $e['nombre']; ?>">
                 <i class="fas fa-trash"></i></a>
 
                 <a href="#" class="btn btn-sm btn-info btn-change-pass">
                 <i class="fas fa-key"></i></a>
-              <!-- <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a> -->
               </td>
             </tr>
             <?php endforeach; ?>
@@ -36,8 +37,10 @@
         </table>
       </div>
     </div>
-  </div>
+  </div> 
   <?= view('admin/medical_entities/create'); ?>
+  <?= view('admin/medical_entities/delete'); ?>
+  <!--Script para volver a abrir el modal luego de detectar errores(a cambiar)-->
   <?php if (session()->get('errors')): ?>
 <script>
     $(document).ready(function () {
@@ -45,4 +48,19 @@
     });
 </script>
 <?php endif; ?>
+      <!--Script que carga los datos para la eliminación -->
+<script>
+$(document).ready(function() {
+    $('.btn-delete').on('click', function(e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        
+        $('#delete_entitie_id').val(id);
+        $('#deleteEntitieName').text(nombre);
+
+        $('#modalDeleteEntitie').modal('show');
+    });
+});
+</script>
 </section>

@@ -51,4 +51,19 @@ class MedicalEntities extends BaseController
                 ->with('success', 'Entidad creada correctamente');
         }
     }
+    public function delete(){
+        $id = $this->request->getPost('medical_entitie_id');
+
+        if (!$id) {
+            return redirect()->back()->with('error', 'ID de la entidad medica no especificado');
+        }
+
+        // Soft delete
+        if (!$this->entityModel->delete($id)) {
+            return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
+        }
+
+        return redirect()->to(base_url('admin/medical-entities'))
+            ->with('success', 'Entidad medica eliminada correctamente');
+    }
 }
