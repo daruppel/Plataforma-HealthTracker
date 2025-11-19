@@ -66,4 +66,29 @@ class MedicalEntities extends BaseController
         return redirect()->to(base_url('admin/medical-entities'))
             ->with('success', 'Entidad medica eliminada correctamente');
     }
+    public function update()
+    {
+        $id = $this->request->getPost('medical_entitie_update_id');
+        if (!$id) {
+            return redirect()->back()->with('error', 'ID de la entidad medica no especificado');
+        }
+
+        // Mapeo de nombres del formulario -> campos de la BD
+        $data = [
+            'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
+            'nombre'   => $this->request->getPost('name'),
+            'decripcion' => $this->request->getPost('description')
+        ];
+
+        // Actualizar entidad medica
+        if (!$this->entityModel->save($data)) {
+            return redirect()
+                    ->back()
+                    ->with('errors', $this->entityModel->errors())
+                    ->withInput();
+        }
+
+        return redirect()->to(base_url('admin/medical-entities'))
+            ->with('success', 'Entidad medica actualizada correctamente');
+    }
 }
