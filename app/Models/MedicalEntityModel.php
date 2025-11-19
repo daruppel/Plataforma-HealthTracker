@@ -37,9 +37,8 @@ class MedicalEntityModel extends Model
             'max_length' => 'El nombre no puede exceder 100 caracteres'
         ],
         'descripcion' => [
-            'required' => 'El descripcion es obligatorio',
-            'min_length' => 'El descripcion debe tener al menos 3 caracteres',
-            'max_length' => 'El descripcion no puede exceder 100 caracteres'
+            'required' => 'El descripcion es obligatoria',
+            'min_length' => 'El descripcion debe tener al menos 3 caracteres'
         ],
     ];
     
