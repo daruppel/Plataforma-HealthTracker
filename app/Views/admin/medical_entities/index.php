@@ -26,5 +26,5 @@
       </div>
     </div>
   </div>
-  
+  <?= view('admin/medical_entities/create'); ?>
 </section>
