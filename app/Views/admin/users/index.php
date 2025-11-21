@@ -40,9 +40,6 @@
                 <a href="#" class="btn btn-sm btn-info btn-change-pass"
                   data-id="<?= $u['usuario_id']; ?>">
                 <i class="fas fa-key"></i></a>
-
-
-              <!-- <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalChangePass"><i class="fas fa-key"></i></a> -->
               </td>
             </tr>
             <?php endforeach; ?>
@@ -51,12 +48,12 @@
       </div>
     </div>
   </div>
-  <?= view('admin/users/create', ['roles'=>$roles]); ?>
+  <?= view('admin/users/create'); ?>
   <?= view('admin/users/update'); ?>
   <?= view('admin/users/delete'); ?>
   <?= view('admin/users/change-pass'); ?>
 
-          <!--Script que carga los datos para la actualización -->
+<!--Script que carga los datos para la actualización -->
   <script>
   $(document).ready(function() {
     $('.btn-edit').on('click', function(e) {
@@ -78,7 +75,7 @@
   });
 </script>
 
-      <!--Script que carga los datos para la eliminación -->
+<!--Script que carga los datos para la eliminación -->
 <script>
 $(document).ready(function() {
 
@@ -98,7 +95,7 @@ $(document).ready(function() {
 });
 </script>
 
-      <!--Script que carga los datos para el cambio de contraseña -->
+<!--Script que carga los datos para el cambio de contraseña -->
 <script>
   $('.btn-change-pass').on('click', function(e) {
     e.preventDefault();
@@ -109,10 +106,18 @@ $(document).ready(function() {
 });
 </script>
 
-<?php if (session()->get('errors')): ?>
+<?php if (session()->get('errors_create')): ?>
 <script>
     $(document).ready(function () {
         $('#modalNuevoUsuario').modal('show');
+    });
+</script>
+<?php endif; ?>
+
+<?php if (session()->get('errors_update')): ?>
+<script>
+    $(document).ready(function () {
+        $('#modalActualizacionUsuario').modal('show');
     });
 </script>
 <?php endif; ?>

@@ -69,45 +69,14 @@
     </div>
   </div>
 
-  <?php if (session()->get('success')): ?>
-  <script>
-  $(document).Toasts('create', {
-      class: 'bg-success',
-      title: 'Éxito',
-      body: '<?= session()->get("success") ?>',
-      autohide: true,
-      delay: 3000,
-      icon: 'fas fa-check'
-  });
-  </script>
-  <?php endif; ?>
+  <?php if (session()->get('errors_create')) : ?>
+    <pre style="color:white; background:black; padding:10px">
+        <?= print_r(session()->get('errors_create'), true); ?>
+    </pre>
+<?php endif; ?>
 
-  <?php if (session()->get('error')): ?>
-  <script>
-  $(document).Toasts('create', {
-      class: 'bg-danger',
-      title: 'Error',
-      body: '<?= session()->get("error") ?>',
-      autohide: true,
-      delay: 4000,
-      icon: 'fas fa-exclamation-triangle'
-  });
-  </script>
-  <?php endif; ?>
-
-  <?php if (session()->get('errors')): ?>
-  <script>
-  $(document).Toasts('create', {
-      class: 'bg-warning',
-      title: 'Errores de validación',
-      body: `<?php foreach(session()->get('errors') as $e){ echo "- $e<br>"; } ?>`,
-      autohide: false,
-      icon: 'fas fa-bug'
-  });
-  </script>
-  <?php endif; ?>
-
-
+<?= render_toasts() ?>
+  
 
 </body>
 </html>

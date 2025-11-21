@@ -40,9 +40,11 @@ class Users extends \App\Controllers\BaseController
             // Validar usando las reglas definidas en el helper
             if (!$this->validate(reglasUsuario('create'))) {
                 //log_message('debug', 'validacion: '. json_encode($this->validator->getErrors()));
-                return redirect()->back()
-                    ->withInput()
-                    ->with('errors', $this->validator->getErrors());
+                return redirect()
+                    ->to('/admin/users')
+                    ->with('errors', $this->validator->getErrors())
+                    ->with('errors_create', 'Se encontraron errores en el formulario de creación')
+                    ->withInput();
             }
 
             $model = new UserModel();
@@ -73,7 +75,8 @@ class Users extends \App\Controllers\BaseController
 
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'No se pudo crear el usuario');
+                ->with('errors','No se pudo crear el usuario')
+                ->with('errors_create', 'No se pudo crear el usuario');
         }
     }
 
@@ -88,9 +91,11 @@ class Users extends \App\Controllers\BaseController
 
         // Validación usando helper
         if (!$this->validate(reglasUsuario('edit', $id))) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $this->validator->getErrors());
+            return redirect()
+                ->to('/admin/users')
+                ->with('errors', $this->validator->getErrors())
+                ->with('errors_update', 'Se encontraron errores en el formulario de actualización')
+                ->withInput();
         }
 
         // Mapeo de nombres del formulario -> campos de la BD
@@ -103,7 +108,8 @@ class Users extends \App\Controllers\BaseController
         // Actualizar usuario
         if (!$this->userModel->update($id, $data)) {
             return redirect()->back()
-                ->with('error', 'No se pudo actualizar el usuario');
+                ->with('errors','No se pudo actualizar el usuario')
+                ->with('errors_update', 'No se pudo actualizar el usuario');
         }
 
         // Actualizar rol en tabla relación
