@@ -114,14 +114,22 @@ $(document).ready(function() {
 </script>
 <?php endif; ?>
 
-<?php if (session()->get('errors_update')): ?>
 <script>
-    $(document).ready(function () {
+$(document).ready(function () {
+    <?php if (session()->get('errors_update')): ?>
+
+        $('#user_id').val('<?= old('user_id') ?>');
+        $('[name="name"]').val('<?= old('name') ?>');
+        $('[name="lastname"]').val('<?= old('lastname') ?>');
+        $('[name="email"]').val('<?= old('email') ?>');
+        $('[name="role_id"]').val('<?= old('role_id') ?>');
+
         $('#modalActualizacionUsuario').modal('show');
-    });
+
+    <?php endif; ?>
+});
 </script>
-<?php endif; ?>
-</section>
+
 
 
 
