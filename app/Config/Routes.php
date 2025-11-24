@@ -24,4 +24,9 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->post('users/delete', 'Admin\Users::delete');
     $routes->post('users/changePassword', 'Admin\Users::changePassword');
     $routes->get('medical-entities', 'Admin\MedicalEntities::index');
+    $routes->get('medical-entities/create', 'Admin\MedicalEntities::create');
+    $routes->post('medical-entities/create', 'Admin\MedicalEntities::create');
+    $routes->post('medical-entities/delete', 'Admin\MedicalEntities::delete');
+    $routes->post('medical-entities/update', 'Admin\MedicalEntities::update');
+
 });

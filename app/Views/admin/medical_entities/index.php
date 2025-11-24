@@ -3,7 +3,7 @@
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Gestión de entidades médicas</h3>
-        <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalNuevoUsuario">
+        <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalNuevaEntidad">
           <i class="fas fa-plus"></i> Nuevo
         </button>
       </div>
@@ -20,10 +20,19 @@
               <td><?= $e['nombre']; ?></td>
               <td><?= $e['descripcion']; ?></td>
               <td>
-                <a href="#" class="btn btn-sm btn-warning btn-edit" >
+                <a href="#" class="btn btn-sm btn-warning btn-edit"
+                  data-id="<?= $e['entidad_medica_id']; ?>"
+                  data-nombre="<?= $e['nombre']; ?>"
+                  data-descripcion="<?= $e['descripcion']; ?>">
                 <i class="fas fa-pen"></i></a>
-                <a href="#" class="btn btn-sm btn-danger" ><i class="fas fa-trash"></i></a>
-                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-key"></i></a>
+                
+                <a href="#" class="btn btn-sm btn-danger btn-delete"
+                  data-id="<?= $e['entidad_medica_id']; ?>"
+                  data-nombre="<?= $e['nombre']; ?>">
+                <i class="fas fa-trash"></i></a>
+
+                <a href="#" class="btn btn-sm btn-info btn-change-pass">
+                <i class="fas fa-key"></i></a>
               </td>
             </tr>
             <?php endforeach; ?>
@@ -31,6 +40,49 @@
         </table>
       </div>
     </div>
-  </div>
-  
+  </div> 
+  <?= view('admin/medical_entities/create'); ?>
+  <?= view('admin/medical_entities/delete'); ?>
+  <?= view('admin/medical_entities/update'); ?>
+
+  <!--Script para volver a abrir el modal luego de detectar errores(a cambiar)-->
+  <?php if (session()->get('errors')): ?>
+<script>
+    $(document).ready(function () {
+        $('#modalNuevaEntidad').modal('show');
+    });
+</script>
+<?php endif; ?>
+      <!--Script que carga los datos para la eliminación -->
+<script>
+$(document).ready(function() {
+    $('.btn-delete').on('click', function(e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        
+        $('#delete_entitie_id').val(id);
+        $('#deleteEntitieName').text(nombre);
+
+        $('#modalDeleteEntitie').modal('show');
+    });
+});
+</script>
+          <!--Script que carga los datos para la actualización -->
+  <script>
+  $(document).ready(function() {
+    $('.btn-edit').on('click', function(e) {
+      e.preventDefault();
+      const id = $(this).data('id');
+      const nombre = $(this).data('nombre');
+      const descripcion = $(this).data('descripcion');
+      
+      $('#medica_entitie_id').val(id);
+      $('[name="name"]').val(nombre);
+      $('[name="description"]').val(descripcion);
+
+      $('#modalActualizacionEntidad').modal('show');
+    });
+  });
+</script>
 </section>
