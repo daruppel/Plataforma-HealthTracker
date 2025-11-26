@@ -18,6 +18,11 @@ class SpecialtyModel extends Model
         'nombre'
     ];
 
+    // Timestamps automáticos
+    protected $useTimestamps = true;
+    protected $createdField = 'created_at';  // Campo para fecha de creación
+    protected $updatedField = 'updated_at';  // Campo para fecha de actualización
+    protected $deletedField = 'deleted_at';  // Campo para fecha de eliminación
     
     // Validaciones del modelo
     protected $validationRules = [
