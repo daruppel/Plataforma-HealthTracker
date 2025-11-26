@@ -30,8 +30,6 @@
                   data-id="<?= $e['entidad_medica_id']; ?>"
                   data-nombre="<?= $e['nombre']; ?>">
                 <i class="fas fa-trash"></i></a>
-
-                <i class="fas fa-key"></i></a>
               </td>
             </tr>
             <?php endforeach; ?>
