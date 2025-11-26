@@ -43,6 +43,7 @@ class MedicalEntities extends BaseController
                 return redirect()
                     ->back()
                     ->with('errors', $entityModel->errors())
+                    ->with('errors_create', $entityModel->errors())
                     ->withInput();
             }
 
@@ -55,7 +56,9 @@ class MedicalEntities extends BaseController
         $id = $this->request->getPost('medical_entitie_id');
 
         if (!$id) {
-            return redirect()->back()->with('error', 'ID de la entidad medica no especificado');
+            return redirect()->back()
+                ->with('errors', $this->entityModel->errors())
+                ->with('error', 'ID de la entidad medica no especificado');
         }
 
         // Soft delete
@@ -70,21 +73,24 @@ class MedicalEntities extends BaseController
     {
         $id = $this->request->getPost('medical_entitie_update_id');
         if (!$id) {
-            return redirect()->back()->with('error', 'ID de la entidad medica no especificado');
+            return redirect()->back()
+                ->with('errors', $this->entityModel->errors())
+                ->with('errors_update', 'ID de la entidad medica no especificado');
         }
-
+        
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
             'nombre'   => $this->request->getPost('name'),
             'decripcion' => $this->request->getPost('description')
         ];
-
+        
         // Actualizar entidad medica
         if (!$this->entityModel->save($data)) {
             return redirect()
                     ->back()
-                    ->with('errors', $this->entityModel->errors())
+                    ->with('errors', $this->entityModel->errors() )
+                    ->with('errors_update', $this->entityModel->errors())
                     ->withInput();
         }
 

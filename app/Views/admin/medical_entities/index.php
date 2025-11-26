@@ -45,8 +45,8 @@
   <?= view('admin/medical_entities/delete'); ?>
   <?= view('admin/medical_entities/update'); ?>
 
-  <!--Script para volver a abrir el modal luego de detectar errores(a cambiar)-->
-  <?php if (session()->get('errors')): ?>
+  <!--Script para volver a abrir el modal luego de detectar errores-->
+  <?php if (session()->get('errors_create')): ?>
 <script>
     $(document).ready(function () {
         $('#modalNuevaEntidad').modal('show');
@@ -77,12 +77,26 @@ $(document).ready(function() {
       const nombre = $(this).data('nombre');
       const descripcion = $(this).data('descripcion');
       
-      $('#medica_entitie_id').val(id);
+      $('#medical_entitie_update_id').val(id);
       $('[name="name"]').val(nombre);
       $('[name="description"]').val(descripcion);
 
       $('#modalActualizacionEntidad').modal('show');
     });
   });
+</script>
+<!--Script que carga los datos antiguos para actualizar, cuando retorna con error -->
+<script>
+$(document).ready(function () {
+    <?php if (session()->get('errors_update')): ?>
+        console.log("cargando datos...");
+        $('#medical_entitie_update_id').val('<?= old('medical_entitie_update_id') ?>');
+        $('[name="name"]').val('<?= old('name') ?>');
+        $('[name="description"]').val('<?= old('description') ?>');
+
+        $('#modalActualizacionEntidad').modal('show');
+
+    <?php endif; ?>
+});
 </script>
 </section>

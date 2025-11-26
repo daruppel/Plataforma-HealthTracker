@@ -11,7 +11,7 @@
 
       <form id="formUpdateUser" action="<?= base_url('admin/medical-entities/update'); ?>" method="post">
         <div class="modal-body">
-          <input type="hidden" name="medical_entitie_update_id" id="medica_entitie_id"> 
+          <input type="hidden" id="medical_entitie_update_id" name="medical_entitie_update_id"> 
             <!-- Nombre --> 
           <div class="form-row">
             <div class="form-group col-md-6">
