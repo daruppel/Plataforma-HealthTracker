@@ -31,7 +31,6 @@
                   data-nombre="<?= $e['nombre']; ?>">
                 <i class="fas fa-trash"></i></a>
 
-                <a href="#" class="btn btn-sm btn-info btn-change-pass">
                 <i class="fas fa-key"></i></a>
               </td>
             </tr>
