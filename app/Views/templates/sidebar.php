@@ -45,6 +45,12 @@
               <p>Estadísticas</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?= base_url('/admin/medical-diagnosis'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-stethoscope"></i>
+              <p>Tipos de diagnosticos</p>
+            </a>
+          </li>
         <?php endif; ?>
         <?php if ($rol === '2'): ?>
           <li class="nav-item">
