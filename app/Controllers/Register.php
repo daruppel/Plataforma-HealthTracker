@@ -48,6 +48,12 @@ class Register extends BaseController
                 'usuario_id' => $userID,
                 'rol_id' => $rolID
             ]);
+            
+            if($rolID == 2){ // Si es doctor, crear entrada en tabla medico
+                $db->table('medico')->insert([
+                    'usuario_id' => $userID
+                ]);
+            }
 
             return redirect()->to('/login')->with('success', 'Usuario registrado exitosamente');
         }

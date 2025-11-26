@@ -68,6 +68,11 @@ class Users extends \App\Controllers\BaseController
                         'rol_id'     => $rolID
                     ]);
                 }
+                if($rolID == 2){ // Si es doctor, crear entrada en tabla medico
+                    $db->table('medico')->insert([
+                        'usuario_id' => $userID
+                    ]);
+                }
 
                 return redirect()->to('/admin/users')
                     ->with('success', 'Usuario creado exitosamente');
