@@ -113,7 +113,7 @@ $(document).ready(function() {
     });
 </script>
 <?php endif; ?>
-
+<!--Script que carga los datos antiguos para actualizar usuario, cuando retorna con error -->
 <script>
 $(document).ready(function () {
     <?php if (session()->get('errors_update')): ?>
