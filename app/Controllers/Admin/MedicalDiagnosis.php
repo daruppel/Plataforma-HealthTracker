@@ -51,4 +51,24 @@ class MedicalDiagnosis extends BaseController
                 ->with('success', 'Tipo de diagnostico creado correctamente');
         }
     }
+
+    public function delete(){
+         $id = $this->request->getPost('medical_diagnosis_id');
+
+        if (!$id) {
+            return redirect()->back()
+                ->with('errors', $this->diagnosisT->errors())
+                ->with('error', 'ID del tipo de diagnostico no especificado');
+        }
+
+        // Soft delete
+        if (!$this->diagnosisT->delete($id)) {
+            return redirect()->back()
+            ->with('errors', $this->diagnosisT->errors())
+            ->with('error', 'No se pudo eliminar el tipo de diagnostico');
+        }
+
+        return redirect()->to(base_url('admin/medical-diagnosis'))
+            ->with('success', 'Tipo de diagnostico eliminado correctamente');
+    }
 }

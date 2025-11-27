@@ -58,10 +58,10 @@ $(document).ready(function() {
         const id = $(this).data('id');
         const nombre = $(this).data('nombre');
         
-        $('#delete_entitie_id').val(id);
-        $('#deleteEntitieName').text(nombre);
+        $('#delete_diagnosis_id').val(id);
+        $('#deleteDiagnosisName').text(nombre);
 
-        $('#modalDeleteEntitie').modal('show');
+        $('#modalDeleteDiagnosis').modal('show');
     });
 });
 </script>
