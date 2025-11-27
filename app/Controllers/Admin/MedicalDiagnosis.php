@@ -71,4 +71,33 @@ class MedicalDiagnosis extends BaseController
         return redirect()->to(base_url('admin/medical-diagnosis'))
             ->with('success', 'Tipo de diagnostico eliminado correctamente');
     }
+
+    public function update()
+    {
+        $id = $this->request->getPost('medical_diagnosis_update_id');
+        if (!$id) {
+            return redirect()->back()
+                ->with('errors', $this->diagnosisT->errors())
+                ->with('errors_update', 'ID del tipo de diagnostico no especificado');
+        }
+        
+        // Mapeo de nombres del formulario -> campos de la BD
+        $data = [
+            'tipo_diagnostico_id' => $this->request->getPost('medical_diagnosis_update_id'),
+            'nombre'   => $this->request->getPost('name'),
+            'decripcion' => $this->request->getPost('description')
+        ];
+        
+        // Actualizar tipo de diagnostico
+        if (!$this->diagnosisT->save($data)) {
+            return redirect()
+                    ->back()
+                    ->with('errors', $this->diagnosisT->errors() )
+                    ->with('errors_update', $this->diagnosisT->errors())
+                    ->withInput();
+        }
+
+        return redirect()->to(base_url('admin/medical-diagnosis'))
+            ->with('success', 'Tipo de diagnostico actualizado correctamente');
+    }
 }

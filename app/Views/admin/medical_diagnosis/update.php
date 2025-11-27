@@ -1,17 +1,17 @@
-<!-- Modal Actualizar entidad medica -->
-<div class="modal fade" id="modalActualizacionEntidad" tabindex="-1" role="dialog" aria-labelledby="modalActualizacionEntidadLabel" aria-hidden="true">
+<!-- Modal Actualizar tipo de diagnostico -->
+<div class="modal fade" id="modalUpdateDiagnosis" tabindex="-1" role="dialog" aria-labelledby="modalUpdateDiagnosisLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalActualizacionEntidadLabel">Actualizar entidad medica</h5>
+        <h5 class="modal-title" id="modalUpdateDiagnosisLabel">Actualizar tipo de diagnostico</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form id="formUpdateUser" action="<?= base_url('admin/medical-entities/update'); ?>" method="post">
+      <form id="formUpdateDiagnosisType" action="<?= base_url('admin/medical-diagnosis/update'); ?>" method="post">
         <div class="modal-body">
-          <input type="hidden" id="medical_entitie_update_id" name="medical_entitie_update_id"> 
+          <input type="hidden" id="medical_diagnosis_update_id" name="medical_diagnosis_update_id"> 
             <!-- Nombre --> 
           <div class="form-row">
             <div class="form-group col-md-6">

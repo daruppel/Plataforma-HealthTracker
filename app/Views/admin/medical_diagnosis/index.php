@@ -14,7 +14,7 @@
               <th>Nombre</th><th>Descripcion</th><th>Acciones</th>
             </tr>
           </thead>
-          <tbody> <!--TODO-->
+          <tbody>
             <?php foreach($diagnosisTypes as $dt): ?>
             <tr>
               <td><?= $dt['nombre']; ?></td>
@@ -74,11 +74,11 @@ $(document).ready(function() {
       const nombre = $(this).data('nombre');
       const descripcion = $(this).data('descripcion');
       
-      $('#medical_entitie_update_id').val(id);
+      $('#medical_diagnosis_update_id').val(id);
       $('[name="name"]').val(nombre);
       $('[name="description"]').val(descripcion);
-
-      $('#modalActualizacionEntidad').modal('show');
+      
+      $('#modalUpdateDiagnosis').modal('show');
     });
   });
 </script>
@@ -86,12 +86,12 @@ $(document).ready(function() {
 <script>
 $(document).ready(function () {
     <?php if (session()->get('errors_update')): ?>
-        console.log("cargando datos...");
-        $('#medical_entitie_update_id').val('<?= old('medical_entitie_update_id') ?>');
+      
+        $('#medical_diagnosis_update_id').val('<?= old('medical_diagnosis_update_id') ?>');
         $('[name="name"]').val('<?= old('name') ?>');
         $('[name="description"]').val('<?= old('description') ?>');
 
-        $('#modalActualizacionEntidad').modal('show');
+        $('#modalUpdateDiagnosis').modal('show');
 
     <?php endif; ?>
 });
