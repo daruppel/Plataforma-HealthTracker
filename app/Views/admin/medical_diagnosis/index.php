@@ -15,20 +15,20 @@
             </tr>
           </thead>
           <tbody> <!--TODO-->
-            <?php foreach($entities as $e): ?>
+            <?php foreach($diagnosisTypes as $dt): ?>
             <tr>
-              <td><?= $e['nombre']; ?></td>
-              <td><?= $e['descripcion']; ?></td>
+              <td><?= $dt['nombre']; ?></td>
+              <td><?= $dt['descripcion']; ?></td>
               <td>
                 <a href="#" class="btn btn-sm btn-warning btn-edit"
-                  data-id="<?= $e['entidad_medica_id']; ?>"
-                  data-nombre="<?= $e['nombre']; ?>"
-                  data-descripcion="<?= $e['descripcion']; ?>">
+                  data-id="<?= $dt['tipo_diagnostico_id']; ?>"
+                  data-nombre="<?= $dt['nombre']; ?>"
+                  data-descripcion="<?= $dt['descripcion']; ?>">
                 <i class="fas fa-pen"></i></a>
                 
                 <a href="#" class="btn btn-sm btn-danger btn-delete"
-                  data-id="<?= $e['entidad_medica_id']; ?>"
-                  data-nombre="<?= $e['nombre']; ?>">
+                  data-id="<?= $dt['tipo_diagnostico_id']; ?>"
+                  data-nombre="<?= $dt['nombre']; ?>">
                 <i class="fas fa-trash"></i></a>
               </td>
             </tr>
@@ -38,15 +38,15 @@
       </div>
     </div>
   </div> 
-  <?= view('admin/medical_entities/create'); ?>
-  <?= view('admin/medical_entities/delete'); ?>
-  <?= view('admin/medical_entities/update'); ?>
+  <?= view('admin/medical_diagnosis/create'); ?>
+  <?= view('admin/medical_diagnosis/delete'); ?>
+  <?= view('admin/medical_diagnosis/update'); ?>
 
   <!--Script para volver a abrir el modal luego de detectar errores-->
   <?php if (session()->get('errors_create')): ?>
 <script>
     $(document).ready(function () {
-        $('#modalNuevaEntidad').modal('show');
+        $('#modalNuevoTipoDiagnostico').modal('show');
     });
 </script>
 <?php endif; ?>

@@ -1,15 +1,15 @@
 <!-- Modal Nueva entidad medica -->
-<div class="modal fade" id="modalNuevaEntidad" tabindex="-1" role="dialog" aria-labelledby="modalNuevaEntidadLabel" aria-hidden="true">
+<div class="modal fade" id="modalNuevoTipoDiagnostico" tabindex="-1" role="dialog" aria-labelledby="modalNuevaEntidadLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalNuevaEntidadLabel">Crear nueva entidad medica</h5>
+        <h5 class="modal-title" id="modalNuevoTipoDiagnosticoLabel">Crear nuevo tipo de diagnostico</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form id="formNuevaEntidad" action="<?= base_url('/admin/medical-entities/create'); ?>" method="post">
+      <form id="formNuevoTipoDiagnostico" action="<?= base_url('/admin/medical-diagnosis/create'); ?>" method="post">
         <div class="modal-body">
 
           <!-- Nombre -->
@@ -26,7 +26,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar entidad</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </form>
     </div>
