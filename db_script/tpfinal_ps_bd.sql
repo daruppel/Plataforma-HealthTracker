@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2025 a las 17:13:09
+-- Tiempo de generación: 11-03-2026 a las 15:31:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -36,7 +36,6 @@ CREATE TABLE `diagnostico` (
   `paciente_id` int(11) NOT NULL,
   `medico_id` int(11) NOT NULL,
   `fecha` date NOT NULL,
-  `plan_cuidado_id` int(11) NOT NULL,
   `estado_id` int(11) NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -58,6 +57,15 @@ CREATE TABLE `entidad_medica` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `entidad_medica`
+--
+
+INSERT INTO `entidad_medica` (`entidad_medica_id`, `nombre`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Hospital Zatti', 'hospital publico Viedma', '2025-11-19 14:27:48', '2025-11-19 15:31:43', '2025-11-19 15:31:43'),
+(2, 'Clinica Viedma modif', 'clinica de Viedma, unica e inigualable', '2025-11-19 15:32:16', '2025-11-19 16:55:14', NULL),
+(3, 'aaa V2', 'hospital publico Viedma', '2025-11-26 12:41:12', '2026-03-11 13:20:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -198,6 +206,15 @@ CREATE TABLE `permiso` (
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `permiso`
+--
+
+INSERT INTO `permiso` (`permiso_id`, `descripcion`, `rol_id`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, 'permiso base admin', 1, NULL, NULL, NULL),
+(2, 'permiso medico', 2, NULL, NULL, NULL),
+(3, 'permiso paciente', 3, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -212,7 +229,8 @@ CREATE TABLE `plan_cuidado` (
   `comentario_paciente` text NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL
+  `created_at` datetime DEFAULT NULL,
+  `diagnostico_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -273,6 +291,13 @@ CREATE TABLE `tipo_diagnostico` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `tipo_diagnostico`
+--
+
+INSERT INTO `tipo_diagnostico` (`tipo_diagnostico_id`, `nombre`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Diagnostico dificil V2', 'es un diagnostico muy dificil', '2026-03-11 13:25:44', '2026-03-11 13:27:57', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -308,6 +333,17 @@ CREATE TABLE `usuario` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`usuario_id`, `nombre`, `apellido`, `email`, `password`, `activo`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'denis', 'ruppel', 'druppel@gmail.com', '$2y$10$MiklFpBJ6iolRIdu3jk5wuZDGvEP4IEsEv8JMgZV3Nswp5Sd06wwi', 1, '2025-11-12 11:38:14', '2025-11-12 11:38:14', NULL),
+(7, 'bart', 'simpson', 'elbarto@gmail.com', '$2y$10$6YZAVWR3sCycuSpnVfmb4.uyWCLlf1n5SVRoijyGPtvbdi4tPZ/sy', 1, '2025-11-12 15:28:25', '2025-11-12 15:28:25', NULL),
+(8, 'lisa', 'simpson', 'lisasimpson@gmail.com', '$2y$10$GAU9Pg/B7OYuZEmiMaoiG.koQV/Atp0ruIe.EAl9nhSTXG0LURWaG', 1, '2025-11-12 15:29:19', '2025-11-12 15:29:19', NULL),
+(9, 'Juan', 'admin', 'juanadmin@gmail.com', '$2y$10$Xo/N1kTfowBrw4hlUo73cOd8c78dutWB5cE4wSBxvkR6tcb912/vu', 1, '2025-11-14 15:42:49', '2025-11-14 15:42:49', NULL),
+(10, 'denis', 'admin', 'daruppel@admin.com', '$2y$10$fWaROJT7CvcXoq4su5nWk.e6hZPgWf78NQ4nLO8zqZXajQ3CRz7u2', 1, '2025-11-14 16:32:20', '2025-11-14 16:32:20', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -323,6 +359,17 @@ CREATE TABLE `usuario_rol` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_rol`
+--
+
+INSERT INTO `usuario_rol` (`usuario_rol_id`, `rol_id`, `usuario_id`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, 2, 1, NULL, NULL, NULL),
+(2, 3, 7, NULL, NULL, NULL),
+(3, 2, 8, NULL, NULL, NULL),
+(4, 1, 9, NULL, NULL, NULL),
+(5, 1, 10, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -390,7 +437,8 @@ ALTER TABLE `permiso`
 -- Indices de la tabla `plan_cuidado`
 --
 ALTER TABLE `plan_cuidado`
-  ADD PRIMARY KEY (`plan_cuidado_id`);
+  ADD PRIMARY KEY (`plan_cuidado_id`),
+  ADD KEY `careplan_diagnostico_id` (`diagnostico_id`);
 
 --
 -- Indices de la tabla `rol`
@@ -445,7 +493,7 @@ ALTER TABLE `diagnostico`
 -- AUTO_INCREMENT de la tabla `entidad_medica`
 --
 ALTER TABLE `entidad_medica`
-  MODIFY `entidad_medica_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `entidad_medica_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
@@ -481,7 +529,7 @@ ALTER TABLE `metas_plan_cuidado`
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `permiso_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `permiso_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `plan_cuidado`
@@ -505,7 +553,7 @@ ALTER TABLE `servicio_medico`
 -- AUTO_INCREMENT de la tabla `tipo_diagnostico`
 --
 ALTER TABLE `tipo_diagnostico`
-  MODIFY `tipo_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tipo_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_meta`
@@ -517,13 +565,13 @@ ALTER TABLE `tipo_meta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_rol`
 --
 ALTER TABLE `usuario_rol`
-  MODIFY `usuario_rol_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `usuario_rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
@@ -563,6 +611,12 @@ ALTER TABLE `metas_plan_cuidado`
 --
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`rol_id`);
+
+--
+-- Filtros para la tabla `plan_cuidado`
+--
+ALTER TABLE `plan_cuidado`
+  ADD CONSTRAINT `careplan_diagnostico_id` FOREIGN KEY (`diagnostico_id`) REFERENCES `diagnostico` (`diagnostico_id`);
 
 --
 -- Filtros para la tabla `servicio_medico`
