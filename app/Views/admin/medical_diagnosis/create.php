@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <form id="formNuevoTipoDiagnostico" action="<?= base_url('/admin/medical-diagnosis/create'); ?>" method="post">
+      <form id="formNuevoTipoDiagnostico" action="<?= base_url('/staff/medical-diagnosis/create'); ?>" method="post">
         <div class="modal-body">
 
           <!-- Nombre -->

@@ -9,7 +9,7 @@
           </button>
         </div>
 
-        <form action="<?= base_url('admin/medical-diagnosis/delete'); ?>" method="post">
+        <form action="<?= base_url('staff/medical-diagnosis/delete'); ?>" method="post">
         <div class="modal-body">
           <p>¿Está seguro de que desea el tipo de diagnostico <b id="deleteDiagnosisName"></b>?</p>
           <input type="hidden" name="medical_diagnosis_id" id="delete_diagnosis_id">

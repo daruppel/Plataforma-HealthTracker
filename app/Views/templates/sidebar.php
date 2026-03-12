@@ -60,6 +60,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="<?= base_url('/staff/medical-diagnosis'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-stethoscope"></i>
+              <p>Diagnosticos</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>Pacientes</p>

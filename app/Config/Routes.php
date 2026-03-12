@@ -34,3 +34,8 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->post('medical-diagnosis/update', 'Admin\MedicalDiagnosis::update');
 
 });
+$routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], function($routes) {
+
+    //PLACEHOLDER
+
+});
