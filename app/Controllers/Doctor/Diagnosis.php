@@ -19,7 +19,7 @@ class Diagnosis extends BaseController
         $data['diagnosis'] = $this->diagnosisModel->findAll();
         return view('templates/header')
             . view('templates/sidebar')
-            . view('admin/medical_entities/index', $data)
+            . view('doctor/diagnosis/index', $data)
             . view('templates/footer');
     }
 
@@ -27,7 +27,7 @@ class Diagnosis extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('admin/diagnosis/create');
+            return view('doctor/diagnosis/create');
         }
 
         // Si la solicitud es POST, procesar el formulario
@@ -37,7 +37,7 @@ class Diagnosis extends BaseController
             $datos = [
                 'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
                 'paciente_id' => $this->request->getPost('paciente_id'),
-                'medico_id' => $this->request->getPost('medico_id'),
+                'medico_id' => session()->get('role_id'),
                 'fecha' => $this->request->getPost('fecha'),
                 'estado_id' => $this->request->getPost('estado_id')
             ];
