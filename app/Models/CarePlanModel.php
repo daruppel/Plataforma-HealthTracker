@@ -16,8 +16,8 @@ class CarePlanModel extends Model
     protected $allowedFields = [
         'fec_inicio',
         'fec_fin',
-        'comentario_paciente'
-        //'diagnostico_id'
+        'comentario_paciente',
+        'diagnostico_id'
     ];
 
     // Timestamps automáticos
