@@ -3,20 +3,20 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\CarePlanModel;
+use App\Models\DiagnosisModel;
 
-class CarePlan extends BaseController
+class Diagnosis extends BaseController
 {
-    protected $carePlanModel;
+    protected $diagnosisModel;
 
     public function __construct()
     {
-        $this->carePlanModel = new CarePlanModel();
+        $this->diagnosisModel = new DiagnosisModel();
     }
 
     public function index()
     {
-        $data['carePlan'] = $this->carePlanModel->findAll();
+        $data['diagnosis'] = $this->diagnosisModel->findAll();
         return view('templates/header')
             . view('templates/sidebar')
             . view('admin/medical_entities/index', $data)
@@ -27,30 +27,32 @@ class CarePlan extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('admin/care_plan/create');
+            return view('admin/diagnosis/create');
         }
 
         // Si la solicitud es POST, procesar el formulario
         if ($this->request->getMethod() === 'POST') {
-            $carePlanModel = new CarePlanModel();
+            $diagnosisModel = new DiagnosisModel();
             // Mapeo de campos
             $datos = [
-                'fec_inicio'   => $this->request->getPost('fec_inicio'),
-                'fec_fin' => $this->request->getPost('fec_fin'),
-                'diagnostico_id' => $this->request->getPost('diagnostico_id')
+                'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
+                'paciente_id' => $this->request->getPost('paciente_id'),
+                'medico_id' => $this->request->getPost('medico_id'),
+                'fecha' => $this->request->getPost('fecha'),
+                'estado_id' => $this->request->getPost('estado_id')
             ];
             // Insertar el plan de cuidad - con save inserta si no recibe id o hace un update en caso contrario
-            if (!$carePlanModel->save($datos)) {
+            if (!$diagnosisModel->save($datos)) {
                 return redirect()
                     ->back()
-                    ->with('errors', $carePlanModel->errors())
-                    ->with('errors_create', $carePlanModel->errors())
+                    ->with('errors', $diagnosisModel->errors())
+                    ->with('errors_create', $diagnosisModel->errors())
                     ->withInput();
             }
 
             return redirect()
-                ->to('/medical_staff/care-plan')
-                ->with('success', 'Plan de cuidado creado correctamente');
+                ->to('/medical_staff/diagnosis')
+                ->with('success', 'Diagnostico creado correctamente');
         }
     }
     //TODO
@@ -59,12 +61,12 @@ class CarePlan extends BaseController
 
         if (!$id) {
             return redirect()->back()
-                ->with('errors', $this->carePlanModel->errors())
+                ->with('errors', $this->diagnosisModel->errors())
                 ->with('error', 'ID de la entidad medica no especificado');
         }
 
         // Soft delete
-        if (!$this->carePlanModel->delete($id)) {
+        if (!$this->diagnosisModel->delete($id)) {
             return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
         }
 
@@ -77,7 +79,7 @@ class CarePlan extends BaseController
         $id = $this->request->getPost('medical_entitie_update_id');
         if (!$id) {
             return redirect()->back()
-                ->with('errors', $this->carePlanModel->errors())
+                ->with('errors', $this->diagnosisModel->errors())
                 ->with('errors_update', 'ID de la entidad medica no especificado');
         }
         
@@ -89,11 +91,11 @@ class CarePlan extends BaseController
         ];
         
         // Actualizar entidad medica
-        if (!$this->carePlanModel->save($data)) {
+        if (!$this->diagnosisModel->save($data)) {
             return redirect()
                     ->back()
-                    ->with('errors', $this->carePlanModel->errors() )
-                    ->with('errors_update', $this->carePlanModel->errors())
+                    ->with('errors', $this->diagnosisModel->errors() )
+                    ->with('errors_update', $this->diagnosisModel->errors())
                     ->withInput();
         }
 

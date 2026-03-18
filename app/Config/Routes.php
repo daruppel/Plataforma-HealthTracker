@@ -35,10 +35,16 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
 
 });
 $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function($routes) {
+    //Care Plan
     $routes->get('care-plan', 'Doctor\CarePlan::index');
     $routes->post('care-plan/create', 'Doctor\CarePlan::create');
     $routes->post('care-plan/delete', 'Doctor\CarePlan::delete');
     $routes->post('care-plan/update', 'Doctor\CarePlan::update');
+    //Diagnosis
+    $routes->get('diagnosis', 'Doctor\Diagnosis::index');
+    $routes->post('diagnosis/create', 'Doctor\Diagnosis::create');
+    $routes->post('diagnosis/delete', 'Doctor\Diagnosis::delete');
+    $routes->post('diagnosis/update', 'Doctor\Diagnosis::update');
 
 });
 $routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], function($routes) {
