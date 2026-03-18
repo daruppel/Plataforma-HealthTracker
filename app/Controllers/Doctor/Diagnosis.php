@@ -16,7 +16,7 @@ class Diagnosis extends BaseController
 
     public function index()
     {
-        $data['diagnosis'] = $this->diagnosisModel->findAll();
+        $data['diagnosis'] = $this->diagnosisModel->findAll();//Enviar solo los del medico de la sesión  
         return view('templates/header')
             . view('templates/sidebar')
             . view('doctor/diagnosis/index', $data)
@@ -27,7 +27,8 @@ class Diagnosis extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('doctor/diagnosis/create');
+            return view('doctor/diagnosis/create'); //Enviar toda la estructura view del index con la data:
+                                                    //List pacientes, list tipos de diganosticos
         }
 
         // Si la solicitud es POST, procesar el formulario
