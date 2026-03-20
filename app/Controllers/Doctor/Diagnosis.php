@@ -70,7 +70,7 @@ class Diagnosis extends BaseController
     public function delete(){
         $id = $this->request->getPost('medical_entitie_id');
 
-        if (!$id) {
+        if (!$id) { 
             return redirect()->back()
                 ->with('errors', $this->diagnosisModel->errors())
                 ->with('error', 'ID de la entidad medica no especificado');
