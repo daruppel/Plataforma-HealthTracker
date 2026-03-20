@@ -102,6 +102,15 @@ class UserModel extends Model
                     ->findAll();
     }
 
+    //Devuelve usuario con su rol. Usuario indicado con el email de parametro
+    public function getUsersWithRoleByEmail($email){
+        return $this->select('usuario.*, usuario_rol.rol_id, rol.descripcion as rol_descripcion')
+                    ->join('usuario_rol', 'usuario_rol.usuario_id = usuario.usuario_id', 'left')
+                    ->join('rol','usuario_rol.rol_id = rol.rol_id', 'left')
+                    ->where('usuario.email', $email)
+                    ->first();
+    }
+
     //Devuelve los usuarios que tengan el rol pasado por parametro
     public function getUsersByRole($role){
         return $this->select('usuario.*')
