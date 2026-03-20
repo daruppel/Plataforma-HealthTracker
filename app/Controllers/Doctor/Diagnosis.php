@@ -4,6 +4,8 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\DiagnosisModel;
+use App\Models\MedicalDiagnosisModel;
+use App\Models\UserModel;
 
 class Diagnosis extends BaseController
 {
@@ -16,7 +18,7 @@ class Diagnosis extends BaseController
 
     public function index()
     {
-        $data['diagnosis'] = $this->diagnosisModel->findAll();//Enviar solo los del medico de la sesión  
+        $data['diagnosis'] = $this->diagnosisModel->findAllByDoctor(session()->get('user_id'));//Enviar solo los del medico de la sesión  
         return view('templates/header')
             . view('templates/sidebar')
             . view('doctor/diagnosis/index', $data)
@@ -27,8 +29,16 @@ class Diagnosis extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('doctor/diagnosis/create'); //Enviar toda la estructura view del index con la data:
-                                                    //List pacientes, list tipos de diganosticos
+            $medicalDiagnosisModel = new MedicalDiagnosisModel();
+            $userModel = new UserModel();
+            $data = [
+            'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
+            'patient' => $userModel->obtenerUsuariosPorRol('paciente')
+            ]; 
+            return view('templates/header')
+            . view('templates/sidebar')
+            . view('doctor/diagnosis/create', $data)
+            . view('templates/footer'); //List pacientes, list tipos de diganosticos
         }
 
         // Si la solicitud es POST, procesar el formulario

@@ -107,10 +107,20 @@ class UserModel extends Model
         return $this->update($id, ['activo' => $activo]);
     }
 
+    //Devuelve los usuarios y sus roles
     public function obtenerUsuariosConRol(){
         return $this->select('usuario.*, rol.descripcion as rol_desc, rol.nombre as rol_nombre, rol.rol_id')
                     ->join('usuario_rol', 'usuario_rol.usuario_id=usuario.usuario_id', 'left')
                     ->join('rol','usuario_rol.rol_id=rol.rol_id','left')
+                    ->findAll();
+    }
+
+    //Devuelve los usuarios que tengan el rol pasado por parametro
+    public function obtenerUsuariosPorRol($rol){
+        return $this->select('usuario.*')
+                    ->join('usuario_rol', 'usuario_rol.usuario_id=usuario.usuario_id', 'left')
+                    ->join('rol','usuario_rol.rol_id=rol.rol_id','left')
+                    ->where('rol.nombre', $rol)
                     ->findAll();
     }
 }
