@@ -43,7 +43,7 @@ class DiagnosisModel extends Model
     protected $skipValidation = false;
 
    public function findAllByDoctor($doctorId){
-        return $this->select('diagnostico.*, usuarios.nombre, usuarios.apellido, tipo_diagnostico.nombre as tipo_diagnostico, estado_diagnostico.estado')
+        return $this->select('diagnostico.*, usuario.nombre, usuario.apellido, tipo_diagnostico.nombre as tipo_diagnostico, estado_diagnostico.estado')
                     ->join('usuario', 'usuario.usuario_id=diagnostico.paciente_id', 'left')
                     ->join('tipo_diagnostico','tipo_diagnostico.tipo_diagnostico_id=diagnostico.tipo_diagnostico_id','left')
                     ->join('estado_diagnostico','estado_diagnostico.estado_diagnostico_id=diagnostico.estado_id','left')
