@@ -48,7 +48,7 @@ class MedicalEntities extends BaseController
             }
 
             return redirect()
-                ->to('/admin/medical-entities')
+                ->to('/admin/medical_entities')
                 ->with('success', 'Entidad creada correctamente');
         }
     }
@@ -66,7 +66,7 @@ class MedicalEntities extends BaseController
             return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
+        return redirect()->to(base_url('admin/medical_entities'))
             ->with('success', 'Entidad medica eliminada correctamente');
     }
     public function update()

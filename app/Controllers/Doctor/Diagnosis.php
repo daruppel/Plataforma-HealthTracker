@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Doctor;
 
 use App\Controllers\BaseController;
 use App\Models\DiagnosisModel;
@@ -19,7 +19,7 @@ class Diagnosis extends BaseController
         $data['diagnosis'] = $this->diagnosisModel->findAll();
         return view('templates/header')
             . view('templates/sidebar')
-            . view('admin/medical_entities/index', $data)
+            . view('doctor/diagnosis/index', $data)
             . view('templates/footer');
     }
 
@@ -59,7 +59,7 @@ class Diagnosis extends BaseController
     public function delete(){
         $id = $this->request->getPost('medical_entitie_id');
 
-        if (!$id) {
+        if (!$id) { 
             return redirect()->back()
                 ->with('errors', $this->diagnosisModel->errors())
                 ->with('error', 'ID de la entidad medica no especificado');

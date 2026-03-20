@@ -26,6 +26,7 @@
             <p>Dashboard</p>
           </a>
         </li>
+        <!-- Menú para Administradores --> 
         <?php if ($rol === '1'): ?>
           <li class="nav-item">
             <a href="<?= base_url('/admin/users'); ?>" class="nav-link">
@@ -52,6 +53,7 @@
             </a>
           </li>
         <?php endif; ?>
+        <!-- Menú para Médicos -->
         <?php if ($rol === '2'): ?>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -60,7 +62,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= base_url('/staff/medical-diagnosis'); ?>" class="nav-link">
+            <a href="<?= base_url('/medical_staff/diagnosis'); ?>" class="nav-link">
               <i class="nav-icon fas fa-stethoscope"></i>
               <p>Diagnosticos</p>
             </a>
@@ -72,6 +74,7 @@
             </a>
           </li>
         <?php endif; ?>
+        <!-- Menú para Pacientes -->
         <?php if ($rol === '3'): ?>
            <li class="nav-item">
             <a href="#" class="nav-link">

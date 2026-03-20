@@ -15,6 +15,7 @@ $routes->post('/register/registrar', 'Register::registrar');
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->post('/dashboard', 'Dashboard::index');
 
+//administradores
 $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
 
     $routes->get('users', 'Admin\Users::index');
@@ -28,25 +29,28 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->post('medical-entities/create', 'Admin\MedicalEntities::create');
     $routes->post('medical-entities/delete', 'Admin\MedicalEntities::delete');
     $routes->post('medical-entities/update', 'Admin\MedicalEntities::update');
+    //tipo de diasnostico
     $routes->get('medical-diagnosis', 'Admin\MedicalDiagnosis::index');
     $routes->post('medical-diagnosis/create', 'Admin\MedicalDiagnosis::create');
     $routes->post('medical-diagnosis/delete', 'Admin\MedicalDiagnosis::delete');
     $routes->post('medical-diagnosis/update', 'Admin\MedicalDiagnosis::update');
 
 });
+//medicos
 $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function($routes) {
-    //Care Plan
+    //plan de cuidado
     $routes->get('care-plan', 'Doctor\CarePlan::index');
     $routes->post('care-plan/create', 'Doctor\CarePlan::create');
     $routes->post('care-plan/delete', 'Doctor\CarePlan::delete');
     $routes->post('care-plan/update', 'Doctor\CarePlan::update');
-    //Diagnosis
-    $routes->get('diagnosis', 'Doctor\Diagnosis::index');
+    //diagnostico
+    $routes->get('diagnosis/', 'Doctor\Diagnosis::index');
     $routes->post('diagnosis/create', 'Doctor\Diagnosis::create');
     $routes->post('diagnosis/delete', 'Doctor\Diagnosis::delete');
     $routes->post('diagnosis/update', 'Doctor\Diagnosis::update');
 
 });
+//compartido administradores y medicos
 $routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], function($routes) {
 
     //PLACEHOLDER
