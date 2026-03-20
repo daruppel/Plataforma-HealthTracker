@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Doctor;
 
 use App\Controllers\BaseController;
 use App\Models\DiagnosisModel;
@@ -33,7 +33,7 @@ class Diagnosis extends BaseController
             $userModel = new UserModel();
             $data = [
             'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
-            'patient' => $userModel->obtenerUsuariosPorRol('paciente')
+            'patients' => $userModel->obtenerUsuariosPorRol('paciente')
             ]; 
             return view('templates/header')
             . view('templates/sidebar')
