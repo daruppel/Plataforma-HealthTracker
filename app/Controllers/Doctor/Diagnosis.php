@@ -66,37 +66,37 @@ class Diagnosis extends BaseController
                 ->with('success', 'Diagnostico creado correctamente');
         }
     }
-    //TODO
+    
     public function delete(){
-        $id = $this->request->getPost('medical_entitie_id');
+        $id = $this->request->getPost('diagnosis_id');
 
         if (!$id) { 
             return redirect()->back()
                 ->with('errors', $this->diagnosisModel->errors())
-                ->with('error', 'ID de la entidad medica no especificado');
+                ->with('error', 'ID del diagnostico no especificado');
         }
 
         // Soft delete
         if (!$this->diagnosisModel->delete($id)) {
-            return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
+            return redirect()->back()->with('error', 'No se pudo eliminar el diagnostico');
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica eliminada correctamente');
+        return redirect()->to(base_url('medical_staff/diagnosis'))
+            ->with('success', 'Diagnostico eliminado correctamente');
     }
     //TODO
     public function update()
     {
-        $id = $this->request->getPost('medical_entitie_update_id');
+        $id = $this->request->getPost('diagnosis_id');
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->diagnosisModel->errors())
-                ->with('errors_update', 'ID de la entidad medica no especificado');
+                ->with('errors_update', 'ID del diagnostico no especificado');
         }
         
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
-            'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
+            'diagnostico_id' => $this->request->getPost('diagnosis_id'),
             'nombre'   => $this->request->getPost('name'),
             'decripcion' => $this->request->getPost('description')
         ];
