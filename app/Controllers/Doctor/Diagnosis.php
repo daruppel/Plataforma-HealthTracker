@@ -19,6 +19,7 @@ class Diagnosis extends BaseController
     public function index()
     {
         $data['diagnosis'] = $this->diagnosisModel->findAllByDoctor(session()->get('user_id'));//Enviar solo los del medico de la sesión  
+        log_message('debug', 'Diagnosticos obtenidos: ' . count($data['diagnosis'])); // Log para verificar que se están obteniendo los diagnósticos
         return view('templates/header')
             . view('templates/sidebar')
             . view('doctor/diagnosis/index', $data)
