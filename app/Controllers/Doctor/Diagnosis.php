@@ -4,6 +4,8 @@ namespace App\Controllers\Doctor;
 
 use App\Controllers\BaseController;
 use App\Models\DiagnosisModel;
+use App\Models\MedicalDiagnosisModel;
+use App\Models\UserModel;
 
 class Diagnosis extends BaseController
 {
@@ -16,7 +18,7 @@ class Diagnosis extends BaseController
 
     public function index()
     {
-        $data['diagnosis'] = $this->diagnosisModel->findAll();
+        $data['diagnosis'] = $this->diagnosisModel->findAllByDoctor(session()->get('user_id'));//Enviar solo los del medico de la sesión  
         return view('templates/header')
             . view('templates/sidebar')
             . view('doctor/diagnosis/index', $data)
@@ -27,7 +29,16 @@ class Diagnosis extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('admin/diagnosis/create');
+            $medicalDiagnosisModel = new MedicalDiagnosisModel();
+            $userModel = new UserModel();
+            $data = [
+            'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
+            'patients' => $userModel->obtenerUsuariosPorRol('paciente')
+            ]; 
+            return view('templates/header')
+            . view('templates/sidebar')
+            . view('doctor/diagnosis/create', $data)
+            . view('templates/footer'); //List pacientes, list tipos de diganosticos
         }
 
         // Si la solicitud es POST, procesar el formulario
@@ -37,7 +48,7 @@ class Diagnosis extends BaseController
             $datos = [
                 'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
                 'paciente_id' => $this->request->getPost('paciente_id'),
-                'medico_id' => $this->request->getPost('medico_id'),
+                'medico_id' => session()->get('role_id'),
                 'fecha' => $this->request->getPost('fecha'),
                 'estado_id' => $this->request->getPost('estado_id')
             ];

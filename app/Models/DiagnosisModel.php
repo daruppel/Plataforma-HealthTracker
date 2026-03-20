@@ -17,7 +17,6 @@ class DiagnosisModel extends Model
     protected $allowedFields = [
         'tipo_diagnostico_id',
         'paciente_id',
-        'medico_id',
         'fecha',
         'estado_id'
     ];
@@ -29,37 +28,21 @@ class DiagnosisModel extends Model
     protected $deletedField = 'deleted_at';  // Campo para fecha de eliminación
     
     // Validaciones del modelo
-   /* protected $validationRules = [
-        'nombre' => 'required|min_length[3]|max_length[50]',
-        'apellido' => 'required|min_length[3]|max_length[50]',
-        'email' => 'required|valid_email|max_length[100]',
-        'password' => 'required|min_length[8]'
-    ]; */
+    protected $validationRules = [
+        'role_id' => 'required|in_list[2]' //Verifica que el rol sea Medico.
+    ];
     
-   /* protected $validationMessages = [
-        'nombre' => [
-            'required' => 'El nombre es obligatorio',
-            'min_length' => 'El nombre debe tener al menos 3 caracteres',
-            'max_length' => 'El nombre no puede exceder 50 caracteres'
-        ],
-        'email' => [
-            'required' => 'El email es obligatorio',
-            'valid_email' => 'Debe ingresar un email válido',
-            'max_length' => 'El email no puede exceder 100 caracteres'
-        ],
-        'password' => [
-            'required' => 'La contraseña es obligatoria',
-            'min_length' => 'La contraseña debe tener al menos 8 caracteres'
+   protected $validationMessages = [
+        'role_id' => [
+            'required' => 'El rol es obligatorio',
+            'in_list' => 'Debe ser medico para cargar un diagnostico'
         ]
-    ]; */
+    ];
     
     // Validación solo en insert (no en update)
     protected $skipValidation = false;
 
-   /* public function obtenerUsuariosConRol(){
-        return $this->select('usuario.*, rol.descripcion as rol_desc, rol.nombre as rol_nombre, rol.rol_id')
-                    ->join('usuario_rol', 'usuario_rol.usuario_id=usuario.usuario_id', 'left')
-                    ->join('rol','usuario_rol.rol_id=rol.rol_id','left')
-                    ->findAll();
-    } */
+   public function findAllByDoctor($doctorId){
+        return $this->where('medico_id', $doctorId)->findAll();
+    } 
 }
