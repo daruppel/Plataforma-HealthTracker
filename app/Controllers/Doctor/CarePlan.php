@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Doctor;
 
 use App\Controllers\BaseController;
 use App\Models\CarePlanModel;
@@ -19,7 +19,7 @@ class CarePlan extends BaseController
         $data['carePlan'] = $this->carePlanModel->findAll();
         return view('templates/header')
             . view('templates/sidebar')
-            . view('admin/medical_entities/index', $data)
+            . view('doctor/CarePlan/index', $data)
             . view('templates/footer');
     }
 
@@ -27,7 +27,7 @@ class CarePlan extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('admin/care_plan/create');
+            return view('doctor/CarePlan/create');
         }
 
         // Si la solicitud es POST, procesar el formulario

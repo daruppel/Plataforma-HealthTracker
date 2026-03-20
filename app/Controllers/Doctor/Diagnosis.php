@@ -32,13 +32,13 @@ class Diagnosis extends BaseController
             $medicalDiagnosisModel = new MedicalDiagnosisModel();
             $userModel = new UserModel();
             $data = [
-            'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
-            'patients' => $userModel->getUsersByRole('paciente')
+                'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
+                'patients' => $userModel->getUsersByRole('paciente')
             ]; 
             return view('templates/header')
-            . view('templates/sidebar')
-            . view('doctor/diagnosis/create', $data)
-            . view('templates/footer'); //List pacientes, list tipos de diganosticos
+                . view('templates/sidebar')
+                . view('doctor/diagnosis/create', $data)
+                . view('templates/footer'); //List pacientes, list tipos de diganosticos
         }
 
         // Si la solicitud es POST, procesar el formulario
