@@ -33,7 +33,7 @@ class Diagnosis extends BaseController
             $userModel = new UserModel();
             $data = [
             'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
-            'patients' => $userModel->obtenerUsuariosPorRol('paciente')
+            'patients' => $userModel->getUsersByRole('paciente')
             ]; 
             return view('templates/header')
             . view('templates/sidebar')
