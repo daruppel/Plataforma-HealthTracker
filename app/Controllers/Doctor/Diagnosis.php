@@ -48,7 +48,7 @@ class Diagnosis extends BaseController
             $datos = [
                 'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
                 'paciente_id' => $this->request->getPost('paciente_id'),
-                'medico_id' => session()->get('role_id'),
+                'medico_id' => session()->get('user_id'),
                 'fecha' => $this->request->getPost('fecha'),
                 'estado_id' => $this->request->getPost('estado_id')
             ];
@@ -81,10 +81,10 @@ class Diagnosis extends BaseController
             return redirect()->back()->with('error', 'No se pudo eliminar el diagnostico');
         }
 
-        return redirect()->to(base_url('medical_staff/diagnosis'))
+        return redirect()->to('/medical_staff/diagnosis')
             ->with('success', 'Diagnostico eliminado correctamente');
     }
-    
+
     //Probar funcionamiento
     public function update()
     {
@@ -97,9 +97,10 @@ class Diagnosis extends BaseController
         
         // Mapeo de nombres del formulario -> campos de la BD
          $datos = [
+                'diagnostico_id' => $id,
                 'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
                 'paciente_id' => $this->request->getPost('paciente_id'),
-                'medico_id' => session()->get('role_id'),
+                'medico_id' => session()->get('user_id'),
                 'fecha' => $this->request->getPost('fecha'),
                 'estado_id' => $this->request->getPost('estado_id')
             ];
@@ -113,7 +114,7 @@ class Diagnosis extends BaseController
                     ->withInput();
         }
 
-        return redirect()->to(base_url('medical_staff/diagnosis'))
+        return redirect()->to('/medical_staff/diagnosis')
             ->with('success', 'Diagnostico actualizado correctamente');
     }
 }
