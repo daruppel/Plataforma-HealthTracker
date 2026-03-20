@@ -18,7 +18,7 @@ class Users extends \App\Controllers\BaseController
 
     public function index()
     {
-        $data['users'] = $this->userModel->obtenerUsuariosConRol();
+        $data['users'] = $this->userModel->getUsersWithRole();
         $data['roles'] = $this->roleModel->findAll();
 
         return view('templates/header')

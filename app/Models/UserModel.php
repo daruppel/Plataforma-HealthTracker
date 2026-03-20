@@ -18,8 +18,7 @@ class UserModel extends Model
         'nombre',
         'apellido',
         'email',
-        'password',
-        'activo'
+        'password'
     ];
 
     // Timestamps automáticos
@@ -78,13 +77,13 @@ class UserModel extends Model
     }
     
     //Buscar usuario por email
-    public function buscarPorEmail($email)
+    public function findByEmail($email)
     {
         return $this->where('email', $email)->first();
     }
     
     //Verificar si el email ya existe
-    public function emailExiste($email, $exceptoId = null)
+    public function emailExist($email, $exceptoId = null)
     {
         $builder = $this->where('email', $email);
         
@@ -94,33 +93,30 @@ class UserModel extends Model
         
         return $builder->countAllResults() > 0;
     }
-    
-    //Obtener usuarios activos
-    public function obtenerActivos()
-    {
-        return $this->where('activo', 1)->findAll();
-    }
-    
-    //Cambiar estado del usuario
-    public function cambiarEstado($id, $activo)
-    {
-        return $this->update($id, ['activo' => $activo]);
-    }
 
     //Devuelve los usuarios y sus roles
-    public function obtenerUsuariosConRol(){
+    public function getUsersWithRole(){
         return $this->select('usuario.*, rol.descripcion as rol_desc, rol.nombre as rol_nombre, rol.rol_id')
                     ->join('usuario_rol', 'usuario_rol.usuario_id=usuario.usuario_id', 'left')
                     ->join('rol','usuario_rol.rol_id=rol.rol_id','left')
                     ->findAll();
     }
 
+    //Devuelve usuario con su rol. Usuario indicado con el email de parametro
+    public function getUsersWithRoleByEmail($email){
+        return $this->select('usuario.*, usuario_rol.rol_id, rol.descripcion as rol_descripcion')
+                    ->join('usuario_rol', 'usuario_rol.usuario_id = usuario.usuario_id', 'left')
+                    ->join('rol','usuario_rol.rol_id = rol.rol_id', 'left')
+                    ->where('usuario.email', $email)
+                    ->first();
+    }
+
     //Devuelve los usuarios que tengan el rol pasado por parametro
-    public function obtenerUsuariosPorRol($rol){
+    public function getUsersByRole($role){
         return $this->select('usuario.*')
                     ->join('usuario_rol', 'usuario_rol.usuario_id=usuario.usuario_id', 'left')
                     ->join('rol','usuario_rol.rol_id=rol.rol_id','left')
-                    ->where('rol.nombre', $rol)
+                    ->where('rol.nombre', $role)
                     ->findAll();
     }
 }
