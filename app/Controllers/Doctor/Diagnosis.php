@@ -84,7 +84,8 @@ class Diagnosis extends BaseController
         return redirect()->to(base_url('medical_staff/diagnosis'))
             ->with('success', 'Diagnostico eliminado correctamente');
     }
-    //TODO
+    
+    //Probar funcionamiento
     public function update()
     {
         $id = $this->request->getPost('diagnosis_id');
@@ -95,14 +96,16 @@ class Diagnosis extends BaseController
         }
         
         // Mapeo de nombres del formulario -> campos de la BD
-        $data = [
-            'diagnostico_id' => $this->request->getPost('diagnosis_id'),
-            'nombre'   => $this->request->getPost('name'),
-            'decripcion' => $this->request->getPost('description')
-        ];
+         $datos = [
+                'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
+                'paciente_id' => $this->request->getPost('paciente_id'),
+                'medico_id' => session()->get('role_id'),
+                'fecha' => $this->request->getPost('fecha'),
+                'estado_id' => $this->request->getPost('estado_id')
+            ];
         
-        // Actualizar entidad medica
-        if (!$this->diagnosisModel->save($data)) {
+        // Actualizar diagnostico
+        if (!$this->diagnosisModel->save($datos)) {
             return redirect()
                     ->back()
                     ->with('errors', $this->diagnosisModel->errors() )
@@ -110,7 +113,7 @@ class Diagnosis extends BaseController
                     ->withInput();
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica actualizada correctamente');
+        return redirect()->to(base_url('medical_staff/diagnosis'))
+            ->with('success', 'Diagnostico actualizado correctamente');
     }
 }
