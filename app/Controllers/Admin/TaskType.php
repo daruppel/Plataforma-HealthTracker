@@ -58,12 +58,12 @@ class TaskType extends BaseController
 
         if (!$id) {
             return redirect()->back()
-                ->with('errors', $this->entityModel->errors())
+                ->with('errors', $this->taskTypeModel->errors())
                 ->with('error', 'ID de la entidad medica no especificado');
         }
 
         // Soft delete
-        if (!$this->entityModel->delete($id)) {
+        if (!$this->taskTypeModel->delete($id)) {
             return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
         }
 
@@ -76,7 +76,7 @@ class TaskType extends BaseController
         $id = $this->request->getPost('medical_entitie_update_id');
         if (!$id) {
             return redirect()->back()
-                ->with('errors', $this->entityModel->errors())
+                ->with('errors', $this->taskTypeModel->errors())
                 ->with('errors_update', 'ID de la entidad medica no especificado');
         }
         
@@ -88,15 +88,15 @@ class TaskType extends BaseController
         ];
         
         // Actualizar entidad medica
-        if (!$this->entityModel->save($data)) {
+        if (!$this->taskTypeModel->save($data)) {
             return redirect()
                     ->back()
-                    ->with('errors', $this->entityModel->errors() )
-                    ->with('errors_update', $this->entityModel->errors())
+                    ->with('errors', $this->taskTypeModel->errors() )
+                    ->with('errors_update', $this->taskTypeModel->errors())
                     ->withInput();
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica actualizada correctamente');
+        return redirect()->to(base_url('admin/taskTypes'))
+            ->with('success', 'Tipo de tarea actualizado correctamente');
     }
 }
