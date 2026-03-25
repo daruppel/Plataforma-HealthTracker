@@ -52,4 +52,12 @@ class CarePlanModel extends Model
     
     // Validación solo en insert (no en update)
     protected $skipValidation = false;
+
+     //Devuelve los planes de cuidado asociados a un diagnostico 
+    public function getCarePlanWithDiagnosis($diagnosticoId){
+        return $this->select('*')
+                    ->join('diagnostico', 'diagnostico.diagnostico_id = plan_cuidado.diagnostico_id', 'left')
+                    ->where('diagnostico.diagnostico_id', $diagnosticoId)
+                    ->first();
+    }
 }

@@ -23,18 +23,16 @@ class CarePlan extends BaseController
             . view('templates/footer');
     }
 
-    //TODO
+    //TODO: Revisar datos recibidos del POST
     public function create()
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            //$medicalDiagnosisModel = new MedicalDiagnosisModel();
-            //$userModel = new UserModel();
-            $data = [
+           /* $data = [
                 'medicalDiagnosis' => 'algo', //$medicalDiagnosisModel->findAll(),
                 'patients' => 'algo' //$userModel->getUsersByRole('paciente')
-            ];
-            return view('doctor/CarePlan/create', $data);
+            ]; , $data  */
+            return view('doctor/CarePlan/create');
         }
 
         // Si la solicitud es POST, procesar el formulario
@@ -60,23 +58,22 @@ class CarePlan extends BaseController
                 ->with('success', 'Plan de cuidado creado correctamente');
         }
     }
-    //TODO
+    //TODO: Revisar datos recibidos del POST
     public function delete(){
-        $id = $this->request->getPost('medical_entitie_id');
+        $id = $this->request->getPost('care_plan_id');
 
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->carePlanModel->errors())
-                ->with('error', 'ID de la entidad medica no especificado');
+                ->with('error', 'ID del plan de cuidado no especificado');
         }
-
         // Soft delete
         if (!$this->carePlanModel->delete($id)) {
-            return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
+            return redirect()->back()->with('error', 'No se pudo eliminar el plan de cuidado');
         }
-
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica eliminada correctamente');
+        return redirect()
+            ->to('/medical_staff/care-plan')
+            ->with('success', 'Plan de cuidado eliminado correctamente');
     }
     //TODO
     public function update()
