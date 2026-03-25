@@ -1,90 +1,82 @@
 <?php
 
-namespace App\Controllers\Doctor;
+namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\CarePlanModel;
+use App\Models\TaskTypeModel;
 
-class CarePlan extends BaseController
+class TaskType extends BaseController
 {
-    protected $carePlanModel;
+    protected $taskTypeModel;
 
     public function __construct()
     {
-        $this->carePlanModel = new CarePlanModel();
+        $this->taskTypeModel = new TaskTypeModel();
     }
 
     public function index()
     {
-        $data['carePlan'] = $this->carePlanModel->findAll();
+        $data['taskTypes'] = $this->taskTypeModel->findAll();
         return view('templates/header')
             . view('templates/sidebar')
-            . view('doctor/CarePlan/index', $data)
+            . view('admin/taskTypes/index', $data)
             . view('templates/footer');
     }
 
-    //TODO
     public function create()
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            //$medicalDiagnosisModel = new MedicalDiagnosisModel();
-            //$userModel = new UserModel();
-            $data = [
-                'medicalDiagnosis' => 'algo', //$medicalDiagnosisModel->findAll(),
-                'patients' => 'algo' //$userModel->getUsersByRole('paciente')
-            ];
-            return view('doctor/CarePlan/create', $data);
+            return view('admin/taskTypes/create');
         }
 
         // Si la solicitud es POST, procesar el formulario
         if ($this->request->getMethod() === 'POST') {
-            $carePlanModel = new CarePlanModel();
+            $taskTypeModel = new TaskTypeModel();
             // Mapeo de campos
             $datos = [
-                'fec_inicio'   => $this->request->getPost('fec_inicio'),
-                'fec_fin' => $this->request->getPost('fec_fin'),
-                'diagnostico_id' => $this->request->getPost('diagnostico_id')
+                'nombre'   => $this->request->getPost('name'),
+                'descripcion' => $this->request->getPost('description')
             ];
-            // Insertar el plan de cuidad - con save inserta si no recibe id o hace un update en caso contrario
-            if (!$carePlanModel->save($datos)) {
+            // Insertar el tipo de tarea - con save inserta si no recibe id o hace un update en caso contrario
+            if (!$taskTypeModel->save($datos)) {
                 return redirect()
                     ->back()
-                    ->with('errors', $carePlanModel->errors())
-                    ->with('errors_create', $carePlanModel->errors())
+                    ->with('errors', $taskTypeModel->errors())
+                    ->with('errors_create', $taskTypeModel->errors())
                     ->withInput();
             }
 
             return redirect()
-                ->to('/medical_staff/care-plan')
-                ->with('success', 'Plan de cuidado creado correctamente');
+                ->to('/admin/taskTypes')
+                ->with('success', 'Tipo de tarea creado correctamente');
         }
     }
-    //TODO
+    //TODO delete
     public function delete(){
         $id = $this->request->getPost('medical_entitie_id');
 
         if (!$id) {
             return redirect()->back()
-                ->with('errors', $this->carePlanModel->errors())
+                ->with('errors', $this->entityModel->errors())
                 ->with('error', 'ID de la entidad medica no especificado');
         }
 
         // Soft delete
-        if (!$this->carePlanModel->delete($id)) {
+        if (!$this->entityModel->delete($id)) {
             return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
+        return redirect()->to(base_url('admin/medical_entities'))
             ->with('success', 'Entidad medica eliminada correctamente');
     }
-    //TODO
+    //TODO update
     public function update()
     {
         $id = $this->request->getPost('medical_entitie_update_id');
         if (!$id) {
             return redirect()->back()
-                ->with('errors', $this->carePlanModel->errors())
+                ->with('errors', $this->entityModel->errors())
                 ->with('errors_update', 'ID de la entidad medica no especificado');
         }
         
@@ -96,11 +88,11 @@ class CarePlan extends BaseController
         ];
         
         // Actualizar entidad medica
-        if (!$this->carePlanModel->save($data)) {
+        if (!$this->entityModel->save($data)) {
             return redirect()
                     ->back()
-                    ->with('errors', $this->carePlanModel->errors() )
-                    ->with('errors_update', $this->carePlanModel->errors())
+                    ->with('errors', $this->entityModel->errors() )
+                    ->with('errors_update', $this->entityModel->errors())
                     ->withInput();
         }
 
