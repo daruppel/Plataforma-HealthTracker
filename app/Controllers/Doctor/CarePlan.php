@@ -28,7 +28,7 @@ class CarePlan extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-           /* $data = [
+            /* $data = [
                 'medicalDiagnosis' => 'algo', //$medicalDiagnosisModel->findAll(),
                 'patients' => 'algo' //$userModel->getUsersByRole('paciente')
             ]; , $data  */
@@ -84,7 +84,7 @@ class CarePlan extends BaseController
                 ->with('errors', $this->carePlanModel->errors())
                 ->with('errors_update', 'ID del plan de cuidado no especificado');
         }
-        
+
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'plan_cuidado_id' => $id,
@@ -93,14 +93,14 @@ class CarePlan extends BaseController
             'comentario_paciente' => $this->request->getPost('comentario_paciente'),
             'diagnostico_id' => $this->request->getPost('diagnostico_id')
         ];
-        
+
         // Actualizar plan de cuidado
         if (!$this->carePlanModel->save($data)) {
             return redirect()
-                    ->back()
-                    ->with('errors', $this->carePlanModel->errors() )
-                    ->with('errors_update', $this->carePlanModel->errors())
-                    ->withInput();
+                ->back()
+                ->with('errors', $this->carePlanModel->errors() )
+                ->with('errors_update', $this->carePlanModel->errors())
+                ->withInput();
         }
 
         return redirect()->to(base_url('medical_staff/care-plan'))

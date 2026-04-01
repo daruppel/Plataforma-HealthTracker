@@ -80,21 +80,21 @@ class TaskType extends BaseController
                 ->with('errors', $this->taskTypeModel->errors())
                 ->with('errors_update', 'ID del tipo de tarea no especificado');
         }
-        
+
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'tipo_meta_id' => $id,
             'nombre'   => $this->request->getPost('name'),
             'descripcion' => $this->request->getPost('description')
         ];
-        
+
         // Actualizar tipo de tarea
         if (!$this->taskTypeModel->save($data)) {
             return redirect()
-                    ->back()
-                    ->with('errors', $this->taskTypeModel->errors() )
-                    ->with('errors_update', $this->taskTypeModel->errors())
-                    ->withInput();
+                ->back()
+                ->with('errors', $this->taskTypeModel->errors() )
+                ->with('errors_update', $this->taskTypeModel->errors())
+                ->withInput();
         }
 
         return redirect()->to(base_url('admin/taskTypes'))

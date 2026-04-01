@@ -89,7 +89,7 @@ class CarePlanTask extends BaseController
                 ->with('errors', $this->carePlanTaskModel->errors())
                 ->with('errors_update', 'ID de la tarea del plan de cuidado no especificado');
         }
-        
+
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'metas_plan_cuidado_id' => $this->request->getPost('care_plan_task_update_id'),
@@ -98,14 +98,14 @@ class CarePlanTask extends BaseController
             'tipo_meta_id' => $this->request->getPost('tipo_meta_id'),
             'plan_cuidado_id' => $this->request->getPost('plan_cuidado_id')
         ];
-        
+
         // Actualizar tarea del plan de cuidado
         if (!$this->carePlanTaskModel->save($data)) {
             return redirect()
-                    ->back()
-                    ->with('errors', $this->carePlanTaskModel->errors() )
-                    ->with('errors_update', $this->carePlanTaskModel->errors())
-                    ->withInput();
+                ->back()
+                ->with('errors', $this->carePlanTaskModel->errors() )
+                ->with('errors_update', $this->carePlanTaskModel->errors())
+                ->withInput();
         }
 
         return redirect()->to(base_url('medical_staff/care-plan-task'))

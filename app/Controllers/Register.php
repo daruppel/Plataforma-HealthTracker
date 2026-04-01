@@ -27,7 +27,7 @@ class Register extends BaseController
 
         // Si pasa la validación, guardar
         $modelo = new UserModel();
-        
+
         // Mapeo de nombres del formulario -> nombres de la base
         $datos = [
             'nombre' => $this->request->getPost('name'),
