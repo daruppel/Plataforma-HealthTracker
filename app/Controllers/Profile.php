@@ -58,6 +58,8 @@ class Profile extends BaseController
         return redirect()
             ->back()
             ->with('success', 'Perfil actualizado correctamente');
+    }else{
+        return redirect()->back();
     }
     }
 }
