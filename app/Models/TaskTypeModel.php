@@ -3,21 +3,19 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class CarePlanModel extends Model
+class TaskTypeModel extends Model
 {
-    // Datos de plan de cuidados
-    protected $table = 'plan_cuidado';
-    protected $primaryKey = 'plan_cuidado_id';
+    // Datos de entidad médica
+    protected $table = 'tipo_meta';
+    protected $primaryKey = 'tipo_meta_id';
     protected $returnType = 'array'; // 'array', 'object' o nombre de clase
     //Activa el borrado logico cuando se utiliza '$modelo->delete($id);'
     protected $useSoftDeletes = true;
     
     // Campos que se pueden insertar/actualizar
     protected $allowedFields = [
-        'fec_inicio',
-        'fec_fin',
-        'comentario_paciente',
-        'diagnostico_id'
+        'nombre',
+        'descripcion'
     ];
 
     // Timestamps automáticos
@@ -28,34 +26,22 @@ class CarePlanModel extends Model
     
     // Validaciones del modelo
     protected $validationRules = [
-        //'nombre' => 'required|min_length[3]|max_length[100]',
-        //'comentario_paciente' => 'required|min_length[3]|max_length[100]',
-        'fec_inicio' => 'required|valid_date[Y-m-d]',
-        'fec_fin' => 'required|valid_date[Y-m-d]'
+        'nombre' => 'required|min_length[3]|max_length[100]',
+        'descripcion' => 'required|min_length[3]|max_length[100]',
     ];
     
     protected $validationMessages = [
-      /*  'nombre' => [
+        'nombre' => [
             'required' => 'El nombre es obligatorio',
             'min_length' => 'El nombre debe tener al menos 3 caracteres',
             'max_length' => 'El nombre no puede exceder 100 caracteres'
-        ], */
-        'fec_inicio' => [
-            'required' => 'La fecha de inicio es obligatoria'
         ],
-        'fec_fin' => [
-            'required' => 'La fecha de fin es obligatoria'
+        'descripcion' => [
+            'required' => 'El descripcion es obligatoria',
+            'min_length' => 'El descripcion debe tener al menos 3 caracteres'
         ],
     ];
     
     // Validación solo en insert (no en update)
     protected $skipValidation = false;
-
-     //Devuelve los planes de cuidado asociados a un diagnostico 
-    public function getCarePlanWithDiagnosis($diagnosticoId){
-        return $this->select('*')
-                    ->join('diagnostico', 'diagnostico.diagnostico_id = plan_cuidado.diagnostico_id', 'left')
-                    ->where('diagnostico.diagnostico_id', $diagnosticoId)
-                    ->first();
-    }
 }

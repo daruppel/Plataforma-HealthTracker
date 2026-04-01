@@ -23,10 +23,15 @@ class CarePlan extends BaseController
             . view('templates/footer');
     }
 
+    //TODO: Revisar datos recibidos del POST
     public function create()
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
+           /* $data = [
+                'medicalDiagnosis' => 'algo', //$medicalDiagnosisModel->findAll(),
+                'patients' => 'algo' //$userModel->getUsersByRole('paciente')
+            ]; , $data  */
             return view('doctor/CarePlan/create');
         }
 
@@ -53,42 +58,43 @@ class CarePlan extends BaseController
                 ->with('success', 'Plan de cuidado creado correctamente');
         }
     }
-    //TODO
+    //TODO: Revisar datos recibidos del POST
     public function delete(){
-        $id = $this->request->getPost('medical_entitie_id');
+        $id = $this->request->getPost('care_plan_id');
 
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->carePlanModel->errors())
-                ->with('error', 'ID de la entidad medica no especificado');
+                ->with('error', 'ID del plan de cuidado no especificado');
         }
-
         // Soft delete
         if (!$this->carePlanModel->delete($id)) {
-            return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
+            return redirect()->back()->with('error', 'No se pudo eliminar el plan de cuidado');
         }
-
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica eliminada correctamente');
+        return redirect()
+            ->to('/medical_staff/care-plan')
+            ->with('success', 'Plan de cuidado eliminado correctamente');
     }
-    //TODO
+    //TODO: Revisar datos recibidos del POST
     public function update()
     {
-        $id = $this->request->getPost('medical_entitie_update_id');
+        $id = $this->request->getPost('care_plan_update_id');
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->carePlanModel->errors())
-                ->with('errors_update', 'ID de la entidad medica no especificado');
+                ->with('errors_update', 'ID del plan de cuidado no especificado');
         }
         
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
-            'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
-            'nombre'   => $this->request->getPost('name'),
-            'decripcion' => $this->request->getPost('description')
+            'plan_cuidado_id' => $id,
+            'fec_inicio' => $this->request->getPost('fec_inicio'),
+            'fec_fin' => $this->request->getPost('fec_fin'),
+            'comentario_paciente' => $this->request->getPost('comentario_paciente'),
+            'diagnostico_id' => $this->request->getPost('diagnostico_id')
         ];
         
-        // Actualizar entidad medica
+        // Actualizar plan de cuidado
         if (!$this->carePlanModel->save($data)) {
             return redirect()
                     ->back()
@@ -97,7 +103,7 @@ class CarePlan extends BaseController
                     ->withInput();
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica actualizada correctamente');
+        return redirect()->to(base_url('medical_staff/care-plan'))
+            ->with('success', 'Plan de cuidado actualizado correctamente');
     }
 }
