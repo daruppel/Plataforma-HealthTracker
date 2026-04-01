@@ -30,8 +30,8 @@ class CarePlanModel extends Model
     protected $validationRules = [
         //'nombre' => 'required|min_length[3]|max_length[100]',
         //'comentario_paciente' => 'required|min_length[3]|max_length[100]',
-        'fec_inicio' => 'required|valid_date[d/m/Y]',
-        'fec_fin' => 'required|valid_date[d/m/Y]'
+        'fec_inicio' => 'required|valid_date[Y-m-d]',
+        'fec_fin' => 'required|valid_date[Y-m-d]'
     ];
     
     protected $validationMessages = [
@@ -41,12 +41,10 @@ class CarePlanModel extends Model
             'max_length' => 'El nombre no puede exceder 100 caracteres'
         ], */
         'fec_inicio' => [
-            'required' => 'El descripcion es obligatoria',
-            'min_length' => 'El descripcion debe tener al menos 3 caracteres'
+            'required' => 'La fecha de inicio es obligatoria'
         ],
         'fec_fin' => [
-            'required' => 'El descripcion es obligatoria',
-            'min_length' => 'El descripcion debe tener al menos 3 caracteres'
+            'required' => 'La fecha de fin es obligatoria'
         ],
     ];
     

@@ -57,7 +57,7 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     //tareas de plan de cuidado
     $routes->get('care-plan-task', 'Doctor\CarePlanTask::index');
     $routes->post('care-plan-task/create', 'Doctor\CarePlanTask::create');
-    $routes->post('care-plan-task/delete', 'Doctor\CarePlanTask::delete ');
+    $routes->post('care-plan-task/delete', 'Doctor\CarePlanTask::delete');
     $routes->post('care-plan-task/update', 'Doctor\CarePlanTask::update');
 
 });

@@ -5,8 +5,8 @@ use CodeIgniter\Model;
 
 class CarePlanTaskModel extends Model
 {
-    protected $table = 'meta_plan_cuidado';
-    protected $primaryKey = 'meta_plan_cuidado_id';
+    protected $table = 'metas_plan_cuidado';
+    protected $primaryKey = 'metas_plan_cuidado_id';
     protected $returnType = 'array'; // 'array', 'object' o nombre de clase
     //Activa el borrado logico cuando se utiliza '$modelo->delete($id);'
     protected $useSoftDeletes = true;

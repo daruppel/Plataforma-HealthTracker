@@ -103,7 +103,7 @@ class CarePlan extends BaseController
                     ->withInput();
         }
 
-        return redirect()->to(base_url('admin/care-plans'))
+        return redirect()->to(base_url('medical_staff/care-plan'))
             ->with('success', 'Plan de cuidado actualizado correctamente');
     }
 }

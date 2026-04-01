@@ -23,18 +23,18 @@ class CarePlanTask extends BaseController
             . view('templates/footer');
     }
 
-    //TODO
+    //TODO: revisar datos recibidos del POST
     public function create()
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
             //$medicalDiagnosisModel = new MedicalDiagnosisModel();
             //$userModel = new UserModel();
-            $data = [
+            /*$data = [
                 'medicalDiagnosis' => 'algo', //$medicalDiagnosisModel->findAll(),
                 'patients' => 'algo' //$userModel->getUsersByRole('paciente')
-            ];
-            return view('doctor/CarePlanTask/create', $data);
+            ];*/
+            return view('doctor/CarePlanTask/create'); //, $data
         }
 
         // Si la solicitud es POST, procesar el formulario
@@ -42,10 +42,10 @@ class CarePlanTask extends BaseController
             $carePlanTaskModel = new CarePlanTaskModel();
             // Mapeo de campos -- TODO: revisar campos recibidos por POST, para crear una meta de plan de cuidado 
             $datos = [
-                'meta_cumplida' => true,
-                'plan_cuidado_id' => $this->request->getPost('plan_cuidado_id'),
+                'meta_cumplida' => false,
+                'plan_cuidado_id' => $this->request->getPost('care_plan_id'),
                 'tipo_meta_id' => $this->request->getPost('tipo_meta_id'),
-                'descripcion' => $this->request->getPost('descripcion')
+                'descripcion' => $this->request->getPost('description')
             ];
             // Insertar el plan de cuidad - con save inserta si no recibe id o hace un update en caso contrario
             if (!$carePlanTaskModel->save($datos)) {
@@ -58,8 +58,8 @@ class CarePlanTask extends BaseController
 
             //TODO: redirigir a la vista del plan de cuidado al que pertenece la meta creada
             return redirect()
-                ->to('/medical_staff/care-plan')
-                ->with('success', 'Plan de cuidado creado correctamente');
+                ->to('/medical_staff/care-plan-task')
+                ->with('success', 'Tarea del plan de cuidado creada correctamente');
         }
     }
     //TODO: Revisar datos recibidos del POST
@@ -77,13 +77,13 @@ class CarePlanTask extends BaseController
             return redirect()->back()->with('error', 'No se pudo eliminar la tarea del plan de cuidado');
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica eliminada correctamente');
+        return redirect()->to(base_url('medical_staff/care-plan-task'))
+            ->with('success', 'Tarea del plan de cuidado eliminada correctamente');
     }
-    //TODO
+    //TODO: revisar datos recibidos del POST
     public function update()
     {
-        $id = $this->request->getPost('medical_entitie_update_id');
+        $id = $this->request->getPost('care_plan_task_update_id');
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->carePlanTaskModel->errors())
@@ -92,12 +92,14 @@ class CarePlanTask extends BaseController
         
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
-            'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
-            'nombre'   => $this->request->getPost('name'),
-            'decripcion' => $this->request->getPost('description')
+            'metas_plan_cuidado_id' => $this->request->getPost('care_plan_task_update_id'),
+            'descripcion'   => $this->request->getPost('description'),
+            'meta_cumplida' => $this->request->getPost('meta_cumplida'),
+            'tipo_meta_id' => $this->request->getPost('tipo_meta_id'),
+            'plan_cuidado_id' => $this->request->getPost('plan_cuidado_id')
         ];
         
-        // Actualizar entidad medica
+        // Actualizar tarea del plan de cuidado
         if (!$this->carePlanTaskModel->save($data)) {
             return redirect()
                     ->back()
@@ -106,7 +108,7 @@ class CarePlanTask extends BaseController
                     ->withInput();
         }
 
-        return redirect()->to(base_url('admin/medical-entities'))
-            ->with('success', 'Entidad medica actualizada correctamente');
+        return redirect()->to(base_url('medical_staff/care-plan-task'))
+            ->with('success', 'Tarea del plan de cuidado actualizada correctamente');
     }
 }
