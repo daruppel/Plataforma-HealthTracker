@@ -34,6 +34,12 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->post('medical-diagnosis/create', 'Admin\MedicalDiagnosis::create');
     $routes->post('medical-diagnosis/delete', 'Admin\MedicalDiagnosis::delete');
     $routes->post('medical-diagnosis/update', 'Admin\MedicalDiagnosis::update');
+    //tipo de tarea
+    $routes->get('taskTypes', 'Admin\TaskType::index');
+    $routes->get('taskTypes/create', 'Admin\TaskType::create');
+    $routes->post('taskTypes/create', 'Admin\TaskType::create');
+    $routes->post('taskTypes/delete', 'Admin\TaskType::delete');
+    $routes->post('taskTypes/update', 'Admin\TaskType::update');
 
 });
 //medicos
@@ -48,6 +54,11 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     $routes->post('diagnosis/create', 'Doctor\Diagnosis::create');
     $routes->post('diagnosis/delete', 'Doctor\Diagnosis::delete');
     $routes->post('diagnosis/update', 'Doctor\Diagnosis::update');
+    //tareas de plan de cuidado
+    $routes->get('care-plan-task', 'Doctor\CarePlanTask::index');
+    $routes->post('care-plan-task/create', 'Doctor\CarePlanTask::create');
+    $routes->post('care-plan-task/delete', 'Doctor\CarePlanTask::delete ');
+    $routes->post('care-plan-task/update', 'Doctor\CarePlanTask::update');
 
 });
 //compartido administradores y medicos
