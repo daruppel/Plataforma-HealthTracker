@@ -23,6 +23,7 @@ class TaskType extends BaseController
             . view('templates/footer');
     }
 
+    //TODO: revisar datos recibidos del POST
     public function create()
     {
         // Si la solicitud es GET, mostrar el formulario
@@ -52,42 +53,42 @@ class TaskType extends BaseController
                 ->with('success', 'Tipo de tarea creado correctamente');
         }
     }
-    //TODO delete
+    //TODO: revisar datos recibidos del POST
     public function delete(){
-        $id = $this->request->getPost('medical_entitie_id');
+        $id = $this->request->getPost('task_type_id');
 
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->taskTypeModel->errors())
-                ->with('error', 'ID de la entidad medica no especificado');
+                ->with('error', 'ID del tipo de tarea no especificado');
         }
 
         // Soft delete
         if (!$this->taskTypeModel->delete($id)) {
-            return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
+            return redirect()->back()->with('error', 'No se pudo eliminar el tipo de tarea');
         }
 
-        return redirect()->to(base_url('admin/medical_entities'))
-            ->with('success', 'Entidad medica eliminada correctamente');
+        return redirect()->to(base_url('admin/taskTypes'))
+            ->with('success', 'Tipo de tarea eliminado correctamente');
     }
-    //TODO update
+    //TODO: revisar datos recibidos del POST
     public function update()
     {
-        $id = $this->request->getPost('medical_entitie_update_id');
+        $id = $this->request->getPost('task_type_update_id');
         if (!$id) {
             return redirect()->back()
                 ->with('errors', $this->taskTypeModel->errors())
-                ->with('errors_update', 'ID de la entidad medica no especificado');
+                ->with('errors_update', 'ID del tipo de tarea no especificado');
         }
         
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
-            'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
+            'tipo_meta_id' => $id,
             'nombre'   => $this->request->getPost('name'),
-            'decripcion' => $this->request->getPost('description')
+            'descripcion' => $this->request->getPost('description')
         ];
         
-        // Actualizar entidad medica
+        // Actualizar tipo de tarea
         if (!$this->taskTypeModel->save($data)) {
             return redirect()
                     ->back()
