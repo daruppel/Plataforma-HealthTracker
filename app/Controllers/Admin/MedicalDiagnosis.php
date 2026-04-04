@@ -53,7 +53,7 @@ class MedicalDiagnosis extends BaseController
     }
 
     public function delete(){
-         $id = $this->request->getPost('medical_diagnosis_id');
+        $id = $this->request->getPost('medical_diagnosis_id');
 
         if (!$id) {
             return redirect()->back()
@@ -64,8 +64,8 @@ class MedicalDiagnosis extends BaseController
         // Soft delete
         if (!$this->diagnosisT->delete($id)) {
             return redirect()->back()
-            ->with('errors', $this->diagnosisT->errors())
-            ->with('error', 'No se pudo eliminar el tipo de diagnostico');
+                ->with('errors', $this->diagnosisT->errors())
+                ->with('error', 'No se pudo eliminar el tipo de diagnostico');
         }
 
         return redirect()->to(base_url('admin/medical-diagnosis'))
@@ -80,21 +80,21 @@ class MedicalDiagnosis extends BaseController
                 ->with('errors', $this->diagnosisT->errors())
                 ->with('errors_update', 'ID del tipo de diagnostico no especificado');
         }
-        
+
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'tipo_diagnostico_id' => $this->request->getPost('medical_diagnosis_update_id'),
             'nombre'   => $this->request->getPost('name'),
             'decripcion' => $this->request->getPost('description')
         ];
-        
+
         // Actualizar tipo de diagnostico
         if (!$this->diagnosisT->save($data)) {
             return redirect()
-                    ->back()
-                    ->with('errors', $this->diagnosisT->errors() )
-                    ->with('errors_update', $this->diagnosisT->errors())
-                    ->withInput();
+                ->back()
+                ->with('errors', $this->diagnosisT->errors() )
+                ->with('errors_update', $this->diagnosisT->errors())
+                ->withInput();
         }
 
         return redirect()->to(base_url('admin/medical-diagnosis'))

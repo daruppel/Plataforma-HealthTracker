@@ -69,7 +69,7 @@ class Diagnosis extends BaseController
                 ->with('success', 'Diagnostico creado correctamente');
         }
     }
-    
+
     public function delete(){
         $id = $this->request->getPost('diagnosis_id');
 
@@ -97,24 +97,24 @@ class Diagnosis extends BaseController
                 ->with('errors', $this->diagnosisModel->errors())
                 ->with('errors_update', 'ID del diagnostico no especificado');
         }
-        
+
         // Mapeo de nombres del formulario -> campos de la BD
-         $datos = [
-                'diagnostico_id' => $id,
-                'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
-                'paciente_id' => $this->request->getPost('paciente_id'),
-                'medico_id' => session()->get('user_id'),
-                'fecha' => $this->request->getPost('fecha'),
-                'estado_id' => $this->request->getPost('estado_id')
-            ];
-        
+        $datos = [
+            'diagnostico_id' => $id,
+            'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
+            'paciente_id' => $this->request->getPost('paciente_id'),
+            'medico_id' => session()->get('user_id'),
+            'fecha' => $this->request->getPost('fecha'),
+            'estado_id' => $this->request->getPost('estado_id')
+        ];
+
         // Actualizar diagnostico
         if (!$this->diagnosisModel->save($datos)) {
             return redirect()
-                    ->back()
-                    ->with('errors', $this->diagnosisModel->errors() )
-                    ->with('errors_update', $this->diagnosisModel->errors())
-                    ->withInput();
+                ->back()
+                ->with('errors', $this->diagnosisModel->errors() )
+                ->with('errors_update', $this->diagnosisModel->errors())
+                ->withInput();
         }
 
         return redirect()->to('/medical_staff/diagnosis')

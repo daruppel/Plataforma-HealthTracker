@@ -77,21 +77,21 @@ class MedicalEntities extends BaseController
                 ->with('errors', $this->entityModel->errors())
                 ->with('errors_update', 'ID de la entidad medica no especificado');
         }
-        
+
         // Mapeo de nombres del formulario -> campos de la BD
         $data = [
             'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
             'nombre'   => $this->request->getPost('name'),
             'decripcion' => $this->request->getPost('description')
         ];
-        
+
         // Actualizar entidad medica
         if (!$this->entityModel->save($data)) {
             return redirect()
-                    ->back()
-                    ->with('errors', $this->entityModel->errors() )
-                    ->with('errors_update', $this->entityModel->errors())
-                    ->withInput();
+                ->back()
+                ->with('errors', $this->entityModel->errors() )
+                ->with('errors_update', $this->entityModel->errors())
+                ->withInput();
         }
 
         return redirect()->to(base_url('admin/medical-entities'))

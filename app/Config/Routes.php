@@ -70,3 +70,7 @@ $routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], fu
     //PLACEHOLDER
 
 });
+
+$routes->group('profile', ['filter' => 'auth:Paciente,Personal de salud,Administrador'], function($routes) {
+    $routes->post('update', 'Profile::update');
+});
