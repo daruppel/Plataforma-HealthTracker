@@ -18,8 +18,10 @@ class Diagnosis extends BaseController
 
     public function index()
     {
-        $data['diagnosis'] = $this->diagnosisModel->findAllByDoctor(session()->get('user_id'));//Enviar solo los del medico de la sesión  
-        return view('templates/header')
+
+        $data['patients'] = $this->diagnosisModel->getGroupedByPatient(session()->get('user_id'));
+        //$data['diagnosis'] = $this->diagnosisModel->findAllByDoctor(session()->get('user_id'));//Enviar solo los del medico de la sesión  
+       return view('templates/header')
             . view('templates/sidebar')
             . view('doctor/diagnosis/index', $data)
             . view('templates/footer');
@@ -50,7 +52,8 @@ class Diagnosis extends BaseController
                 'paciente_id' => $this->request->getPost('paciente_id'),
                 'medico_id' => session()->get('user_id'),
                 'fecha' => $this->request->getPost('fecha'),
-                'estado_id' => $this->request->getPost('estado_id')
+                'estado_id' => 1,
+                'descripcion' => $this->request->getPost('descripcion')
             ];
             // Insertar el plan de cuidad - con save inserta si no recibe id o hace un update en caso contrario
             if (!$diagnosisModel->save($datos)) {

@@ -17,7 +17,9 @@ class DiagnosisModel extends Model
     protected $allowedFields = [
         'tipo_diagnostico_id',
         'paciente_id',
+        'medico_id',
         'fecha',
+        'descripcion',
         'estado_id'
     ];
 
@@ -29,13 +31,38 @@ class DiagnosisModel extends Model
     
     // Validaciones del modelo
     protected $validationRules = [
-        'role_id' => 'required|in_list[2]' //Verifica que el rol sea Medico.
+        'tipo_diagnostico_id' => 'required|integer',
+        'paciente_id' => 'required|integer',
+        'fecha' => 'required|valid_date',
+        'descripcion' => 'required|min_length[3]|max_length[100]',
+        'estado_id' => 'required|integer'
     ];
-    
+    //TODO: Revisar si las validaciones estan bien o me sarpe de boluda.
    protected $validationMessages = [
-        'role_id' => [
-            'required' => 'El rol es obligatorio',
-            'in_list' => 'Debe ser medico para cargar un diagnostico'
+        'tipo_diagnostico_id' => [
+            'required' => 'El tipo de diagnóstico es obligatorio',
+            'in_list' => ' El tipo de diagnóstico seleccionado no es válido'
+        ],
+        'paciente_id' => [
+            'required' => 'El paciente es obligatorio',
+            'in_list' => ' El paciente seleccionado no es válido'
+        ],
+        'fecha' => [
+            'required' => 'La fecha es obligatoria',
+            'valid_date' => 'La fecha no es válida'
+        ],
+        'descripcion' => [
+            'required' => 'La descripción es obligatoria',
+            'min_length' => 'La descripción debe tener al menos 3 caracteres',
+            'max_length' => 'La descripción no puede exceder 100 caracteres'
+        ],
+        'estado_id' => [
+            'required' => 'El estado es obligatorio',
+            'in_list' => ' El estado seleccionado no es válido'
+        ],
+        'medico_id' => [
+            'required' => 'El médico es obligatorio',
+            'in_list' => ' El médico seleccionado no es válido'
         ]
     ];
     
@@ -50,4 +77,42 @@ class DiagnosisModel extends Model
                     ->where('medico_id', $doctorId)
                     ->findAll();
     } 
+
+    public function getGroupedByPatient($doctorId)
+    {
+        $rows = $this->select('
+                diagnostico.*,
+                usuario.usuario_id as paciente_id,
+                usuario.nombre,
+                usuario.apellido,
+                tipo_diagnostico.nombre as tipo_diagnostico,
+                estado_diagnostico.estado
+            ')
+            ->join('usuario', 'usuario.usuario_id = diagnostico.paciente_id', 'left')
+            ->join('tipo_diagnostico','tipo_diagnostico.tipo_diagnostico_id = diagnostico.tipo_diagnostico_id','left')
+            ->join('estado_diagnostico','estado_diagnostico.estado_diagnostico_id = diagnostico.estado_id','left')
+            ->where('medico_id', $doctorId)
+            ->orderBy('usuario.apellido', 'ASC')
+            ->findAll();
+
+        //Agrupar por paciente
+        $grouped = [];
+        foreach ($rows as $r) {
+            $pid = $r['paciente_id'];
+            if (!isset($grouped[$pid])) {
+                $grouped[$pid] = [
+                    'paciente_id' => $pid,
+                    'nombre' => $r['nombre'] . ' ' . $r['apellido'],
+                    'diagnosticos' => []
+                ];
+            }
+            $grouped[$pid]['diagnosticos'][] = [
+                'diagnostico_id' => $r['diagnostico_id'],
+                'tipo' => $r['tipo_diagnostico'],
+                'fecha' => $r['fecha'],
+                'estado' => $r['estado']
+            ];
+        }
+        return array_values($grouped);
+    }
 }
