@@ -2,3 +2,14 @@
 .toasts-top-right {
     z-index: 2000 !important;
 }
+
+.error {
+    color: red;
+    font-size: 0.9em;
+}
+.valido {
+    border: 2px solid green;
+}
+.invalido {
+    border: 2px solid red;
+}

@@ -4,40 +4,90 @@
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Diagnosticos</h3>
-        <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalNuevoTipoDiagnostico">
-          <i class="fas fa-plus"></i> Nuevo
-        </button>
+        <a href="<?= base_url('/medical_staff/diagnosis/create') ?>" class="btn btn-success float-right">
+          <i class="fas fa-plus"></i> Nuevo diagnóstico
+        </a>
       </div>
       <div class="card-body">
-        <p>Acá tiene que venir la tabla</p>
-          <table class="table table-bordered table-striped datatable">
-          <thead>
-            <tr>
-              <th>Nombre</th><th>Descripcion</th><th>Acciones</th>
-            </tr> 
-          </thead>
-          <tbody>
-            <?php foreach($diagnosis as $d): ?>
-            <tr>
-              <td><?= $d['nombre']; ?></td>
-              <td><?= $d['descripcion']; ?></td>
-              <td>
-                <a href="#" class="btn btn-sm btn-warning btn-edit"
-                  data-id="<?= $d['diagnostico_id']; ?>"
-                  data-nombre="<?= $d['nombre']; ?>"
-                  data-descripcion="<?= $d['descripcion']; ?>">
-                <i class="fas fa-pen"></i></a>
-                
-                <a href="#" class="btn btn-sm btn-danger btn-delete"
-                  data-id="<?= $d['diagnostico_id']; ?>"
-                  data-nombre="<?= $d['nombre']; ?>">
-                  <i class="fas fa-trash"></i>
-                </a>
-              </td>
-            </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
+        <div class="card-body">
+
+          <!-- BUSCADOR -->
+          <div class="form-group">
+            <input 
+              type="text" 
+              id="buscadorPaciente" 
+              class="form-control" 
+              placeholder="Buscar paciente..."
+            >
+          </div>
+
+          <!-- LISTADO -->
+          <?php foreach ($patients as $p): ?>
+            
+            <div class="card mb-3 paciente-card">
+
+              <!-- HEADER PACIENTE -->
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <strong class="nombre-paciente"><?= $p['nombre']; ?></strong>
+
+                <div>
+                  <span class="badge badge-secondary">
+                    <?= count($p['diagnosticos']); ?> diagnósticos
+                  </span>
+
+                </div>
+              </div>
+
+              <!-- DIAGNÓSTICOS -->
+              <div class="card-body p-2">
+                <?php foreach ($p['diagnosticos'] as $d): ?>
+                  
+                  <div class="d-flex justify-content-between align-items-center border-bottom p-2">
+
+                    <div>
+                      <span>• <?= $d['tipo']; ?></span>
+                    </div>
+
+                    <div>
+                      <small class="text-muted"><?= $d['fecha']; ?></small>
+
+                      <button class="btn btn-sm btn-outline-primary ml-2">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+
+                  </div>
+
+                <?php endforeach; ?>
+              </div>
+
+            </div>
+
+          <?php endforeach; ?>
+
+        </div>
       </div>
     </div>
   </div> 
+
+</section>
+
+<script>
+document.getElementById("buscadorPaciente").addEventListener("input", function() {
+
+  let filtro = this.value.toLowerCase();
+  let pacientes = document.querySelectorAll(".paciente-card");
+
+  pacientes.forEach(card => {
+    let nombre = card.querySelector(".nombre-paciente").textContent.toLowerCase();
+
+    if (nombre.includes(filtro)) {
+      card.style.display = "";
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+});
+</script>
+
