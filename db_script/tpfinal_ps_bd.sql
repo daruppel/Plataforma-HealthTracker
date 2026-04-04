@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2025 a las 17:13:09
+-- Tiempo de generación: 04-04-2026 a las 22:08:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `tpfinal_ps_bd`
 --
+DROP DATABASE IF EXISTS `tpfinal_ps_bd`;
 CREATE DATABASE IF NOT EXISTS `tpfinal_ps_bd` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `tpfinal_ps_bd`;
 
@@ -29,13 +30,13 @@ USE `tpfinal_ps_bd`;
 -- Estructura de tabla para la tabla `diagnostico`
 --
 
-DROP TABLE IF EXISTS `diagnostico`;
 CREATE TABLE `diagnostico` (
   `diagnostico_id` int(11) NOT NULL,
   `tipo_diagnostico_id` int(11) NOT NULL,
   `paciente_id` int(11) NOT NULL,
   `medico_id` int(11) NOT NULL,
   `fecha` date NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
   `plan_cuidado_id` int(11) NOT NULL,
   `estado_id` int(11) NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -43,13 +44,21 @@ CREATE TABLE `diagnostico` (
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `diagnostico`
+--
+
+INSERT INTO `diagnostico` (`diagnostico_id`, `tipo_diagnostico_id`, `paciente_id`, `medico_id`, `fecha`, `descripcion`, `plan_cuidado_id`, `estado_id`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, 1, 7, 12, '2026-04-04', 'prueba de carga de diagnostico', 0, 1, NULL, '2026-04-04 19:54:16', '2026-04-04 19:54:16'),
+(2, 2, 7, 12, '2026-04-03', 'prueba de segundo diagnostico pasado', 0, 1, NULL, '2026-04-04 20:02:29', '2026-04-04 20:02:29'),
+(3, 2, 13, 12, '2026-04-03', 'ta todo bien', 0, 1, NULL, '2026-04-04 20:03:53', '2026-04-04 20:03:53');
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `entidad_medica`
 --
 
-DROP TABLE IF EXISTS `entidad_medica`;
 CREATE TABLE `entidad_medica` (
   `entidad_medica_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
@@ -59,13 +68,21 @@ CREATE TABLE `entidad_medica` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `entidad_medica`
+--
+
+INSERT INTO `entidad_medica` (`entidad_medica_id`, `nombre`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Hospital Zatti', 'hospital publico Viedma', '2025-11-19 14:27:48', '2025-11-19 15:31:43', '2025-11-19 15:31:43'),
+(2, 'Clinica Viedma modif', 'clinica de Viedma, unica e inigualable', '2025-11-19 15:32:16', '2025-11-19 16:55:14', NULL),
+(3, 'aaa V2', 'hospital publico Viedma', '2025-11-26 12:41:12', '2026-03-11 13:20:22', NULL);
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `especialidad`
 --
 
-DROP TABLE IF EXISTS `especialidad`;
 CREATE TABLE `especialidad` (
   `especialidad_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
@@ -121,7 +138,6 @@ INSERT INTO `especialidad` (`especialidad_id`, `nombre`, `deleted_at`, `updated_
 -- Estructura de tabla para la tabla `estado_diagnostico`
 --
 
-DROP TABLE IF EXISTS `estado_diagnostico`;
 CREATE TABLE `estado_diagnostico` (
   `estado_diagnostico_id` int(11) NOT NULL,
   `estado` text NOT NULL,
@@ -130,13 +146,19 @@ CREATE TABLE `estado_diagnostico` (
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `estado_diagnostico`
+--
+
+INSERT INTO `estado_diagnostico` (`estado_diagnostico_id`, `estado`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, 'Pendiente', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `medico`
 --
 
-DROP TABLE IF EXISTS `medico`;
 CREATE TABLE `medico` (
   `medico_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
@@ -154,7 +176,6 @@ CREATE TABLE `medico` (
 -- Estructura de tabla para la tabla `medico_entidad_medica`
 --
 
-DROP TABLE IF EXISTS `medico_entidad_medica`;
 CREATE TABLE `medico_entidad_medica` (
   `med_entidad_med_id` int(11) NOT NULL,
   `medico_id` int(11) NOT NULL,
@@ -170,7 +191,6 @@ CREATE TABLE `medico_entidad_medica` (
 -- Estructura de tabla para la tabla `metas_plan_cuidado`
 --
 
-DROP TABLE IF EXISTS `metas_plan_cuidado`;
 CREATE TABLE `metas_plan_cuidado` (
   `metas_plan_cuidado_id` int(11) NOT NULL,
   `plan_cuidado_id` int(11) NOT NULL,
@@ -188,7 +208,6 @@ CREATE TABLE `metas_plan_cuidado` (
 -- Estructura de tabla para la tabla `permiso`
 --
 
-DROP TABLE IF EXISTS `permiso`;
 CREATE TABLE `permiso` (
   `permiso_id` int(11) NOT NULL,
   `descripcion` text NOT NULL,
@@ -204,7 +223,6 @@ CREATE TABLE `permiso` (
 -- Estructura de tabla para la tabla `plan_cuidado`
 --
 
-DROP TABLE IF EXISTS `plan_cuidado`;
 CREATE TABLE `plan_cuidado` (
   `plan_cuidado_id` int(11) NOT NULL,
   `fec_inicio` date NOT NULL,
@@ -221,7 +239,6 @@ CREATE TABLE `plan_cuidado` (
 -- Estructura de tabla para la tabla `rol`
 --
 
-DROP TABLE IF EXISTS `rol`;
 CREATE TABLE `rol` (
   `rol_id` int(11) NOT NULL,
   `descripcion` text NOT NULL,
@@ -246,7 +263,6 @@ INSERT INTO `rol` (`rol_id`, `descripcion`, `nombre`, `deleted_at`, `updated_at`
 -- Estructura de tabla para la tabla `servicio_medico`
 --
 
-DROP TABLE IF EXISTS `servicio_medico`;
 CREATE TABLE `servicio_medico` (
   `servicio_med_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
@@ -263,7 +279,6 @@ CREATE TABLE `servicio_medico` (
 -- Estructura de tabla para la tabla `tipo_diagnostico`
 --
 
-DROP TABLE IF EXISTS `tipo_diagnostico`;
 CREATE TABLE `tipo_diagnostico` (
   `tipo_diagnostico_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
@@ -273,13 +288,20 @@ CREATE TABLE `tipo_diagnostico` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `tipo_diagnostico`
+--
+
+INSERT INTO `tipo_diagnostico` (`tipo_diagnostico_id`, `nombre`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Diagnostico dificil V2', 'es un diagnostico muy dificil', '2026-03-11 13:25:44', '2026-03-11 13:27:57', NULL),
+(2, 'diag normal', 'un diag', '2026-03-11 15:45:56', '2026-03-11 15:45:56', NULL);
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `tipo_meta`
 --
 
-DROP TABLE IF EXISTS `tipo_meta`;
 CREATE TABLE `tipo_meta` (
   `tipo_meta_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
@@ -295,7 +317,6 @@ CREATE TABLE `tipo_meta` (
 -- Estructura de tabla para la tabla `usuario`
 --
 
-DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `usuario_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
@@ -308,13 +329,26 @@ CREATE TABLE `usuario` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`usuario_id`, `nombre`, `apellido`, `email`, `password`, `activo`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'denis', 'ruppel', 'druppel@gmail.com', '$2y$10$MiklFpBJ6iolRIdu3jk5wuZDGvEP4IEsEv8JMgZV3Nswp5Sd06wwi', 1, '2025-11-12 11:38:14', '2025-11-12 11:38:14', NULL),
+(7, 'bart', 'simpson', 'elbarto@gmail.com', '$2y$10$6YZAVWR3sCycuSpnVfmb4.uyWCLlf1n5SVRoijyGPtvbdi4tPZ/sy', 1, '2025-11-12 15:28:25', '2025-11-12 15:28:25', NULL),
+(8, 'lisa', 'simpson', 'lisasimpson@gmail.com', '$2y$10$GAU9Pg/B7OYuZEmiMaoiG.koQV/Atp0ruIe.EAl9nhSTXG0LURWaG', 1, '2025-11-12 15:29:19', '2025-11-12 15:29:19', NULL),
+(9, 'Juan', 'admin', 'juanadmin@gmail.com', '$2y$10$Xo/N1kTfowBrw4hlUo73cOd8c78dutWB5cE4wSBxvkR6tcb912/vu', 1, '2025-11-14 15:42:49', '2025-11-14 15:42:49', NULL),
+(10, 'denis', 'admin', 'daruppel@admin.com', '$2y$10$fWaROJT7CvcXoq4su5nWk.e6hZPgWf78NQ4nLO8zqZXajQ3CRz7u2', 1, '2025-11-14 16:32:20', '2025-11-14 16:32:20', NULL),
+(11, 'Admin', 'Demo', 'admin@demo.com', '$2y$10$W64sApt2x3G8AcBz.cp/nOsBhuqz.sd2A2HYBVDYcaaA9Wu5vjCee', 1, '2026-03-19 23:59:52', '2026-03-19 23:59:52', NULL),
+(12, 'Medico', 'Demo', 'medico@demo.com', '$2y$10$y.2zcUEtovfinWj5SDYJEOpr13zTZkbXWDeFX32T5X2yJutiiyJVe', 1, '2026-03-20 00:00:54', '2026-03-20 00:00:54', NULL),
+(13, 'lisa', 'simpson', 'lisa@simpson.sp', '$2y$10$JOnYyv0RfjhzSEQ8jGCyt.jZ6DUcrwvFT1VsBgypMDAhnTLdThu.G', 1, '2026-04-04 20:03:18', '2026-04-04 20:03:18', NULL);
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `usuario_rol`
 --
 
-DROP TABLE IF EXISTS `usuario_rol`;
 CREATE TABLE `usuario_rol` (
   `usuario_rol_id` int(11) NOT NULL,
   `rol_id` int(11) NOT NULL,
@@ -323,6 +357,20 @@ CREATE TABLE `usuario_rol` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_rol`
+--
+
+INSERT INTO `usuario_rol` (`usuario_rol_id`, `rol_id`, `usuario_id`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, 2, 1, NULL, NULL, NULL),
+(2, 3, 7, NULL, NULL, NULL),
+(3, 2, 8, NULL, NULL, NULL),
+(4, 1, 9, NULL, NULL, NULL),
+(5, 1, 10, NULL, NULL, NULL),
+(6, 1, 11, NULL, NULL, NULL),
+(7, 2, 12, NULL, NULL, NULL),
+(8, 3, 13, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -439,13 +487,13 @@ ALTER TABLE `usuario_rol`
 -- AUTO_INCREMENT de la tabla `diagnostico`
 --
 ALTER TABLE `diagnostico`
-  MODIFY `diagnostico_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `entidad_medica`
 --
 ALTER TABLE `entidad_medica`
-  MODIFY `entidad_medica_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `entidad_medica_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
@@ -457,7 +505,7 @@ ALTER TABLE `especialidad`
 -- AUTO_INCREMENT de la tabla `estado_diagnostico`
 --
 ALTER TABLE `estado_diagnostico`
-  MODIFY `estado_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `estado_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `medico`
@@ -481,7 +529,7 @@ ALTER TABLE `metas_plan_cuidado`
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `permiso_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `permiso_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `plan_cuidado`
@@ -505,7 +553,7 @@ ALTER TABLE `servicio_medico`
 -- AUTO_INCREMENT de la tabla `tipo_diagnostico`
 --
 ALTER TABLE `tipo_diagnostico`
-  MODIFY `tipo_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tipo_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_meta`
@@ -517,13 +565,13 @@ ALTER TABLE `tipo_meta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_rol`
 --
 ALTER TABLE `usuario_rol`
-  MODIFY `usuario_rol_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `usuario_rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
@@ -534,7 +582,7 @@ ALTER TABLE `usuario_rol`
 --
 ALTER TABLE `diagnostico`
   ADD CONSTRAINT `diagnostico_estado` FOREIGN KEY (`estado_id`) REFERENCES `estado_diagnostico` (`estado_diagnostico_id`),
-  ADD CONSTRAINT `diagnostico_medico` FOREIGN KEY (`medico_id`) REFERENCES `medico` (`medico_id`),
+  ADD CONSTRAINT `diagnostico_medico` FOREIGN KEY (`medico_id`) REFERENCES `usuario` (`usuario_id`),
   ADD CONSTRAINT `diagnostico_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `usuario` (`usuario_id`);
 
 --
