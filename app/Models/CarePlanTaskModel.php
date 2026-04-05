@@ -16,7 +16,7 @@ class CarePlanTaskModel extends Model
         'plan_cuidado_id',
         'tipo_meta_id',
         'meta_cumplida',
-        'descripcion'
+        'descripcion',
     ];
 
     // Timestamps automáticos
@@ -27,18 +27,24 @@ class CarePlanTaskModel extends Model
     
     // Validaciones del modelo
     protected $validationRules = [
-        'descripcion' => 'required|min_length[3]|max_length[100]',
-        //'comentario_paciente' => 'required|min_length[3]|max_length[100]'
+        'plan_cuidado_id' => 'required|integer',
+        'tipo_meta_id'    => 'required|integer',
+        'meta_cumplida'   => 'permit_empty|in_list[0,1]',
+        'descripcion'     => 'required|min_length[3]',
     ];
     
     protected $validationMessages = [
-       'descripcion' => [
-            'required' => 'La descripción es obligatoria',
-            'min_length' => 'La descripción debe tener al menos 3 caracteres',
-            'max_length' => 'La descripción no puede exceder 100 caracteres'
+       'plan_cuidado_id' => [
+            'required'     => 'El plan de cuidado es obligatorio.',
+        ],
+        'meta_cumplida' => [
+            'in_list' => 'El estado de cumplimiento no es válido.',
+        ],
+        'descripcion' => [
+            'required'   => 'La descripción es obligatoria.',
+            'min_length' => 'La descripción debe tener al menos 3 caracteres.',
         ],
     ];
-    
     // Validación solo en insert (no en update)
     protected $skipValidation = false;
 }

@@ -28,13 +28,7 @@ class CarePlanTask extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            //$medicalDiagnosisModel = new MedicalDiagnosisModel();
-            //$userModel = new UserModel();
-            /*$data = [
-                'medicalDiagnosis' => 'algo', //$medicalDiagnosisModel->findAll(),
-                'patients' => 'algo' //$userModel->getUsersByRole('paciente')
-            ];*/
-            return view('doctor/CarePlanTask/create'); //, $data
+            return view('doctor/CarePlanTask/create'); 
         }
 
         // Si la solicitud es POST, procesar el formulario
