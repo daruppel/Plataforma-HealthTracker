@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <form id="formUpdateDiagnosisType" action="<?= base_url('staff/medical-diagnosis/update'); ?>" method="post">
+      <form id="formUpdateDiagnosisType" action="<?= base_url('admin/medical-diagnosis/update'); ?>" method="post">
         <div class="modal-body">
           <input type="hidden" id="medical_diagnosis_update_id" name="medical_diagnosis_update_id"> 
             <!-- Nombre --> 

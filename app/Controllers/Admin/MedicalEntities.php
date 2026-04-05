@@ -48,7 +48,7 @@ class MedicalEntities extends BaseController
             }
 
             return redirect()
-                ->to('/admin/medical_entities')
+                ->to('/admin/medical-entities')
                 ->with('success', 'Entidad creada correctamente');
         }
     }
@@ -66,7 +66,7 @@ class MedicalEntities extends BaseController
             return redirect()->back()->with('error', 'No se pudo eliminar la entidad medica');
         }
 
-        return redirect()->to(base_url('admin/medical_entities'))
+        return redirect()->to(base_url('admin/medical-entities'))
             ->with('success', 'Entidad medica eliminada correctamente');
     }
     public function update()
@@ -82,7 +82,7 @@ class MedicalEntities extends BaseController
         $data = [
             'entidad_medica_id' => $this->request->getPost('medical_entitie_update_id'),
             'nombre'   => $this->request->getPost('name'),
-            'decripcion' => $this->request->getPost('description')
+            'descripcion' => $this->request->getPost('description')
         ];
 
         // Actualizar entidad medica

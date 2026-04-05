@@ -16,8 +16,7 @@ class CarePlanModel extends Model
     protected $allowedFields = [
         'fec_inicio',
         'fec_fin',
-        'comentario_paciente',
-        'diagnostico_id'
+        'comentario_paciente'
     ];
 
     // Timestamps automáticos
@@ -28,23 +27,24 @@ class CarePlanModel extends Model
     
     // Validaciones del modelo
     protected $validationRules = [
-        //'nombre' => 'required|min_length[3]|max_length[100]',
-        //'comentario_paciente' => 'required|min_length[3]|max_length[100]',
         'fec_inicio' => 'required|valid_date[Y-m-d]',
-        'fec_fin' => 'required|valid_date[Y-m-d]'
+        'fec_fin' => 'required|valid_date[Y-m-d]',
+        'comentario_paciente' => 'permit_empty|min_length[3]'
+
     ];
     
     protected $validationMessages = [
-      /*  'nombre' => [
-            'required' => 'El nombre es obligatorio',
-            'min_length' => 'El nombre debe tener al menos 3 caracteres',
-            'max_length' => 'El nombre no puede exceder 100 caracteres'
-        ], */
         'fec_inicio' => [
-            'required' => 'La fecha de inicio es obligatoria'
+            'required'   => 'La fecha de inicio es obligatoria.',
+            'valid_date' => 'La fecha de inicio debe tener un formato válido.',
         ],
         'fec_fin' => [
-            'required' => 'La fecha de fin es obligatoria'
+            'required'   => 'La fecha de fin es obligatoria.',
+            'valid_date' => 'La fecha de fin debe tener un formato válido.',
+        ],
+        'comentario_paciente' => [
+            'min_length' => 'El comentario del paciente debe tener al menos 3 caracteres.',
+            'max_length' => 'El comentario del paciente no puede superar los 1000 caracteres.',
         ],
     ];
     
@@ -54,7 +54,7 @@ class CarePlanModel extends Model
      //Devuelve los planes de cuidado asociados a un diagnostico 
     public function getCarePlanWithDiagnosis($diagnosticoId){
         return $this->select('*')
-                    ->join('diagnostico', 'diagnostico.diagnostico_id = plan_cuidado.diagnostico_id', 'left')
+                    ->join('diagnostico', 'diagnostico.plan_cuidado_id = plan_cuidado.plan_cuidado_id', 'left')
                     ->where('diagnostico.diagnostico_id', $diagnosticoId)
                     ->first();
     }
