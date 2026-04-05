@@ -85,7 +85,7 @@ class MedicalDiagnosis extends BaseController
         $data = [
             'tipo_diagnostico_id' => $this->request->getPost('medical_diagnosis_update_id'),
             'nombre'   => $this->request->getPost('name'),
-            'decripcion' => $this->request->getPost('description')
+            'descripcion' => $this->request->getPost('description')
         ];
 
         // Actualizar tipo de diagnostico

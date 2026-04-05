@@ -36,7 +36,7 @@ class DoctorModel extends Model
         'especialidad_id' => 'required|integer'
     ];
     /**TODO: Faltan poner los mensajes de validacion */
-    protected $validationMessages = []
+    protected $validationMessages = [];
 
     // Validación solo en insert (no en update)
     protected $skipValidation = false;
