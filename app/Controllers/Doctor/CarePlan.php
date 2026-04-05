@@ -41,8 +41,8 @@ class CarePlan extends BaseController
             // Mapeo de campos
             $datos = [
                 'fec_inicio'   => $this->request->getPost('fec_inicio'),
-                'fec_fin' => $this->request->getPost('fec_fin'),
-                'diagnostico_id' => $this->request->getPost('diagnostico_id')
+                'fec_fin' => $this->request->getPost('fec_fin')
+                //,                'diagnostico_id' => $this->request->getPost('diagnostico_id')
             ];
             // Insertar el plan de cuidad - con save inserta si no recibe id o hace un update en caso contrario
             if (!$carePlanModel->save($datos)) {
@@ -91,7 +91,7 @@ class CarePlan extends BaseController
             'fec_inicio' => $this->request->getPost('fec_inicio'),
             'fec_fin' => $this->request->getPost('fec_fin'),
             'comentario_paciente' => $this->request->getPost('comentario_paciente'),
-            'diagnostico_id' => $this->request->getPost('diagnostico_id')
+            //'diagnostico_id' => $this->request->getPost('diagnostico_id')
         ];
 
         // Actualizar plan de cuidado
