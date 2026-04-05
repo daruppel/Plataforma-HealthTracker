@@ -27,7 +27,7 @@ class Register extends BaseController
 
         // Si pasa la validación, guardar
         $modelo = new UserModel();
-        
+
         // Mapeo de nombres del formulario -> nombres de la base
         $datos = [
             'nombre' => $this->request->getPost('name'),
@@ -48,6 +48,12 @@ class Register extends BaseController
                 'usuario_id' => $userID,
                 'rol_id' => $rolID
             ]);
+            
+            if($rolID == 2){ // Si es doctor, crear entrada en tabla medico
+                $db->table('medico')->insert([
+                    'usuario_id' => $userID
+                ]);
+            }
 
             return redirect()->to('/login')->with('success', 'Usuario registrado exitosamente');
         }

@@ -12,7 +12,7 @@ class AuthFilter implements FilterInterface
 
         // Verifica si el usuario está logueado
         if (!$session->get('isLoggedIn')) {
-            return redirect()->to(base_url('login'));
+            return redirect()->to(('/login'));
         }
 
         // Si el filtro tiene argumentos, son los roles permitidos

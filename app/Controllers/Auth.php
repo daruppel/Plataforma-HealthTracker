@@ -20,36 +20,24 @@ class Auth extends BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
-        log_message('debug', "Intentando login con email: {$email}");
+        $user = $userModel->getUsersWithRoleByEmail($email);
 
-        $user = $userModel->select('usuario.*, usuario_rol.rol_id, rol.descripcion as rol_descripcion')
-                          ->join('usuario_rol', 'usuario_rol.usuario_id = usuario.usuario_id', 'left')
-                          ->join('rol','usuario_rol.rol_id = rol.rol_id', 'left')
-                          ->where('usuario.email', $email)
-                          ->first();
-
-        log_message('debug', 'usercreado');
         //Buscar por email
         if(!$user){
-            log_message('debug', "No se encontró usuario con email: {$email}");
             return redirect()->back()->with('error', 'Correo incorrecto');
         }
 
         //Verificación de contraseña
         if(!password_verify($password, $user['password'])){
-            log_message('debug', "Contraseña incorrecta para usuario ID {$user['usuario_id']}");
             return redirect()->back()->with('error', 'Contraseña incorrecta');
         }
 
         //Verificar si el user está activo
         if(isset($user['activo']) && !$user['activo']){
-            log_message('debug', "Usuario ID {$user['usuario_id']} está inactivo");
             return redirect()->back()->with('error', 'Usuario eliminado');
         }
 
-         // Si pasa todas las validaciones
-        log_message('debug', "Login exitoso para usuario ID {$user['usuario_id']}");
-
+        // Si pasa todas las validaciones
         $sessionData = [
             'user_id' => $user['usuario_id'],
             'name' => $user['nombre'],
@@ -63,7 +51,6 @@ class Auth extends BaseController
         $session->set($sessionData);
         return redirect()->to('/dashboard');
 
-        return redirect()->back()->with('error', 'Credenciales incorrectas');
     }
 
     public function logout()

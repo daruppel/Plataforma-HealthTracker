@@ -18,7 +18,7 @@ class Users extends \App\Controllers\BaseController
 
     public function index()
     {
-        $data['users'] = $this->userModel->obtenerUsuariosConRol();
+        $data['users'] = $this->userModel->getUsersWithRole();
         $data['roles'] = $this->roleModel->findAll();
 
         return view('templates/header')
@@ -66,6 +66,11 @@ class Users extends \App\Controllers\BaseController
                     $db->table('usuario_rol')->insert([
                         'usuario_id' => $userID,
                         'rol_id'     => $rolID
+                    ]);
+                }
+                if($rolID == 2){ // Si es doctor, crear entrada en tabla medico
+                    $db->table('medico')->insert([
+                        'usuario_id' => $userID
                     ]);
                 }
 
