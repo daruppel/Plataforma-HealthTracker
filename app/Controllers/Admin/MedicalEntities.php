@@ -27,7 +27,7 @@ class MedicalEntities extends BaseController
     {
         // Si la solicitud es GET, mostrar el formulario
         if ($this->request->getMethod() === 'GET') {
-            return view('admin/medical-entities/create');
+            return view('admin/medical_entities/create');
         }
 
         // Si la solicitud es POST, procesar el formulario
