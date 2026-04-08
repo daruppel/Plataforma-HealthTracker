@@ -49,7 +49,7 @@
                     </div>
 
                     <div>
-                      <small class="text-muted"><?= $d['fecha']; ?></small>
+                      <small class="text-muted"><?= date('d/m/Y', strtotime($d['fecha'])); ?></small>
 
                       <button class="btn btn-sm btn-outline-primary ml-2">
                         <i class="fas fa-eye"></i>
