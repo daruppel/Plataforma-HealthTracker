@@ -5,7 +5,7 @@
 
             <div class="card-header">
                 <h3 class="card-title">
-                    Historial de Planes de Cuidado
+                    Historial de Diagnosticos
                 </h3>
             </div>
 
