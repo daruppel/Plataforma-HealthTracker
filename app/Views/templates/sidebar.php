@@ -85,7 +85,13 @@
           <li class="nav-item">
             <a href="<?= base_url('/paciente/care-plan-history'); ?>" class="nav-link">
               <i class="nav-icon fas fa-file-medical-alt"></i>
-              <p>Historial de Planes</p>
+              <p>Historial de Diagnosticos</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= base_url('/paciente/care-plan-history'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-folder-open"></i>
+              <p>Documentación Medica</p>
             </a>
           </li>
         <?php endif; ?>
