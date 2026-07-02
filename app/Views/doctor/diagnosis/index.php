@@ -83,9 +83,13 @@
                         </span>
                       <small class="text-muted"><?= date('d/m/Y', strtotime($d['fecha'])); ?></small>
 
-                      <button class="btn btn-sm btn-outline-primary ml-2">
-                        <i class="fas fa-eye"></i>
-                      </button>
+                     
+                      <?php if (in_array($estado, ['Pendiente', 'en_proceso'], true)): ?>
+                        <a href="<?= base_url('/medical_staff/diagnosis/edit/' . $d['diagnostico_id']) ?>"
+                           class="btn btn-sm btn-outline-warning ml-2" title="Editar diagnóstico">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      <?php endif; ?>
                        <?php if ($estado === 'Pendiente'): ?>
                         <a title="Crear plan de cuidado" href="<?= base_url('/medical_staff/care-plan/create/'. $d['diagnostico_id']); ?>" 
                           class="btn btn-sm btn-outline-success ml-2">

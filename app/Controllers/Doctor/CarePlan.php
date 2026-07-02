@@ -18,10 +18,11 @@ class CarePlan extends BaseController
     {
         $medicoId = session()->get('user_id');
 
-        $carePlans = $this->carePlanModel->select('plan_cuidado.*, usuario.nombre as paciente_nombre, usuario.apellido as paciente_apellido, tipo_diagnostico.nombre as diagnostico_tipo, diagnostico.diagnostico_id')
+        $carePlans = $this->carePlanModel->select('plan_cuidado.*, usuario.nombre as paciente_nombre, usuario.apellido as paciente_apellido, tipo_diagnostico.nombre as diagnostico_tipo, diagnostico.diagnostico_id, diagnostico.estado_id, estado_diagnostico.estado as diagnostico_estado')
             ->join('diagnostico', 'diagnostico.plan_cuidado_id = plan_cuidado.plan_cuidado_id')
             ->join('usuario', 'usuario.usuario_id = diagnostico.paciente_id')
             ->join('tipo_diagnostico', 'tipo_diagnostico.tipo_diagnostico_id = diagnostico.tipo_diagnostico_id')
+            ->join('estado_diagnostico', 'estado_diagnostico.estado_diagnostico_id = diagnostico.estado_id', 'left')
             ->where('diagnostico.medico_id', $medicoId)
             ->orderBy('plan_cuidado.created_at', 'DESC')
             ->findAll();
@@ -39,8 +40,11 @@ class CarePlan extends BaseController
             $taskIds = array_column($cp['tasks'], 'metas_plan_cuidado_id');
             if (!empty($taskIds)) {
                 $cp['cumplimientos_pendientes'] = $cumplimientoModel
-                    ->whereIn('metas_plan_cuidado_id', $taskIds)
-                    ->where('validado_at', null)
+                    ->select('cumplimiento_meta.*, metas_plan_cuidado.descripcion as meta_descripcion, tipo_meta.nombre as tipo_nombre')
+                    ->join('metas_plan_cuidado', 'metas_plan_cuidado.metas_plan_cuidado_id = cumplimiento_meta.metas_plan_cuidado_id')
+                    ->join('tipo_meta', 'tipo_meta.tipo_meta_id = metas_plan_cuidado.tipo_meta_id')
+                    ->whereIn('cumplimiento_meta.metas_plan_cuidado_id', $taskIds)
+                    ->where('cumplimiento_meta.validado_at', null)
                     ->findAll();
                 $cp['total_validados'] = $cumplimientoModel
                     ->whereIn('metas_plan_cuidado_id', $taskIds)
@@ -50,8 +54,8 @@ class CarePlan extends BaseController
                 $cp['cumplimientos_pendientes'] = [];
                 $cp['total_validados'] = 0;
             }
-            // Finalizable: al menos 1 validado Y ninguno pendiente
-            $cp['puede_finalizar'] = $cp['total_validados'] > 0 && empty($cp['cumplimientos_pendientes']);
+            // Finalizable: al menos 1 validado Y ninguno pendiente Y diagnóstico no finalizado
+            $cp['puede_finalizar'] = $cp['total_validados'] > 0 && empty($cp['cumplimientos_pendientes']) && (int)$cp['estado_id'] !== 3;
         }
         unset($cp);
 
@@ -320,6 +324,18 @@ class CarePlan extends BaseController
                 'comentario_medico' => $this->request->getPost('comentario_medico') ?? '',
             ]
         );
+
+        // Si se aprueba el cumplimiento, marcar la meta como cumplida
+        if ($accion === 'validado') {
+            $cumplimientoId = (int) $this->request->getPost('cumplimiento_id');
+            $cumplimiento = $model->find($cumplimientoId);
+            if ($cumplimiento) {
+                \Config\Database::connect()
+                    ->table('metas_plan_cuidado')
+                    ->where('metas_plan_cuidado_id', $cumplimiento['metas_plan_cuidado_id'])
+                    ->update(['meta_cumplida' => 1]);
+            }
+        }
 
         $msg = $accion === 'validado' ? 'Cumplimiento aprobado.' : 'Cumplimiento rechazado.';
         return redirect()->to('/medical_staff/care-plan')->with('success', $msg);

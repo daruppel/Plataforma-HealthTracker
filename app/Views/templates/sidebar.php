@@ -50,7 +50,7 @@
         <!-- Menú para Médicos -->
         <?php if ($rol === '2'): ?>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?= base_url('/medical_staff/patients') ?>" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>Pacientes</p>
             </a>
@@ -65,12 +65,6 @@
             <a href="<?= base_url('/medical_staff/care-plan'); ?>" class="nav-link">
               <i class="nav-icon fas fa-user-md"></i>
               <p>Planes de Cuidado</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= base_url('/medical_staff/validacion'); ?>" class="nav-link">
-              <i class="nav-icon fas fa-check-double"></i>
-              <p>Validación</p>
             </a>
           </li>
           <li class="nav-item">

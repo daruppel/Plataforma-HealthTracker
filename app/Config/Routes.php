@@ -44,6 +44,9 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
 });
 //medicos
 $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function($routes) {
+    //pacientes del medico
+    $routes->get('patients', 'Doctor\Patients::index');
+    $routes->get('patients/historial/(:num)', 'Doctor\Patients::historial/$1');
     //plan de cuidado
     $routes->get('care-plan', 'Doctor\CarePlan::index');
     $routes->get('care-plan/create/(:num)', 'Doctor\CarePlan::create/$1');
@@ -55,6 +58,7 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     $routes->get('diagnosis/', 'Doctor\Diagnosis::index');
     $routes->get('diagnosis/create', 'Doctor\Diagnosis::create');
     $routes->post('diagnosis/create', 'Doctor\Diagnosis::create');
+    $routes->get('diagnosis/edit/(:num)', 'Doctor\Diagnosis::edit/$1');
     $routes->post('diagnosis/delete', 'Doctor\Diagnosis::delete');
     $routes->post('diagnosis/update', 'Doctor\Diagnosis::update');
     //tareas de plan de cuidado
@@ -63,11 +67,10 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     $routes->post('care-plan-task/create', 'Doctor\CarePlanTask::create');
     $routes->post('care-plan-task/delete', 'Doctor\CarePlanTask::delete');
     $routes->post('care-plan-task/update', 'Doctor\CarePlanTask::update');
-    //validacion de cumplimientos
-    $routes->get('validacion', 'Doctor\Validacion::index');
-    $routes->post('validacion/validar', 'Doctor\Validacion::validar');
+    //plan de cuidado validation and finalization
+    $routes->post('care-plan/validar', 'Doctor\CarePlan::validarCumplimiento');
+    $routes->post('care-plan/finalizar', 'Doctor\CarePlan::finalizarPlan');
     //estadisticas
-    $routes->get('care-plan-task', 'Doctor\CarePlanTask::index');
     //medical_staff/statistics
     $routes->get('statistics', 'Doctor\Statistics::index');
 

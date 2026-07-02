@@ -13,4 +13,4 @@ en esta url se abre la pagina del dashboard
 
 Para Login: 
 email: admin@demo.com
-pass: 123456
+pass: 12345678

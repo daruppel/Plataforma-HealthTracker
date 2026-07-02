@@ -116,4 +116,18 @@ class DiagnosisModel extends Model
         }
         return array_values($grouped);
     }
+    public function getPatientsByDoctor(int $doctorId): array
+    {
+        return $this->db->query('
+            SELECT DISTINCT u.usuario_id, u.nombre, u.apellido, u.email, u.created_at,
+                COUNT(d.diagnostico_id) AS total_diagnosticos
+            FROM diagnostico d
+            JOIN usuario u ON u.usuario_id = d.paciente_id
+            WHERE d.medico_id = ?
+              AND d.deleted_at IS NULL
+              AND u.deleted_at IS NULL
+            GROUP BY u.usuario_id
+            ORDER BY u.apellido ASC, u.nombre ASC
+        ', [$doctorId])->getResultArray();
+    }
 }

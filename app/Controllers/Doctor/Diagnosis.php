@@ -27,6 +27,42 @@ class Diagnosis extends BaseController
             . view('templates/footer');
     }
 
+    public function edit($id = null)
+    {
+        if (!$id) {
+            return redirect()->to('/medical_staff/diagnosis')->with('error', 'Diagnóstico no especificado.');
+        }
+
+        $diagnosis = $this->diagnosisModel
+            ->select('diagnostico.*, estado_diagnostico.estado')
+            ->join('estado_diagnostico', 'estado_diagnostico.estado_diagnostico_id = diagnostico.estado_id', 'left')
+            ->where('diagnostico_id', $id)
+            ->where('medico_id', session()->get('user_id'))
+            ->first();
+
+        if (!$diagnosis) {
+            return redirect()->to('/medical_staff/diagnosis')->with('error', 'Diagnóstico no encontrado.');
+        }
+
+        $estado = $diagnosis['estado'] ?? '';
+        if (!in_array($estado, ['Pendiente', 'en_proceso'], true)) {
+            return redirect()->to('/medical_staff/diagnosis')->with('error', 'Solo se pueden editar diagnósticos en estado Pendiente o En proceso.');
+        }
+
+        $medicalDiagnosisModel = new MedicalDiagnosisModel();
+        $userModel = new UserModel();
+        $data = [
+            'diagnosis'        => $diagnosis,
+            'medicalDiagnosis' => $medicalDiagnosisModel->findAll(),
+            'patients'         => $userModel->getUsersByRole('paciente'),
+        ];
+
+        return view('templates/header')
+            . view('templates/sidebar')
+            . view('doctor/diagnosis/edit', $data)
+            . view('templates/footer');
+    }
+
     public function create()
     {
         // Si la solicitud es GET, mostrar el formulario
@@ -100,12 +136,15 @@ class Diagnosis extends BaseController
 
         // Mapeo de nombres del formulario -> campos de la BD
         $datos = [
-            'diagnostico_id' => $id,
-            'tipo_diagnostico_id'   => $this->request->getPost('tipo_diagnostico_id'),
-            'paciente_id' => $this->request->getPost('paciente_id'),
-            'medico_id' => session()->get('user_id'),
-            'fecha' => $this->request->getPost('fecha'),
-            'estado_id' => $this->request->getPost('estado_id')
+            'diagnostico_id'      => $id,
+            'tipo_diagnostico_id' => $this->request->getPost('tipo_diagnostico_id'),
+            'paciente_id'         => $this->request->getPost('paciente_id'),
+            'medico_id'           => session()->get('user_id'),
+            'fecha'               => $this->request->getPost('fecha'),
+            'descripcion'         => $this->request->getPost('descripcion'),
+            // ponytail: estado_id no se edita desde este formulario; se preserva el valor actual
+            'estado_id'           => $this->request->getPost('estado_id')
+                                     ?? $this->diagnosisModel->find($id)['estado_id'],
         ];
 
         // Actualizar diagnostico
