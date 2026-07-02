@@ -20,7 +20,8 @@ class DiagnosisModel extends Model
         'medico_id',
         'fecha',
         'descripcion',
-        'estado_id'
+        'estado_id',
+        'plan_cuidado_id'
     ];
 
     // Timestamps automáticos

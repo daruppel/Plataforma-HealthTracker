@@ -56,7 +56,7 @@
         <!-- Menú para Médicos -->
         <?php if ($rol === '2'): ?>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?= base_url('/medical_staff/care-plan'); ?>" class="nav-link">
               <i class="nav-icon fas fa-user-md"></i>
               <p>Planes de Cuidado</p>
             </a>

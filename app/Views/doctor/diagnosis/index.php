@@ -49,13 +49,50 @@
                     </div>
 
                     <div>
-                      <small class="text-muted"><?= $d['fecha']; ?></small>
+                      <?php
+                        $estado = $d['estado'] ?? 'pendiente';
+
+                        switch ($estado) {
+                          case 'Pendiente':
+                            $badge = 'badge-warning';
+                            $label = 'Pendiente';
+                            break;
+
+                          case 'en_proceso':
+                            $badge = 'badge-primary';
+                            $label = 'En proceso';
+                            break;
+
+                          case 'finalizado':
+                            $badge = 'badge-success';
+                            $label = 'Finalizado';
+                            break;
+
+                          case 'cancelado':
+                            $badge = 'badge-danger';
+                            $label = 'Cancelado';
+                            break;
+
+                          default:
+                            $badge = 'badge-secondary';
+                            $label = ucfirst($estado);
+                        }
+                      ?>
+                      <span class="badge <?= $badge; ?> ml-2">
+                          <?= $label; ?>
+                        </span>
+                      <small class="text-muted"><?= date('d/m/Y', strtotime($d['fecha'])); ?></small>
 
                       <button class="btn btn-sm btn-outline-primary ml-2">
                         <i class="fas fa-eye"></i>
                       </button>
+                       <?php if ($estado === 'Pendiente'): ?>
+                        <a title="Crear plan de cuidado" href="<?= base_url('/medical_staff/care-plan/create/'. $d['diagnostico_id']); ?>" 
+                          class="btn btn-sm btn-outline-success ml-2">
+                          <i class="fas fa-notes-medical"></i>
+                        </a>
+                      <?php endif; ?>
                     </div>
-
                   </div>
 
                 <?php endforeach; ?>
@@ -90,4 +127,6 @@ document.getElementById("buscadorPaciente").addEventListener("input", function()
 
 });
 </script>
+
+
 
