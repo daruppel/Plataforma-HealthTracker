@@ -46,10 +46,11 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
 $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function($routes) {
     //plan de cuidado
     $routes->get('care-plan', 'Doctor\CarePlan::index');
-    $routes->get('care-plan/create', 'Doctor\CarePlan::create');
-    $routes->post('care-plan/create', 'Doctor\CarePlan::create');
-    $routes->post('care-plan/delete', 'Doctor\CarePlan::delete');
+    $routes->get('care-plan/create/(:num)', 'Doctor\CarePlan::create/$1');
+    $routes->post('care-plan/create/(:num)', 'Doctor\CarePlan::create/$1');
+    $routes->get('care-plan/edit/(:num)', 'Doctor\CarePlan::edit/$1');
     $routes->post('care-plan/update', 'Doctor\CarePlan::update');
+    $routes->post('care-plan/delete', 'Doctor\CarePlan::delete');
     //diagnostico
     $routes->get('diagnosis/', 'Doctor\Diagnosis::index');
     $routes->get('diagnosis/create', 'Doctor\Diagnosis::create');
