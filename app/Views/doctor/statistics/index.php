@@ -59,6 +59,24 @@
       </div>
     <?php else: ?>
 
+      <div class="card card-outline card-info">
+        <div class="card-header">
+          <h3 class="card-title">Seleccionar paciente</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group mb-0">
+            <label for="patientSelect">Paciente</label>
+            <select id="patientSelect" class="form-control">
+              <?php foreach ($patients as $index => $patient): ?>
+                <option value="<?= esc($index) ?>">
+                  <?= esc($patient['paciente']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-8">
           <div class="card card-outline card-primary">
@@ -109,7 +127,7 @@
                   <td><?= esc($patient['metas_cumplidas']) ?></td>
                   <td><?= esc($patient['metas_pendientes']) ?></td>
                   <td><?= esc($patient['total_metas']) ?></td>
-                  <td><?= esc($patient['porcentaje_cumplimiento']) ?>%</td>
+                  <td><?= esc(number_format((float) $patient['porcentaje_cumplimiento'], 2)) ?>%</td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
@@ -127,18 +145,17 @@
 <?php if (!empty($patients)): ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const labels = <?= json_encode($chart['labels']) ?>;
-  const compliance = <?= json_encode($chart['compliance']) ?>;
-  const donut = <?= json_encode($chart['donut']) ?>;
+  const patients = <?= json_encode($patients, JSON_UNESCAPED_UNICODE) ?>;
+  const patientSelect = document.getElementById('patientSelect');
 
   const barCtx = document.getElementById('complianceBarChart').getContext('2d');
-  new Chart(barCtx, {
+  const complianceChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-      labels: labels,
+      labels: ['Cumplimiento'],
       datasets: [{
         label: '% de cumplimiento',
-        data: compliance,
+        data: [0],
         backgroundColor: 'rgba(54, 162, 235, 0.7)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1
@@ -159,12 +176,12 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   const donutCtx = document.getElementById('complianceDonutChart').getContext('2d');
-  new Chart(donutCtx, {
+  const donutChart = new Chart(donutCtx, {
     type: 'doughnut',
     data: {
       labels: ['Cumplidas', 'Pendientes'],
       datasets: [{
-        data: donut,
+        data: [0, 0],
         backgroundColor: [
           'rgba(40, 167, 69, 0.8)',
           'rgba(255, 193, 7, 0.8)'
@@ -181,6 +198,30 @@ document.addEventListener('DOMContentLoaded', function () {
       maintainAspectRatio: false
     }
   });
+
+  function updateCharts(patientIndex) {
+    const patient = patients[patientIndex];
+
+    if (!patient) {
+      return;
+    }
+
+    complianceChart.data.datasets[0].data = [patient.porcentaje_cumplimiento];
+    complianceChart.data.datasets[0].label = '% de cumplimiento - ' + patient.paciente;
+    complianceChart.update();
+
+    donutChart.data.datasets[0].data = [
+      patient.metas_cumplidas,
+      patient.metas_pendientes
+    ];
+    donutChart.update();
+  }
+
+  patientSelect.addEventListener('change', function () {
+    updateCharts(this.value);
+  });
+
+  updateCharts(patientSelect.value);
 });
 </script>
 <?php endif; ?>
