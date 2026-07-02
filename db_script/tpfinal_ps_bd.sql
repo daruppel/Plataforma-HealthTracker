@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-04-2026 a las 22:08:29
+-- Tiempo de generación: 02-07-2026 a las 17:00:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,9 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `tpfinal_ps_bd`
 --
-DROP DATABASE IF EXISTS `tpfinal_ps_bd`;
-CREATE DATABASE IF NOT EXISTS `tpfinal_ps_bd` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `tpfinal_ps_bd`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cumplimiento_meta`
+--
+
+CREATE TABLE `cumplimiento_meta` (
+  `cumplimiento_meta_id` int(11) NOT NULL,
+  `metas_plan_cuidado_id` int(11) NOT NULL,
+  `paciente_id` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `duracion_minutos` int(11) NOT NULL,
+  `comentario` text DEFAULT NULL,
+  `puntuacion` tinyint(1) DEFAULT NULL,
+  `comentario_medico` text DEFAULT NULL,
+  `validado_por` int(11) DEFAULT NULL,
+  `validado_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `cumplimiento_meta`
+--
+
+INSERT INTO `cumplimiento_meta` (`cumplimiento_meta_id`, `metas_plan_cuidado_id`, `paciente_id`, `fecha`, `duracion_minutos`, `comentario`, `puntuacion`, `comentario_medico`, `validado_por`, `validado_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 7, '2026-07-02', 4, 'no se tragar pastillas', 4, '', 12, '2026-07-02 14:48:53', '2026-07-02 14:40:29', '2026-07-02 14:48:53');
 
 -- --------------------------------------------------------
 
@@ -37,7 +62,7 @@ CREATE TABLE `diagnostico` (
   `medico_id` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `descripcion` varchar(100) NOT NULL,
-  `plan_cuidado_id` int(11) NOT NULL,
+  `plan_cuidado_id` int(11) NOT NULL DEFAULT 0,
   `estado_id` int(11) NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -49,9 +74,10 @@ CREATE TABLE `diagnostico` (
 --
 
 INSERT INTO `diagnostico` (`diagnostico_id`, `tipo_diagnostico_id`, `paciente_id`, `medico_id`, `fecha`, `descripcion`, `plan_cuidado_id`, `estado_id`, `deleted_at`, `updated_at`, `created_at`) VALUES
-(1, 1, 7, 12, '2026-04-04', 'prueba de carga de diagnostico', 0, 1, NULL, '2026-04-04 19:54:16', '2026-04-04 19:54:16'),
-(2, 2, 7, 12, '2026-04-03', 'prueba de segundo diagnostico pasado', 0, 1, NULL, '2026-04-04 20:02:29', '2026-04-04 20:02:29'),
-(3, 2, 13, 12, '2026-04-03', 'ta todo bien', 0, 1, NULL, '2026-04-04 20:03:53', '2026-04-04 20:03:53');
+(1, 1, 7, 12, '2026-04-04', 'prueba de carga de diagnostico', 1, 2, NULL, '2026-07-02 02:56:17', '2026-04-04 19:54:16'),
+(2, 2, 7, 12, '2026-04-03', 'prueba de segundo diagnostico pasado', 2, 2, NULL, '2026-07-02 02:59:24', '2026-04-04 20:02:29'),
+(3, 2, 13, 12, '2026-04-03', 'ta todo bien', 3, 2, NULL, '2026-07-02 14:03:20', '2026-04-04 20:03:53'),
+(4, 2, 7, 12, '2026-04-05', 'kokokok', 0, 1, NULL, '2026-04-05 23:11:43', '2026-04-05 23:11:43');
 
 -- --------------------------------------------------------
 
@@ -151,7 +177,10 @@ CREATE TABLE `estado_diagnostico` (
 --
 
 INSERT INTO `estado_diagnostico` (`estado_diagnostico_id`, `estado`, `deleted_at`, `updated_at`, `created_at`) VALUES
-(1, 'Pendiente', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'Pendiente', '0000-00-00 00:00:00', '2026-07-01 23:50:15', '0000-00-00 00:00:00'),
+(2, 'en_proceso', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15'),
+(3, 'finalizado', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15'),
+(4, 'cancelado', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15');
 
 -- --------------------------------------------------------
 
@@ -202,6 +231,17 @@ CREATE TABLE `metas_plan_cuidado` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `metas_plan_cuidado`
+--
+
+INSERT INTO `metas_plan_cuidado` (`metas_plan_cuidado_id`, `plan_cuidado_id`, `tipo_meta_id`, `meta_cumplida`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 0x30, 'Paracetamol cada 8 horas', '2026-07-02 02:56:17', '2026-07-02 02:56:17', NULL),
+(2, 1, 3, 0x30, 'Pausas activas cada dos horas', '2026-07-02 02:56:17', '2026-07-02 02:56:17', NULL),
+(3, 2, 1, 0x30, 'papapap', '2026-07-02 02:59:24', '2026-07-02 02:59:24', NULL),
+(4, 3, 2, 0x30, '98499', '2026-07-02 14:03:20', '2026-07-02 14:03:20', NULL),
+(5, 3, 1, 0x30, 'paracetamol 1g', '2026-07-02 14:03:20', '2026-07-02 14:03:20', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -232,6 +272,15 @@ CREATE TABLE `plan_cuidado` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `plan_cuidado`
+--
+
+INSERT INTO `plan_cuidado` (`plan_cuidado_id`, `fec_inicio`, `fec_fin`, `comentario_paciente`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, '2026-07-02', '2026-07-04', 'Sedentarismo', NULL, '2026-07-02 02:56:17', '2026-07-02 02:56:17'),
+(2, '2026-07-02', '2026-07-07', 'Priebaa', NULL, '2026-07-02 02:59:24', '2026-07-02 02:59:24'),
+(3, '2026-07-02', '2026-07-10', 'Prueba de carga de plan de cuidado', NULL, '2026-07-02 14:03:20', '2026-07-02 14:03:20');
 
 -- --------------------------------------------------------
 
@@ -311,6 +360,16 @@ CREATE TABLE `tipo_meta` (
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `tipo_meta`
+--
+
+INSERT INTO `tipo_meta` (`tipo_meta_id`, `nombre`, `descripcion`, `deleted_at`, `updated_at`, `created_at`) VALUES
+(1, 'Medicación', 'Dosis de medicamentos y horarios', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15'),
+(2, 'Terapia', 'Sesiones de terapia física o psicológica', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15'),
+(3, 'Ejercicio', 'Rutinas de ejercicio y rehabilitación', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15'),
+(4, 'Dieta', 'Recomendaciones nutricionales e hidratación', NULL, '2026-07-01 23:50:15', '2026-07-01 23:50:15');
+
 -- --------------------------------------------------------
 
 --
@@ -335,7 +394,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`usuario_id`, `nombre`, `apellido`, `email`, `password`, `activo`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'denis', 'ruppel', 'druppel@gmail.com', '$2y$10$MiklFpBJ6iolRIdu3jk5wuZDGvEP4IEsEv8JMgZV3Nswp5Sd06wwi', 1, '2025-11-12 11:38:14', '2025-11-12 11:38:14', NULL),
-(7, 'bart', 'simpson', 'elbarto@gmail.com', '$2y$10$6YZAVWR3sCycuSpnVfmb4.uyWCLlf1n5SVRoijyGPtvbdi4tPZ/sy', 1, '2025-11-12 15:28:25', '2025-11-12 15:28:25', NULL),
+(7, 'bart', 'simpson', 'elbarto@gmail.com', '$2y$10$SPMWdLn3UDzKXmukoYqLTu3hi0m2hUeda2BLDUyOLKJCHI7FqGef2', 1, '2025-11-12 15:28:25', '2026-07-02 14:10:40', NULL),
 (8, 'lisa', 'simpson', 'lisasimpson@gmail.com', '$2y$10$GAU9Pg/B7OYuZEmiMaoiG.koQV/Atp0ruIe.EAl9nhSTXG0LURWaG', 1, '2025-11-12 15:29:19', '2025-11-12 15:29:19', NULL),
 (9, 'Juan', 'admin', 'juanadmin@gmail.com', '$2y$10$Xo/N1kTfowBrw4hlUo73cOd8c78dutWB5cE4wSBxvkR6tcb912/vu', 1, '2025-11-14 15:42:49', '2025-11-14 15:42:49', NULL),
 (10, 'denis', 'admin', 'daruppel@admin.com', '$2y$10$fWaROJT7CvcXoq4su5nWk.e6hZPgWf78NQ4nLO8zqZXajQ3CRz7u2', 1, '2025-11-14 16:32:20', '2025-11-14 16:32:20', NULL),
@@ -375,6 +434,15 @@ INSERT INTO `usuario_rol` (`usuario_rol_id`, `rol_id`, `usuario_id`, `deleted_at
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `cumplimiento_meta`
+--
+ALTER TABLE `cumplimiento_meta`
+  ADD PRIMARY KEY (`cumplimiento_meta_id`),
+  ADD KEY `cumpl_meta` (`metas_plan_cuidado_id`),
+  ADD KEY `cumpl_paciente` (`paciente_id`),
+  ADD KEY `cumpl_validado_por` (`validado_por`);
 
 --
 -- Indices de la tabla `diagnostico`
@@ -484,10 +552,16 @@ ALTER TABLE `usuario_rol`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `cumplimiento_meta`
+--
+ALTER TABLE `cumplimiento_meta`
+  MODIFY `cumplimiento_meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `diagnostico`
 --
 ALTER TABLE `diagnostico`
-  MODIFY `diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `entidad_medica`
@@ -505,7 +579,7 @@ ALTER TABLE `especialidad`
 -- AUTO_INCREMENT de la tabla `estado_diagnostico`
 --
 ALTER TABLE `estado_diagnostico`
-  MODIFY `estado_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `estado_diagnostico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `medico`
@@ -523,7 +597,7 @@ ALTER TABLE `medico_entidad_medica`
 -- AUTO_INCREMENT de la tabla `metas_plan_cuidado`
 --
 ALTER TABLE `metas_plan_cuidado`
-  MODIFY `metas_plan_cuidado_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `metas_plan_cuidado_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
@@ -535,7 +609,7 @@ ALTER TABLE `permiso`
 -- AUTO_INCREMENT de la tabla `plan_cuidado`
 --
 ALTER TABLE `plan_cuidado`
-  MODIFY `plan_cuidado_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `plan_cuidado_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -559,7 +633,7 @@ ALTER TABLE `tipo_diagnostico`
 -- AUTO_INCREMENT de la tabla `tipo_meta`
 --
 ALTER TABLE `tipo_meta`
-  MODIFY `tipo_meta_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tipo_meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -576,6 +650,14 @@ ALTER TABLE `usuario_rol`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `cumplimiento_meta`
+--
+ALTER TABLE `cumplimiento_meta`
+  ADD CONSTRAINT `cumpl_meta_fk` FOREIGN KEY (`metas_plan_cuidado_id`) REFERENCES `metas_plan_cuidado` (`metas_plan_cuidado_id`),
+  ADD CONSTRAINT `cumpl_paciente_fk` FOREIGN KEY (`paciente_id`) REFERENCES `usuario` (`usuario_id`),
+  ADD CONSTRAINT `cumpl_validado_por_fk` FOREIGN KEY (`validado_por`) REFERENCES `usuario` (`usuario_id`);
 
 --
 -- Filtros para la tabla `diagnostico`

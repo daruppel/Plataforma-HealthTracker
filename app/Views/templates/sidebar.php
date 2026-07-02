@@ -68,18 +68,23 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="<?= base_url('/medical_staff/validacion'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-check-double"></i>
+              <p>Validación</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="<?= base_url('/medical_staff/statistics'); ?>" class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Estadísticas</p>
             </a>
           </li>
         <?php endif; ?>
-        <!-- Menú para Pacientes -->
         <?php if ($rol === '3'): ?>
            <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-md"></i>
-              <p>Planes de Cuidado</p>
+            <a href="<?= base_url('/paciente/cumplimiento'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-clipboard-check"></i>
+              <p>Mi Plan de Cuidado</p>
             </a>
           </li>
         <?php endif; ?>

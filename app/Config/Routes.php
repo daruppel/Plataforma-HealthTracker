@@ -63,6 +63,9 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     $routes->post('care-plan-task/create', 'Doctor\CarePlanTask::create');
     $routes->post('care-plan-task/delete', 'Doctor\CarePlanTask::delete');
     $routes->post('care-plan-task/update', 'Doctor\CarePlanTask::update');
+    //validacion de cumplimientos
+    $routes->get('validacion', 'Doctor\Validacion::index');
+    $routes->post('validacion/validar', 'Doctor\Validacion::validar');
     //estadisticas
     $routes->get('care-plan-task', 'Doctor\CarePlanTask::index');
     //medical_staff/statistics
@@ -74,6 +77,11 @@ $routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], fu
 
     //PLACEHOLDER
 
+});
+
+$routes->group('paciente', ['filter' => 'auth:Paciente'], function($routes) {
+    $routes->get('cumplimiento', 'Paciente\Cumplimiento::index');
+    $routes->post('cumplimiento/store', 'Paciente\Cumplimiento::store');
 });
 
 $routes->group('profile', ['filter' => 'auth:Paciente,Personal de salud,Administrador'], function($routes) {

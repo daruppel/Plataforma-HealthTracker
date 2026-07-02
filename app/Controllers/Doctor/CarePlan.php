@@ -27,12 +27,33 @@ class CarePlan extends BaseController
             ->findAll();
 
         $carePlanTaskModel = new \App\Models\CarePlanTaskModel();
+        $cumplimientoModel = new \App\Models\CumplimientoMetaModel();
+
+        // ponytail: N+1 per plan; el listado de planes por médico es pequeño (<20 típico)
         foreach ($carePlans as &$cp) {
             $cp['tasks'] = $carePlanTaskModel->select('metas_plan_cuidado.*, tipo_meta.nombre as tipo_nombre')
                 ->join('tipo_meta', 'tipo_meta.tipo_meta_id = metas_plan_cuidado.tipo_meta_id')
                 ->where('plan_cuidado_id', $cp['plan_cuidado_id'])
                 ->findAll();
+
+            $taskIds = array_column($cp['tasks'], 'metas_plan_cuidado_id');
+            if (!empty($taskIds)) {
+                $cp['cumplimientos_pendientes'] = $cumplimientoModel
+                    ->whereIn('metas_plan_cuidado_id', $taskIds)
+                    ->where('validado_at', null)
+                    ->findAll();
+                $cp['total_validados'] = $cumplimientoModel
+                    ->whereIn('metas_plan_cuidado_id', $taskIds)
+                    ->where('validado_at IS NOT NULL', null, false)
+                    ->countAllResults();
+            } else {
+                $cp['cumplimientos_pendientes'] = [];
+                $cp['total_validados'] = 0;
+            }
+            // Finalizable: al menos 1 validado Y ninguno pendiente
+            $cp['puede_finalizar'] = $cp['total_validados'] > 0 && empty($cp['cumplimientos_pendientes']);
         }
+        unset($cp);
 
         $data['carePlans'] = $carePlans;
 
@@ -270,5 +291,54 @@ class CarePlan extends BaseController
 
         return redirect()->to('/medical_staff/care-plan')
             ->with('success', 'Plan de cuidado eliminado correctamente');
+    }
+
+    public function validarCumplimiento()
+    {
+        if (!$this->validate([
+            'cumplimiento_id'   => 'required|integer',
+            'accion'            => 'required|in_list[validado,rechazado]',
+            'puntuacion'        => 'permit_empty|integer|greater_than[0]|less_than_equal_to[5]',
+            'comentario_medico' => 'permit_empty',
+        ])) {
+            return redirect()->back()->with('errors', $this->validator->getErrors());
+        }
+
+        $accion = $this->request->getPost('accion');
+
+        if ($accion === 'validado' && empty($this->request->getPost('puntuacion'))) {
+            return redirect()->back()->with('error', 'La puntuación es requerida al aprobar un cumplimiento.');
+        }
+
+        $model = new \App\Models\ValidacionModel();
+        $model->validar(
+            (int) $this->request->getPost('cumplimiento_id'),
+            [
+                'validado_at'       => date('Y-m-d H:i:s'),
+                'validado_por'      => (int) session()->get('user_id'),
+                'puntuacion'        => $accion === 'validado' ? (int) $this->request->getPost('puntuacion') : null,
+                'comentario_medico' => $this->request->getPost('comentario_medico') ?? '',
+            ]
+        );
+
+        $msg = $accion === 'validado' ? 'Cumplimiento aprobado.' : 'Cumplimiento rechazado.';
+        return redirect()->to('/medical_staff/care-plan')->with('success', $msg);
+    }
+
+    public function finalizarPlan()
+    {
+        $id = (int) $this->request->getPost('plan_cuidado_id');
+        if (!$id) {
+            return redirect()->back()->with('error', 'Plan de cuidado no especificado.');
+        }
+
+        // Actualiza el diagnóstico asociado a estado 'finalizado' (estado_id = 3)
+        \Config\Database::connect()
+            ->table('diagnostico')
+            ->where('plan_cuidado_id', $id)
+            ->update(['estado_id' => 3]);
+
+        return redirect()->to('/medical_staff/care-plan')
+            ->with('success', 'Plan de cuidado finalizado. El diagnóstico fue marcado como finalizado.');
     }
 }
