@@ -23,7 +23,7 @@
         <li class="nav-item">
           <a href="<?= base_url('/dashboard'); ?>" class="nav-link active">
             <i class="nav-icon fas fa-home"></i>
-            <p>Dashboard</p>
+            <p>Inicio</p>
           </a>
         </li>
         <!-- Menú para Administradores --> 
@@ -41,12 +41,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-line"></i>
-              <p>Estadísticas</p>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="<?= base_url('/admin/medical-diagnosis'); ?>" class="nav-link">
               <i class="nav-icon fas fa-stethoscope"></i>
               <p>Tipos de diagnosticos</p>
@@ -56,9 +50,9 @@
         <!-- Menú para Médicos -->
         <?php if ($rol === '2'): ?>
           <li class="nav-item">
-            <a href="<?= base_url('/medical_staff/care-plan'); ?>" class="nav-link">
-              <i class="nav-icon fas fa-user-md"></i>
-              <p>Planes de Cuidado</p>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Pacientes</p>
             </a>
           </li>
           <li class="nav-item">
@@ -68,15 +62,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Pacientes</p>
+            <a href="<?= base_url('/medical_staff/care-plan'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-user-md"></i>
+              <p>Planes de Cuidado</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="<?= base_url('/medical_staff/statistics'); ?>" class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
-              <p>Estadisticas</p>
+              <p>Estadísticas</p>
             </a>
           </li>
         <?php endif; ?>
