@@ -85,6 +85,8 @@ $routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], fu
 $routes->group('paciente', ['filter' => 'auth:Paciente'], function($routes) {
     $routes->get('cumplimiento', 'Paciente\Cumplimiento::index');
     $routes->post('cumplimiento/store', 'Paciente\Cumplimiento::store');
+    $routes->get('care-plan-history', 'Paciente\DiagnosisHistory::index');
+    $routes->get('care-plan-history/(:num)', 'Paciente\DiagnosisHistory::show/$1');
 });
 
 $routes->group('profile', ['filter' => 'auth:Paciente,Personal de salud,Administrador'], function($routes) {

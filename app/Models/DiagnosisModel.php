@@ -130,4 +130,34 @@ class DiagnosisModel extends Model
             ORDER BY u.apellido ASC, u.nombre ASC
         ', [$doctorId])->getResultArray();
     }
+    public function getHistoryByPatient($patientId)
+    {
+         return $this->select([
+            'diagnostico.diagnostico_id',
+            'diagnostico.fecha',
+            'diagnostico.plan_cuidado_id',
+
+            'tipo_diagnostico.nombre AS tipo_diagnostico',
+
+            'estado_diagnostico.estado',
+
+            'medico.nombre AS medico_nombre',
+            'medico.apellido AS medico_apellido'
+        ])
+        ->join(
+            'tipo_diagnostico',
+            'tipo_diagnostico.tipo_diagnostico_id = diagnostico.tipo_diagnostico_id'
+        )
+        ->join(
+            'estado_diagnostico',
+            'estado_diagnostico.estado_diagnostico_id = diagnostico.estado_id'
+        )
+        ->join(
+            'usuario medico',
+            'medico.usuario_id = diagnostico.medico_id'
+        )
+        ->where('diagnostico.paciente_id', $patientId)
+        ->orderBy('diagnostico.fecha', 'DESC')
+        ->findAll();
+    }
 }

@@ -74,11 +74,18 @@
             </a>
           </li>
         <?php endif; ?>
+        <!-- Menú para Pacientes -->
         <?php if ($rol === '3'): ?>
            <li class="nav-item">
             <a href="<?= base_url('/paciente/cumplimiento'); ?>" class="nav-link">
               <i class="nav-icon fas fa-clipboard-check"></i>
               <p>Mi Plan de Cuidado</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= base_url('/paciente/care-plan-history'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-file-medical-alt"></i>
+              <p>Historial de Planes</p>
             </a>
           </li>
         <?php endif; ?>

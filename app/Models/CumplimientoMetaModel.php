@@ -69,4 +69,26 @@ class CumplimientoMetaModel extends Model
                     ->where('fecha', date('Y-m-d'))
                     ->countAllResults() > 0;
     }
+
+    public function listar_metas_plan(int $planId, int $pacienteId): array
+{
+    return $this->db->query('
+        SELECT
+            mpc.*,
+            tm.nombre AS tipo_nombre,
+            (cm.cumplimiento_meta_id IS NOT NULL) AS registrado_hoy
+        FROM plan_cuidado pc
+        JOIN metas_plan_cuidado mpc
+            ON mpc.plan_cuidado_id = pc.plan_cuidado_id
+           AND mpc.deleted_at IS NULL
+        JOIN tipo_meta tm
+            ON tm.tipo_meta_id = mpc.tipo_meta_id
+        LEFT JOIN cumplimiento_meta cm
+            ON cm.metas_plan_cuidado_id = mpc.metas_plan_cuidado_id
+           AND cm.paciente_id = ?
+           AND cm.fecha = CURDATE()
+        WHERE pc.plan_cuidado_id = ?
+          AND pc.deleted_at IS NULL
+    ', [$pacienteId, $planId])->getResultArray();
+}
 }
