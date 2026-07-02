@@ -73,6 +73,12 @@
               <p>Pacientes</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?= base_url('/medical_staff/statistics'); ?>" class="nav-link">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>Estadisticas</p>
+            </a>
+          </li>
         <?php endif; ?>
         <!-- Menú para Pacientes -->
         <?php if ($rol === '3'): ?>
