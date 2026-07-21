@@ -87,6 +87,10 @@ $routes->group('paciente', ['filter' => 'auth:Paciente'], function($routes) {
     $routes->post('cumplimiento/store', 'Paciente\Cumplimiento::store');
     $routes->get('care-plan-history', 'Paciente\DiagnosisHistory::index');
     $routes->get('care-plan-history/(:num)', 'Paciente\DiagnosisHistory::show/$1');
+    $routes->get('documentacion', 'Paciente\Documentacion::index');
+    $routes->post('documentacion/store', 'Paciente\Documentacion::store');
+    $routes->get('documentacion/download/(:num)', 'Paciente\Documentacion::download/$1');
+    $routes->post('documentacion/delete/(:num)', 'Paciente\Documentacion::delete/$1');
 });
 
 $routes->group('profile', ['filter' => 'auth:Paciente,Personal de salud,Administrador'], function($routes) {
