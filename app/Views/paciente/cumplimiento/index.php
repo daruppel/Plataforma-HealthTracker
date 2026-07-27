@@ -40,21 +40,22 @@
     <?php else: ?>
       <div class="row">
         <?php foreach ($metas as $meta): ?>
+          <?php $isCumplida = !empty($meta['registrado']) || (isset($meta['meta_cumplida']) && ($meta['meta_cumplida'] == 1 || $meta['meta_cumplida'] == '1' || $meta['meta_cumplida'] == 0x31)); ?>
           <div class="col-md-6 col-lg-4">
-            <div class="card card-outline <?= $meta['registrado_hoy'] ? 'card-success' : 'card-primary' ?>">
+            <div class="card card-outline <?= $isCumplida ? 'card-success' : 'card-primary' ?>">
               <div class="card-header">
                 <h3 class="card-title"><?= esc($meta['tipo_nombre']) ?></h3>
                 <div class="card-tools">
-                  <?php if ($meta['registrado_hoy']): ?>
-                    <span class="badge badge-success">Registrado hoy</span>
+                  <?php if ($isCumplida): ?>
+                    <span class="badge badge-success">Cumplida: Sí</span>
                   <?php else: ?>
-                    <span class="badge badge-secondary">Pendiente</span>
+                    <span class="badge badge-secondary">Cumplida: No</span>
                   <?php endif; ?>
                 </div>
               </div>
               <div class="card-body">
                 <p class="text-muted mb-3"><?= esc($meta['descripcion']) ?></p>
-                <?php if (!$meta['registrado_hoy']): ?>
+                <?php if (!$isCumplida): ?>
                   <button
                     class="btn btn-primary btn-sm btn-registrar"
                     data-meta-id="<?= $meta['metas_plan_cuidado_id'] ?>"

@@ -40,8 +40,8 @@ class Cumplimiento extends BaseController
 
         $metaId = (int) $this->request->getPost('metas_plan_cuidado_id');
 
-        if ($this->model->ya_registrado_hoy($metaId, $pacienteId)) {
-            return redirect()->back()->with('error', 'Ya registraste esta meta hoy.');
+        if ($this->model->ya_registrado($metaId, $pacienteId)) {
+            return redirect()->back()->with('error', 'Esta meta ya fue cumplida.');
         }
 
         $ok = $this->model->insertar([
