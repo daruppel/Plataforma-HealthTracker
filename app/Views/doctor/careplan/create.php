@@ -103,6 +103,40 @@
             ><?= old('comentario_paciente') ?></textarea>
           </div>
 
+          <!-- Selector de Plantilla Estandarizada (opcional) -->
+          <?php if (!empty($templates)): ?>
+          <div class="card card-outline card-info mt-3" id="templateSelectorCard">
+            <div class="card-header">
+              <h5 class="card-title mb-0">
+                <i class="fas fa-clipboard-list text-info mr-1"></i>
+                Usar plantilla estandarizada <small class="text-muted">(opcional)</small>
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="form-row align-items-end">
+                <div class="col-md-8">
+                  <label for="template_select">Plantillas disponibles para este tipo de diagnóstico</label>
+                  <select id="template_select" class="form-control">
+                    <option value="">-- Sin plantilla (carga manual) --</option>
+                    <?php foreach ($templates as $tpl): ?>
+                      <option value="<?= $tpl['plan_cuidado_estandar_id'] ?>"><?= esc($tpl['nombre']) ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" id="loadTemplateBtn" class="btn btn-info btn-block" disabled>
+                    <i class="fas fa-download mr-1"></i> Cargar tareas de plantilla
+                  </button>
+                </div>
+              </div>
+              <small class="text-muted d-block mt-2">
+                <i class="fas fa-info-circle"></i>
+                Las tareas se cargarán como punto de partida. Podes modificarlas, agregar o quitar filas antes de guardar.
+              </small>
+            </div>
+          </div>
+          <?php endif; ?>
+
           <!-- Dynamic Tasks / Goals Section -->
           <div class="card card-outline card-secondary mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -184,9 +218,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const container = document.getElementById('tasksContainer');
-    const addBtn = document.getElementById('addTaskBtn');
-    let taskCounter = 1;
+    const container  = document.getElementById('tasksContainer');
+    const addBtn     = document.getElementById('addTaskBtn');
+    let   taskCounter = 1;
 
     // Load available task types from PHP array into JS template
     const taskTypes = [
@@ -195,27 +229,74 @@ document.addEventListener('DOMContentLoaded', function() {
         <?php endforeach; ?>
     ];
 
-    addBtn.addEventListener('click', function() {
+    // ── Template selector logic ─────────────────────────────────────────────
+    const templateSelect  = document.getElementById('template_select');
+    const loadTemplateBtn = document.getElementById('loadTemplateBtn');
+
+    if (templateSelect) {
+        templateSelect.addEventListener('change', function() {
+            loadTemplateBtn.disabled = !this.value;
+        });
+
+        loadTemplateBtn.addEventListener('click', function() {
+            const templateId = templateSelect.value;
+            if (!templateId) return;
+
+            loadTemplateBtn.disabled = true;
+            loadTemplateBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Cargando...';
+
+            $.getJSON('<?= base_url('medical_staff/care-plan/template-tasks/') ?>' + templateId)
+                .done(function(tasks) {
+                    if (!tasks || tasks.length === 0) {
+                        alert('La plantilla no tiene tareas cargadas.');
+                        return;
+                    }
+                    // Limpiar filas actuales
+                    container.innerHTML = '';
+                    taskCounter = 0;
+
+                    tasks.forEach(function(task) {
+                        const row = buildTaskRow(taskCounter, task.tipo_meta_id, task.descripcion);
+                        container.appendChild(row);
+                        taskCounter++;
+                    });
+                    updateRemoveButtons();
+                })
+                .fail(function() {
+                    alert('Error al cargar las tareas de la plantilla.');
+                })
+                .always(function() {
+                    loadTemplateBtn.disabled = !templateSelect.value;
+                    loadTemplateBtn.innerHTML = '<i class="fas fa-download mr-1"></i> Cargar tareas de plantilla';
+                });
+        });
+    }
+    // ── End template selector logic ────────────────────────────────────────
+
+    /** Construye un <tr> de tarea reutilizable */
+    function buildTaskRow(index, selectedTypeId, descripcionValue) {
         const row = document.createElement('tr');
         row.className = 'task-row animate-fade-in';
-        
+
         let selectOptions = '<option value="">Seleccione tipo...</option>';
         taskTypes.forEach(function(type) {
-            selectOptions += `<option value="${type.id}">${type.nombre}</option>`;
+            const sel = String(type.id) === String(selectedTypeId) ? 'selected' : '';
+            selectOptions += `<option value="${type.id}" ${sel}>${type.nombre}</option>`;
         });
 
         row.innerHTML = `
             <td>
-                <select name="tasks[${taskCounter}][tipo_meta_id]" class="form-control" required>
+                <select name="tasks[${index}][tipo_meta_id]" class="form-control" required>
                     ${selectOptions}
                 </select>
             </td>
             <td>
-                <input 
-                    type="text" 
-                    name="tasks[${taskCounter}][descripcion]" 
-                    class="form-control" 
-                    placeholder="Ej: Tomar 1 comprimido cada 8 horas, 30 min de cinta..." 
+                <input
+                    type="text"
+                    name="tasks[${index}][descripcion]"
+                    class="form-control"
+                    placeholder="Ej: Tomar 1 comprimido cada 8 horas, 30 min de cinta..."
+                    value="${descripcionValue || ''}"
                     required
                 >
             </td>
@@ -225,7 +306,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 </button>
             </td>
         `;
-        
+        return row;
+    }
+
+    addBtn.addEventListener('click', function() {
+        const row = buildTaskRow(taskCounter, '', '');
         container.appendChild(row);
         taskCounter++;
         updateRemoveButtons();
@@ -235,8 +320,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.closest('.remove-task-btn')) {
             const row = e.target.closest('.task-row');
             if (row) {
-                row.style.opacity = '0';
-                row.style.transform = 'translateY(-10px)';
+                row.style.opacity    = '0';
+                row.style.transform  = 'translateY(-10px)';
                 row.style.transition = 'all 0.25s ease-out';
                 setTimeout(function() {
                     row.remove();
@@ -247,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function updateRemoveButtons() {
-        const rows = container.querySelectorAll('.task-row');
+        const rows          = container.querySelectorAll('.task-row');
         const removeButtons = container.querySelectorAll('.remove-task-btn');
         if (rows.length === 1) {
             removeButtons[0].disabled = true;
@@ -256,4 +341,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-</script>
+</script>

@@ -4,6 +4,8 @@ namespace App\Controllers\Doctor;
 
 use App\Controllers\BaseController;
 use App\Models\CarePlanModel;
+use App\Models\CarePlanTemplateModel;
+use App\Models\CarePlanTemplateTaskModel;
 
 class CarePlan extends BaseController
 {
@@ -91,10 +93,15 @@ class CarePlan extends BaseController
         $taskTypeModel = new \App\Models\TaskTypeModel();
         $taskTypes = $taskTypeModel->findAll();
 
+        // Plantillas activas cuyo tipo_diagnostico coincide con el diagnóstico actual
+        $templateModel = new CarePlanTemplateModel();
+        $templates = $templateModel->getActiveByDiagnosisType((int) $diagnosis['tipo_diagnostico_id']);
+
         if ($this->request->getMethod() === 'GET') {
             $data = [
                 'diagnosis' => $diagnosis,
-                'taskTypes' => $taskTypes
+                'taskTypes' => $taskTypes,
+                'templates' => $templates,
             ];
             return view('templates/header')
                 . view('templates/sidebar')
@@ -356,5 +363,47 @@ class CarePlan extends BaseController
 
         return redirect()->to('/medical_staff/care-plan')
             ->with('success', 'Plan de cuidado finalizado. El diagnóstico fue marcado como finalizado.');
+    }
+
+    /**
+     * AJAX: devuelve plantillas activas filtradas por tipo_diagnostico del diagnóstico indicado.
+     * GET medical_staff/care-plan/templates/(:num)
+     */
+    public function getTemplatesByDiagnosis(int $diagnosticoId)
+    {
+        $diagnosisModel = new \App\Models\DiagnosisModel();
+        $diagnosis = $diagnosisModel->find($diagnosticoId);
+
+        if (!$diagnosis) {
+            return $this->response->setJSON([]);
+        }
+
+        $templateModel = new CarePlanTemplateModel();
+        $templates = $templateModel->getActiveByDiagnosisType((int) $diagnosis['tipo_diagnostico_id']);
+
+        $result = array_map(fn($t) => [
+            'id'     => $t['plan_cuidado_estandar_id'],
+            'nombre' => $t['nombre'],
+        ], $templates);
+
+        return $this->response->setJSON($result);
+    }
+
+    /**
+     * AJAX: devuelve las tareas de una plantilla (tipo_meta_id, tipo_meta_nombre, descripcion).
+     * GET medical_staff/care-plan/template-tasks/(:num)
+     */
+    public function getTemplateTasks(int $templateId)
+    {
+        $taskModel = new CarePlanTemplateTaskModel();
+        $tasks = $taskModel->getByTemplate($templateId);
+
+        $result = array_map(fn($t) => [
+            'tipo_meta_id'     => $t['tipo_meta_id'],
+            'tipo_meta_nombre' => $t['tipo_meta_nombre'],
+            'descripcion'      => $t['descripcion'],
+        ], $tasks);
+
+        return $this->response->setJSON($result);
     }
 }

@@ -46,6 +46,12 @@
               <p>Tipos de diagnosticos</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?= base_url('/admin/care-plan-templates'); ?>" class="nav-link <?= url_is('admin/care-plan-templates*') ? 'active' : '' ?>">
+              <i class="nav-icon fas fa-clipboard-list"></i>
+              <p>Planes Estandarizados</p>
+            </a>
+          </li>
         <?php endif; ?>
         <!-- Menú para Médicos -->
         <?php if ($rol === '2'): ?>

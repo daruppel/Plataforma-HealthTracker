@@ -40,6 +40,13 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->post('taskTypes/create', 'Admin\TaskType::create');
     $routes->post('taskTypes/delete', 'Admin\TaskType::delete');
     $routes->post('taskTypes/update', 'Admin\TaskType::update');
+    //planes de cuidado estandarizados
+    $routes->get('care-plan-templates', 'Admin\CarePlanTemplate::index');
+    $routes->get('care-plan-templates/create', 'Admin\CarePlanTemplate::create');
+    $routes->post('care-plan-templates/store', 'Admin\CarePlanTemplate::create');
+    $routes->get('care-plan-templates/edit/(:num)', 'Admin\CarePlanTemplate::edit/$1');
+    $routes->post('care-plan-templates/update/(:num)', 'Admin\CarePlanTemplate::update/$1');
+    $routes->post('care-plan-templates/delete/(:num)', 'Admin\CarePlanTemplate::delete/$1');
 
 });
 //medicos
@@ -70,6 +77,9 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     //plan de cuidado validation and finalization
     $routes->post('care-plan/validar', 'Doctor\CarePlan::validarCumplimiento');
     $routes->post('care-plan/finalizar', 'Doctor\CarePlan::finalizarPlan');
+    //plantillas estandarizadas (AJAX endpoints)
+    $routes->get('care-plan/templates/(:num)', 'Doctor\CarePlan::getTemplatesByDiagnosis/$1');
+    $routes->get('care-plan/template-tasks/(:num)', 'Doctor\CarePlan::getTemplateTasks/$1');
     //estadisticas
     //medical_staff/statistics
     $routes->get('statistics', 'Doctor\Statistics::index');
