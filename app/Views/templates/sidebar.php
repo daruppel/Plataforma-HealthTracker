@@ -89,15 +89,21 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="<?= base_url('/paciente/mediciones'); ?>" class="nav-link <?= url_is('paciente/mediciones*') ? 'active' : '' ?>">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>Estadísticas</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="<?= base_url('/paciente/care-plan-history'); ?>" class="nav-link <?= url_is('paciente/care-plan-history*') ? 'active' : '' ?>">
               <i class="nav-icon fas fa-file-medical-alt"></i>
-              <p>Historial de Diagnosticos</p>
+              <p>Historial de Planes</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="<?= base_url('/paciente/documentacion'); ?>" class="nav-link <?= url_is('paciente/documentacion*') ? 'active' : '' ?>">
               <i class="nav-icon fas fa-folder-open"></i>
-              <p>Documentación Medica</p>
+              <p>Documentación Médica</p>
             </a>
           </li>
         <?php endif; ?>

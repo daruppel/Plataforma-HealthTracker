@@ -25,9 +25,41 @@ class DiagnosisHistory extends BaseController
      */
     public function index()
     {
-        $patientId = session()->get('user_id');
+        $patientId = (int) session()->get('user_id');
 
-        $data['history'] = $this->diagnosisModel->getHistoryByPatient($patientId);
+        $history = $this->diagnosisModel->getHistoryByPatient($patientId);
+
+        foreach ($history as &$item) {
+            $item['porcentaje_cumplimiento'] = null;
+            $item['total_metas'] = 0;
+            $item['metas_cumplidas'] = 0;
+
+            if (!empty($item['plan_cuidado_id'])) {
+                $metas = $this->cumplimientoMetaModel->listar_metas_plan((int)$item['plan_cuidado_id'], $patientId);
+                $total = count($metas);
+                $cumplidas = 0;
+                foreach ($metas as $m) {
+                    $value = $m['meta_cumplida'];
+                    $isCompleted = false;
+                    if (is_bool($value)) {
+                        $isCompleted = $value;
+                    } elseif (is_int($value)) {
+                        $isCompleted = $value === 1;
+                    } else {
+                        $isCompleted = in_array(trim((string)$value), ['1', 'true', 'on', 'si', 'sí', "\x31"], true);
+                    }
+                    if ($isCompleted || !empty($m['registrado'])) {
+                        $cumplidas++;
+                    }
+                }
+                $item['total_metas'] = $total;
+                $item['metas_cumplidas'] = $cumplidas;
+                $item['porcentaje_cumplimiento'] = $total > 0 ? round(($cumplidas / $total) * 100, 1) : 0;
+            }
+        }
+        unset($item);
+
+        $data['history'] = $history;
 
         return view('templates/header')
             . view('templates/sidebar')

@@ -5,7 +5,7 @@
 
             <div class="card-header">
                 <h3 class="card-title">
-                    Historial de Diagnosticos
+                    <i class="fas fa-file-medical-alt mr-2"></i>Historial de Planes de Cuidado
                 </h3>
             </div>
 
@@ -14,7 +14,7 @@
                 <?php if (empty($history)): ?>
 
                     <div class="alert alert-info">
-                        No posee diagnósticos registrados.
+                        No posee diagnósticos ni planes de cuidado registrados.
                     </div>
 
                 <?php else: ?>
@@ -26,6 +26,7 @@
                                 <th>Diagnóstico</th>
                                 <th>Profesional</th>
                                 <th>Estado</th>
+                                <th>Cumplimiento</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -50,9 +51,15 @@
 
                                 <td>
 
-                                    <?php if ($diagnosis['estado'] == 'Activo'): ?>
+                                    <?php if ($diagnosis['estado'] == 'Activo' || $diagnosis['estado'] == 'en_proceso'): ?>
 
                                         <span class="badge badge-success">
+                                            <?= esc($diagnosis['estado']) ?>
+                                        </span>
+
+                                    <?php elseif ($diagnosis['estado'] == 'finalizado'): ?>
+
+                                        <span class="badge badge-info">
                                             <?= esc($diagnosis['estado']) ?>
                                         </span>
 
@@ -64,6 +71,33 @@
 
                                     <?php endif; ?>
 
+                                </td>
+
+                                <td>
+                                    <?php if ($diagnosis['plan_cuidado_id'] > 0 && $diagnosis['total_metas'] > 0): ?>
+                                        <?php $pct = (float) $diagnosis['porcentaje_cumplimiento']; ?>
+                                        <?php
+                                            $color = 'danger';
+                                            if ($pct >= 75) $color = 'success';
+                                            elseif ($pct >= 40) $color = 'warning';
+                                        ?>
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress flex-grow-1 mr-2" style="height: 10px;">
+                                                <div class="progress-bar bg-<?= $color ?>"
+                                                     role="progressbar"
+                                                     style="width: <?= $pct ?>%"
+                                                     aria-valuenow="<?= $pct ?>"
+                                                     aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <small class="text-nowrap"><strong><?= $pct ?>%</strong></small>
+                                        </div>
+                                        <small class="text-muted"><?= esc($diagnosis['metas_cumplidas']) ?>/<?= esc($diagnosis['total_metas']) ?> metas</small>
+                                    <?php elseif ($diagnosis['plan_cuidado_id'] > 0): ?>
+                                        <span class="badge badge-light border">Sin metas</span>
+                                    <?php else: ?>
+                                        <span class="text-muted">Sin plan asignado</span>
+                                    <?php endif; ?>
                                 </td>
 
                                 <td>
@@ -92,6 +126,7 @@
 
     </div>
 </section>
+
 
 <!-- Modal Ver Plan -->
 <div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="planModalLabel" aria-hidden="true">

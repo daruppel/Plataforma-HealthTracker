@@ -25,6 +25,32 @@ class Cumplimiento extends BaseController
             . view('templates/footer');
     }
 
+    public function mediciones()
+    {
+        $pacienteId = (int) session()->get('user_id');
+
+        $estadisticas = $this->model->obtenerEstadisticasCumplimiento($pacienteId);
+        $historial     = $this->model->obtenerHistorialMediciones($pacienteId);
+        $planes        = $this->model->obtenerPlanesDelPaciente($pacienteId);
+
+        // Calcular estadísticas por plan para alimentar el selector JS (igual que el médico con pacientes)
+        $estadisticasPorPlan = [];
+        foreach ($planes as $plan) {
+            $pid = (int) $plan['plan_cuidado_id'];
+            $estadisticasPorPlan[$pid] = $this->model->obtenerEstadisticasPorPlan($pid, $pacienteId);
+        }
+
+        return view('templates/header')
+            . view('templates/sidebar')
+            . view('paciente/cumplimiento/mediciones', [
+                'estadisticas'       => $estadisticas,
+                'estadisticasPorPlan' => $estadisticasPorPlan,
+                'planes'             => $planes,
+                'historial'          => $historial,
+            ])
+            . view('templates/footer');
+    }
+
     public function store()
     {
         $pacienteId = (int) session()->get('user_id');
