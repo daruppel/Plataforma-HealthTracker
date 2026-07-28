@@ -3,10 +3,11 @@ Trabajo final de Proyecto de software 2025
 Se utilizara CodeIgniter y AdminLte
 
 ----
-#Enlaces
+# Enlaces
 Pagina principal: http://localhost/Plataforma-HealthTracker/public/
 
-#Estructura del proyecto
+# Estructura del proyecto
+```
 app/
  ├─ Controllers/     # Organizados por rol: Admin, Doctor, Paciente
  ├─ Models/          # Acceso a datos y validaciones
@@ -15,13 +16,15 @@ app/
  └─ Config/          # Rutas, base de datos, filtros
 db_script/
  └─ tpfinal_ps_bd.sql  # Script de creación de la base de datos
+```
 
-#Credenciales
+
+# Credenciales
 Rol: Administrador
 email: admin@demo.com
 pass: password
 
-Rol:Medico
+Rol: Medico
 email: rfernandez@demo.com
 pass: password
 
