@@ -40,10 +40,20 @@ $routes->group('admin', ['filter' => 'auth:Administrador'], function($routes) {
     $routes->post('taskTypes/create', 'Admin\TaskType::create');
     $routes->post('taskTypes/delete', 'Admin\TaskType::delete');
     $routes->post('taskTypes/update', 'Admin\TaskType::update');
+    //planes de cuidado estandarizados
+    $routes->get('care-plan-templates', 'Admin\CarePlanTemplate::index');
+    $routes->get('care-plan-templates/create', 'Admin\CarePlanTemplate::create');
+    $routes->post('care-plan-templates/store', 'Admin\CarePlanTemplate::create');
+    $routes->get('care-plan-templates/edit/(:num)', 'Admin\CarePlanTemplate::edit/$1');
+    $routes->post('care-plan-templates/update/(:num)', 'Admin\CarePlanTemplate::update/$1');
+    $routes->post('care-plan-templates/delete/(:num)', 'Admin\CarePlanTemplate::delete/$1');
 
 });
 //medicos
 $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function($routes) {
+    //pacientes del medico
+    $routes->get('patients', 'Doctor\Patients::index');
+    $routes->get('patients/historial/(:num)', 'Doctor\Patients::historial/$1');
     //plan de cuidado
     $routes->get('care-plan', 'Doctor\CarePlan::index');
     $routes->get('care-plan/create/(:num)', 'Doctor\CarePlan::create/$1');
@@ -55,6 +65,7 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     $routes->get('diagnosis/', 'Doctor\Diagnosis::index');
     $routes->get('diagnosis/create', 'Doctor\Diagnosis::create');
     $routes->post('diagnosis/create', 'Doctor\Diagnosis::create');
+    $routes->get('diagnosis/edit/(:num)', 'Doctor\Diagnosis::edit/$1');
     $routes->post('diagnosis/delete', 'Doctor\Diagnosis::delete');
     $routes->post('diagnosis/update', 'Doctor\Diagnosis::update');
     //tareas de plan de cuidado
@@ -63,8 +74,13 @@ $routes->group('medical_staff', ['filter' => 'auth:Personal de salud'], function
     $routes->post('care-plan-task/create', 'Doctor\CarePlanTask::create');
     $routes->post('care-plan-task/delete', 'Doctor\CarePlanTask::delete');
     $routes->post('care-plan-task/update', 'Doctor\CarePlanTask::update');
+    //plan de cuidado validation and finalization
+    $routes->post('care-plan/validar', 'Doctor\CarePlan::validarCumplimiento');
+    $routes->post('care-plan/finalizar', 'Doctor\CarePlan::finalizarPlan');
+    //plantillas estandarizadas (AJAX endpoints)
+    $routes->get('care-plan/templates/(:num)', 'Doctor\CarePlan::getTemplatesByDiagnosis/$1');
+    $routes->get('care-plan/template-tasks/(:num)', 'Doctor\CarePlan::getTemplateTasks/$1');
     //estadisticas
-    $routes->get('care-plan-task', 'Doctor\CarePlanTask::index');
     //medical_staff/statistics
     $routes->get('statistics', 'Doctor\Statistics::index');
 
@@ -74,6 +90,18 @@ $routes->group('staff', ['filter' => 'auth:Personal de salud,Administrador'], fu
 
     //PLACEHOLDER
 
+});
+
+$routes->group('paciente', ['filter' => 'auth:Paciente'], function($routes) {
+    $routes->get('cumplimiento', 'Paciente\Cumplimiento::index');
+    $routes->get('mediciones', 'Paciente\Cumplimiento::mediciones');
+    $routes->post('cumplimiento/store', 'Paciente\Cumplimiento::store');
+    $routes->get('care-plan-history', 'Paciente\DiagnosisHistory::index');
+    $routes->get('care-plan-history/(:num)', 'Paciente\DiagnosisHistory::show/$1');
+    $routes->get('documentacion', 'Paciente\Documentacion::index');
+    $routes->post('documentacion/store', 'Paciente\Documentacion::store');
+    $routes->get('documentacion/download/(:num)', 'Paciente\Documentacion::download/$1');
+    $routes->post('documentacion/delete/(:num)', 'Paciente\Documentacion::delete/$1');
 });
 
 $routes->group('profile', ['filter' => 'auth:Paciente,Personal de salud,Administrador'], function($routes) {

@@ -51,7 +51,8 @@ class Register extends BaseController
             
             if($rolID == 2){ // Si es doctor, crear entrada en tabla medico
                 $db->table('medico')->insert([
-                    'usuario_id' => $userID
+                    'usuario_id' => $userID,
+                        'especialidad_id' => 1 // Especialidad por defecto
                 ]);
             }
 
