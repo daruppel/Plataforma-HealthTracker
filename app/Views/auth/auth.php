@@ -16,6 +16,11 @@
         <div class="card-body">
             
              <!-- Mostrar errores de validación -->
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger">
+                    <?= esc(session()->getFlashdata('error')) ?>
+                </div>
+            <?php endif; ?>
             <?php if (session()->getFlashdata('errors')): ?>
                 <div class="alert alert-danger">
                     <ul class="mb-0">
